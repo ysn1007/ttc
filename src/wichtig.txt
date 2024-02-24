@@ -1,0 +1,4 @@
+starten des projects:
+npm run dev
+
+txt datei wichtig löschen.  
