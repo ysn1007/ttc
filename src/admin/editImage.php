@@ -53,9 +53,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         updateImage($con, $imageId, $title, $descript, $year, $dekade, $active );
     }
 
-    if(isset($_POST["deleteArticle"])) {
-
-        $articleId = $_POST["article_id"];
+    if(isset($_POST["deleteImage"])) {
+        //var_dump($_POST);exit();
+        $imageId = $_POST["imageId"];
 
         deleteImage($con, $imageId );
 

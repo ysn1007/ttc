@@ -83,24 +83,14 @@
         mysqli_stmt_close($stmt);
     }
 
-    #, $lastname, $livePZ, $team, $position, $active, $spv, $sbem
     function addPlayer($con, $name, $lastname) {
-        echo "add player - <pre>";
-        //var_dump( $name, $lastname);
-        //echo"<pre>";exit();
-        //$eMail = "unbekannt";
         $stmt = mysqli_stmt_init($con);
-        //var_dump($stmt);exit();
-
-        # -  , ?, ?, ?, ?, ?, ?, ?
         $sql = "INSERT INTO player (Vorname, Nachname)" . "VALUES (?, ?)";
-        //var_dump( $sql);exit();
-        //mysqli_stmt_prepare($stmt, $sql);
+       
         if(!mysqli_stmt_prepare($stmt, $sql)) {
             header("location: index.ad.php?error=addPlayerFailed");
         }
 
-        #, $lastname, $livePZ, $team, $position, $active, $spv, $sbem - siiiiii
         mysqli_stmt_bind_param($stmt,"ss", $name, $lastname);
         mysqli_stmt_execute($stmt);
 
@@ -314,7 +304,6 @@
     }
 
     function updateImage($con, $imageId, $title, $descript, $year, $dekade, $active ) {
-        //var_dump($imageId, $title, $descript, $year, $dekade, $active ); exit();
         $stmt = mysqli_stmt_init($con);
         $query = "UPDATE gallery SET title=?, descript=?, imageYear=?, dekade=?, active=? WHERE id=?";
 
@@ -326,5 +315,33 @@
         }else {
             header("location: index.ad.php?success=updateImage");
         }
+    }
+
+    function deleteImage($con, $imageId) {
+        //var_dump($imageId);exit();
+        $imgData = "SELECT * FROM gallery WHERE id = $imageId";
+        $res = mysqli_query($con, $imgData);
+        $resData = mysqli_fetch_array($res);
+
+        $imgPath = $resData['imagePath'];
+        
+        //var_dump($imgPath);exit();
+        $stmt = mysqli_stmt_init($con);
+        $query = "DELETE FROM gallery WHERE id = ?";
+
+        mysqli_stmt_prepare($stmt, $query);
+        mysqli_stmt_bind_param($stmt, "s", $imageId);
+
+        if(!mysqli_stmt_execute($stmt)) {
+            header("location: index.ad.php?error=deleteGalleryImageFailed");
+        }else {
+
+            if(file_exists($imgPath)) {
+                unlink($imgPath);
+            }
+
+            header("location: index.ad.php?success=deleteGalleryImage");
+        }
+
     }
       
