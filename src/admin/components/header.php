@@ -40,5 +40,5 @@
                         </div>
                     </nav>
                 </header>
-                <div id="content-wrapper" class="col-xs-12 col-sm-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
+                <div id="content-wrapper" class="col-xs-12 col-sm-12 col-md-10 offset-md-1">
                     <div class="row">
