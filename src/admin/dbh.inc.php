@@ -51,7 +51,9 @@
         mysqli_stmt_close($stmt);
     }
     
-    
+    /**
+     * get player of id
+     */
     function getPlayersId($con, $id) {
     
         /**
@@ -83,6 +85,9 @@
         mysqli_stmt_close($stmt);
     }
 
+    /**
+     * Adds player to data base
+     */
     function addPlayer($con, $name, $lastname) {
         $stmt = mysqli_stmt_init($con);
         $sql = "INSERT INTO player (Vorname, Nachname)" . "VALUES (?, ?)";
@@ -97,7 +102,9 @@
         header("location: index.ad.php?addPlayer=success");
     }
 
-
+    /**
+     * updates player data
+     */
     function updatePlayer($con, $playerId, $name, $lastname, $livePZ, $team, $position ) {
         echo "update player - <pre>"; 
         var_dump($playerId, $name, $lastname, $livePZ, $team, $position);
@@ -246,7 +253,6 @@
 
     }
 
-
     /**
      * Gallerie
      * Bilder in der Gallerie verarbeiten
@@ -268,6 +274,9 @@
 
     }
 
+    /**
+     * Get connection to gallery database
+     */
     function getGalleryImgData($con) {
        
         $sql = "SELECT * FROM gallery;";
@@ -287,6 +296,9 @@
         
     }
 
+    /**
+     * Get image of an id 
+     */
     function getImageId($con, $imgId) {
         $sql = "SELECT * FROM gallery WHERE id= ?; ";
         $stmt = mysqli_stmt_init($con);
@@ -303,6 +315,9 @@
         mysqli_stmt_close($stmt);
     }
 
+    /**
+     * Updates image data
+     */
     function updateImage($con, $imageId, $title, $descript, $year, $dekade, $active ) {
         $stmt = mysqli_stmt_init($con);
         $query = "UPDATE gallery SET title=?, descript=?, imageYear=?, dekade=?, active=? WHERE id=?";
@@ -317,15 +332,16 @@
         }
     }
 
+    /**
+     * Deletes image of parameter id
+     */
     function deleteImage($con, $imageId) {
-        //var_dump($imageId);exit();
         $imgData = "SELECT * FROM gallery WHERE id = $imageId";
         $res = mysqli_query($con, $imgData);
         $resData = mysqli_fetch_array($res);
 
         $imgPath = $resData['imagePath'];
         
-        //var_dump($imgPath);exit();
         $stmt = mysqli_stmt_init($con);
         $query = "DELETE FROM gallery WHERE id = ?";
 
