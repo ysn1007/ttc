@@ -5,10 +5,13 @@ body {
     #header {
         height: 90px;
         height: 120px;
+        background: $white;
+        .navbar-default {
+            background: none;
+        }
         .navbar {
             border: 0;
             margin-bottom: 0;
-
             .navbar-collapse {
 
                 &[aria-expanded='true'] {
@@ -75,7 +78,7 @@ body {
 
         // startseite
         .content-wrap {
-            background: #ddd;
+            //background: #ddd;
             padding: 45px 0;
             margin-bottom: 30px;
             min-height: calc(100vh - 318px);
@@ -90,7 +93,18 @@ body {
                 border-radius: 5px;
                 min-height: 390px;
 
-                img { width: 100%; }
+                
+                .article-bg-img {
+                    background: #AA076B;  /* fallback for old browsers */
+                    background: -webkit-linear-gradient(to right, #61045F, #AA076B);  /* Chrome 10-25, Safari 5.1-6 */
+                    background: linear-gradient(to right, #61045F, #AA076B); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+                    img { 
+                        width: 50%;
+                        margin: 10px 0 10px 25%; 
+                    }
+                }
+
                 .article-content {
                     margin-top: 5px;
                     min-height: 100px;
