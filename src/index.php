@@ -1,8 +1,7 @@
 <?php
 require_once 'admin/dbh.inc.php';
-$content = '';
-
 include('./includes/header.php');
+
 $content .= '
 <div class="hero col-xs-12 col-md-12 col-lg-12 ">
     <div class="rw">
@@ -59,9 +58,7 @@ $content .= '
 
 <div class="impressions-wrap col-xs-12 col-md-12">
     <h3>Social Media</h3>
-</div>
-
-';
+</div>';
 
 echo $content;
 

@@ -1,121 +1,112 @@
-<?php
-//require_once('./admin/dbc.class.php');
+<?php 
+require_once 'admin/dbh.inc.php';
+include('./includes/header.php');
 
-?>
-<?php include('./includes/header.php');?>
+$content .='
 <div class="site-wrap col-xs-12 col-sm-12 col-md-12 col-lg-12" id="galerie">
     <div class="content-wrap col-xs-12 col-md-12">
 
         <section class="galery col-xs-12 col-md-12 col-lg-12" id="galery">
                 <div class="galery-header">
-                    <img src="../dest/img/tt-icon.svg" alt="">
+                    <img src="img/tt-icon.svg" alt="">
                     <h2>Bildergallarie</h2>
                 </div>
-
-                <div class="galery-item col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="#">
-                        <div class="gal-img">
-                            <img src="img/img.jpg" alt=""> 
-                        </div>
-                        <div class="galery-time">
-                            <p>1955 bis 1960</p>
-                        </div>
-                    </a>    
-                </div>
                 
+               
                 <div class="galery-item col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="#">
-                        <div class="gal-img">
-                            <img src="img/img.jpg" alt=""> 
-                        </div>
-                        <div class="galery-time">
-                            <p>1960 bis 1970</p>
-                        </div>
-                    </a>    
-                </div>
-                
-                <div class="galery-item col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="#">
-                        <div class="gal-img">
-                            <img src="img/img.jpg" alt=""> 
-                        </div>
-                        <div class="galery-time">
-                            <p>1970 bis 1980</p>
-                        </div>
-                    </a>    
-                </div>
-                
-                <div class="galery-item col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="#">
-                        <div class="gal-img">
-                            <img src="img/img.jpg" alt=""> 
-                        </div>
-                        <div class="galery-time">
-                            <p>1980 bis 1990</p>
-                        </div> 
-                    </a>   
-                </div>
-                
-                <div class="galery-item col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="#">
-                        <div class="gal-img">
-                            <img src="img/img.jpg" alt=""> 
-                        </div>
-                        <div class="galery-time">
-                            <p>1990 bis 2000</p>
-                        </div>
-                    </a>    
-                </div>
-                
-                <div class="galery-item col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="#">
-                        <div class="gal-img">
-                            <img src="img/img.jpg" alt=""> 
-                        </div>
-                        <div class="galery-time">
-                            <p>2000 bis 2010</p>
-                        </div>
-                    </a>    
-                </div>
-                
-                <div class="galery-item col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="#">
-                        <div class="gal-img">
-                            <img src="img/img.jpg" alt=""> 
-                        </div>
-                        <div class="galery-time">
-                            <p>2000 bis 2010</p>
-                        </div>
-                    </a>    
-                </div>
-                
-                <div class="galery-item col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="#">
-                        <div class="gal-img">
-                            <img src="img/img.jpg" alt=""> 
-                        </div>
-                        <div class="galery-time">
-                            <p>2010 bis 2020</p>
-                        </div> 
-                    </a>   
-                </div>
-                
-                <div class="galery-item col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="#">
+                    <a href="bildergalerie.php?dekade=2020-2029">
                         <div class="gal-img">
                             <img src="img/img.jpg" alt=""> 
                         </div>
                         <div class="galery-time">
                             <p>2020 bis Jetzt</p>
+                            
+                        </div>
+                    </a>    
+                </div>
+                
+
+
+                <div class="galery-item col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <a href="bildergalerie.php?dekade=2010-2019">
+                        <div class="gal-img">
+                            <img src="img/img.jpg" alt=""> 
+                        </div>
+                        <div class="galery-time">
+                            <p>2010 bis 2019</p>
+                        </div>
+                    </a>    
+                </div>
+                
+                <div class="galery-item col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <a href="bildergalerie.php?dekade=2000-2009">
+                        <div class="gal-img">
+                            <img src="img/img.jpg" alt=""> 
+                        </div>
+                        <div class="galery-time">
+                            <p>2000 bis 2009</p>
+                        </div> 
+                    </a>   
+                </div>
+                
+                <div class="galery-item col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <a href="bildergalerie.php?dekade=1990-1999">
+                        <div class="gal-img">
+                            <img src="img/img.jpg" alt=""> 
+                        </div>
+                        <div class="galery-time">
+                            <p>1990 bis 1999</p>
+                        </div>
+                    </a>    
+                </div>
+                
+                <div class="galery-item col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <a href="bildergalerie.php?dekade=1980-1989">
+                        <div class="gal-img">
+                            <img src="img/img.jpg" alt=""> 
+                        </div>
+                        <div class="galery-time">
+                            <p>1980 bis 1989</p>   
+                        </div>
+                    </a>    
+                </div>
+                
+                <div class="galery-item col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <a href="bildergalerie.php?dekade=1970-1979">
+                        <div class="gal-img">
+                            <img src="img/img.jpg" alt=""> 
+                        </div>
+                        <div class="galery-time">
+                            <p>1970 bis 1979</p> 
+                        </div>
+                    </a>    
+                </div>
+                
+                <div class="galery-item col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <a href="bildergalerie.php?dekade=1960-1969">
+                        <div class="gal-img">
+                            <img src="img/img.jpg" alt=""> 
+                        </div>
+                        <div class="galery-time">
+                            <p>1960 bis 1969</p>
+                        </div> 
+                    </a>   
+                </div>
+                
+                <div class="galery-item col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <a href="bildergalerie.php?dekade=1955-1959">
+                        <div class="gal-img">
+                            <img src="img/img.jpg" alt=""> 
+                        </div>
+                        <div class="galery-time">
+                            <p>1955 bis 1959</p>   
                         </div> 
                     </a>   
                 </div>
         </section>
-
-        
-        
-    
     </div>
-</div>
+</div>';
 
-<?php include('./includes/footer.php');?>
+echo $content;
+
+include('./includes/footer.php');

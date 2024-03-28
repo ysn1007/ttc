@@ -360,4 +360,22 @@
         }
 
     }
+
+
+
+    function getDekadeImages($con, $dekade) {
+        $sql = "SELECT * FROM gallery WHERE dekade = ?";
+        $stmt = mysqli_stmt_init($con);
+
+        if (!mysqli_stmt_prepare($stmt, $sql)) {
+            header("location: gallery.php?error=dekadeImagesFailed");
+        }
+
+        mysqli_stmt_execute($stmt);
+
+        $res = mysqli_stmt_get_result($stmt);
+        return $res;
+
+        mysqli_stmt_close($stmt);
+    }
       
