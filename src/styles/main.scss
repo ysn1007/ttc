@@ -1,6 +1,6 @@
 @import './_var';
 body {
-    background-color: $clr3;
+    //background-color: $clr3;
     
     #header {
         height: 90px;
@@ -299,9 +299,6 @@ body {
 
     }
 
-    
-
-
     // footer styles
     .footer {
         background: $white;
@@ -447,12 +444,32 @@ body {
         }
     }
 
+    &#bildergalerie {
+        //border: solid black 1px;
+
+        .site-wrap {
+            //border: solid blue 1px;
+        }
+        .gal-img-group {
+            //border: solid yellow 1px;
+        }
+        .gal-img-item {
+            background: $white;
+
+            .img-item {
+                img {
+                    width: 100%;
+                }
+            }
+        }
+    }
+
     // extra small viewports ( mobile phones )
     @media ( max-width: 600px ) {
         //border: solid red 1px;
         // white mobile menu bg 
         .navbar {
-            border: solid red 1px;
+            //border: solid red 1px;
             //.navbar-collapse[aria-expanded='true'] { background-color: $white; }
             .header-brand {
                 min-width: 100px;

@@ -289,8 +289,9 @@
         mysqli_stmt_execute($stmt);
         
 
-        $res = mysqli_stmt_get_result($stmt);
-        return $res;
+        //$res = mysqli_stmt_get_result($stmt);
+        return mysqli_stmt_get_result($stmt);
+        //return $res;
 
         mysqli_stmt_close($stmt);
         
@@ -300,7 +301,7 @@
      * Get image of an id 
      */
     function getImageId($con, $imgId) {
-        $sql = "SELECT * FROM gallery WHERE id= ?; ";
+        $sql = "SELECT * FROM gallery WHERE id = ?; ";
         $stmt = mysqli_stmt_init($con);
 
         if(!mysqli_stmt_prepare($stmt,$sql)) {
@@ -364,13 +365,15 @@
 
 
     function getDekadeImages($con, $dekade) {
-        $sql = "SELECT * FROM gallery WHERE dekade = ?";
+        //var_dump($dekade);exit;
+        $query = "SELECT * FROM gallery WHERE dekade = ?";
         $stmt = mysqli_stmt_init($con);
 
-        if (!mysqli_stmt_prepare($stmt, $sql)) {
-            header("location: gallery.php?error=dekadeImagesFailed");
+        if(!mysqli_stmt_prepare($stmt,$query)) {
+            header("location: index.ad.php?error=loadingGalleryImageWithIdFailed");
         }
 
+        mysqli_stmt_bind_param($stmt, "s", $dekade);
         mysqli_stmt_execute($stmt);
 
         $res = mysqli_stmt_get_result($stmt);

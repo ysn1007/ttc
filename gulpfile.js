@@ -10,17 +10,14 @@ let service = new connect();
 
 // For Sass => css
 const sass = require('gulp-sass');
-const postcss = require('gulp-postcss');
-const autoprefixer = require('autoprefixer');
-const cssnano = require('cssnano');
-const sassLint = require('gulp-sass-lint');
+//const postcss = require('gulp-postcss');
+//const autoprefixer = require('autoprefixer');
+
 
 // javaScript
 const browserify = require('gulp-browserify');
-//const babel = require('gulp-babel');
 const uglify = require('gulp-uglify');
-const concat = require('gulp-concat');
-const jshint = require('gulp-jshint');
+
 
 const src = './src';
 const dest = './dest';
@@ -61,18 +58,6 @@ function buildPhpIncludes(){
 const buildCss = () => {
     return gulp.src(`${src}/styles/*.scss`)
         .pipe( plumber() )
-        //lint SASS
-        .pipe( sassLint({
-            options: {
-                formatter: 'stylish',
-            },
-            rules: {
-                'no-ids': 1,
-                'final-newline': 0,
-                //'no-mergable-selectors': 1,
-                'indentation': 0
-            }
-        }) )
         // Format SASS
         .pipe(sassLint.format())
         // init source map
@@ -144,27 +129,15 @@ function phpIncludes(){
 // SASS => CSS Handling 
 const css = () => {
     return gulp.src(`${src}/styles/*.scss`)
-        /*.pipe( plumber() )
-        //lint SASS
-        .pipe( sassLint({
-            options: {
-                formatter: 'stylish',
-            },
-            rules: {
-                'no-ids': 1,
-                'final-newline': 0,
-                //'no-mergable-selectors': 1,
-                'indentation': 0
-            }
-        }) )*/
-        // compile SASS to CSS
-        .pipe(sass.sync({ outputStyle: "compressed" })).on( 'error', sass.logError)
-        // add suffix 
-        .pipe(rename({ basename: 'style', suffix: ".min" }))
-         // export everything to destination folder
-        .pipe(gulp.dest(`${src}/styles`))
-        // update browser
-        .pipe(browserSync.stream());
+    
+    // compile SASS to CSS
+    .pipe(sass.sync({ outputStyle: "compressed" })).on( 'error', sass.logError)
+    // add suffix 
+    .pipe(rename({ basename: 'style', suffix: ".min" }))
+     // export everything to destination folder
+    .pipe(gulp.dest(`./src/styles`))
+    // update browser
+    .pipe(browserSync.stream());
 };
 
 const script = () => {
