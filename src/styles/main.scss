@@ -1,6 +1,6 @@
 @import './_var';
 body {
-    //background-color: $clr3;
+    background-color: $clr3 !important;
     
     #header {
         height: 90px;
@@ -445,20 +445,20 @@ body {
     }
 
     &#bildergalerie {
-        //border: solid black 1px;
 
-        .site-wrap {
-            //border: solid blue 1px;
-        }
         .gal-img-group {
-            //border: solid yellow 1px;
-        }
-        .gal-img-item {
-            background: $white;
+        
+            .gal-img-item {
+                margin-bottom: 15px;
+                min-height: 430px;
 
-            .img-item {
-                img {
-                    width: 100%;
+                .img-item-body {
+                    background: $white;
+                    .img-item {
+                        img {
+                            width: 100%;
+                        }
+                    }
                 }
             }
         }
