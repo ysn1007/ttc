@@ -450,14 +450,26 @@ body {
         
             .gal-img-item {
                 margin-bottom: 15px;
-                min-height: 430px;
+                min-height: 400px;
 
                 .img-item-body {
                     background: $white;
+                    .img-header {
+                        background: white;
+                        width: 100%;
+                        height: 15px;
+                    }
+
                     .img-item {
                         img {
                             width: 100%;
                         }
+                    }
+
+                    .img-data {
+                        background: white;
+                        width: 100%;
+                        padding: 7.5px;
                     }
                 }
             }
