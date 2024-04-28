@@ -10,7 +10,13 @@ $content .= '
 <div class="site-wrap col-xs-12 col-sm-12 col-md-12">
     <div class="content-wrap new-player-wrap col-xs-12 col-md-12">
         <div class="row">
-            <div class="col-xs-12 col-md-12 gal-img-group "> 
+
+            <section class="col-xs-12 col-md-12 gal-img-group" id="gal-group"> 
+                <div class="galery-header">
+                    <img src="img/tt-icon.svg" alt="">
+                    <h2>Bildergallarie</h2>
+                </div>
+
                 <div class="row">';
                 $res = getDekadeImages($con, $dekade);
                 while($row = mysqli_fetch_assoc($res)){
@@ -38,7 +44,7 @@ $content .= '
 
                 $content .= '
                 </div>
-            </div>
+            </section>
         </div>
     </div> 
 </div>';

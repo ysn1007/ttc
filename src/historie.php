@@ -7,7 +7,11 @@
                 <section class="history-item col-xs-12 col-md-12">
                     <div class="row">
                         <div class="his">
-                            <div class="his-header"><h4>Gründung 1955</h4></div>
+                            <div class="galery-header">
+                                <img src="img/tt-icon.svg" alt="">
+                                <h2>Gründung 1955</h2>
+                            </div>
+                            
                             <div class="his-content col-xs-12 col-md-12">
                                 <div class="his-text ">
                                     <div class="img"><img src="img/ttc_logo.png" alt="" width="80"> </div>
@@ -21,7 +25,11 @@
                 <section class="history-item col-xs-12 col-md-12">
                     <div class="row">
                         <div class="his">
-                            <div class="his-header"><h4>Vorsitzendenhistorie</h4></div>
+                            <div class="galery-header">
+                                <img src="img/tt-icon.svg" alt="">
+                                <h2>Vorsitzendenhistorie</h2>
+                            </div>
+                            
                             <div class="his-content col-xs-12 col-md-12">
                                 <div class="his-text tab">
                                     <div class="img"><img src="img/maack.jpg" alt="" width="80"> </div>
@@ -60,7 +68,11 @@
                 <section class="history-item col-xs-12 col-md-12">
                     <div class="row">
                         <div class="his">
-                            <div class="his-header"><h4>Titelhistorie</h4></div>
+                            <div class="galery-header">
+                                <img src="img/tt-icon.svg" alt="">
+                                <h2>Titelhistorie</h2>
+                            </div>
+
                             <div class="his-content col-xs-12 col-md-12">
                                 <div class="img">bild</div>
                                 <div class="his-text ">
