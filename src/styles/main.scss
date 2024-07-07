@@ -4,7 +4,6 @@ body {
     
     #header {
         height: 90px;
-        height: 120px;
         background: $white;
         .navbar-default {
             background: none;
@@ -393,7 +392,7 @@ body {
                 }
             }
         }
-
+       
         #content-wrapper { 
             min-height: calc(100vh - 220px);
             .accordion { margin-bottom: 30px;
@@ -445,6 +444,7 @@ body {
                 }
             }
 
+           
             /* .edit-player-section {
                 .edit-actions {
                     .col:nth-of-type(2) {
@@ -457,6 +457,14 @@ body {
         footer {
             background: $white;
             padding: 15px 30px;
+        }
+    }
+
+    &#historie {
+        #content-wrapper .content-wrap 
+        .galery-header {
+            margin-top: 0;
+            padding: 15px 0;
         }
     }
 
@@ -522,6 +530,40 @@ body {
         }
     }
 
+    &#index {
+        #content-wrapper {
+
+            .tables-wrap {
+    
+                iframe {
+                    background: white;
+                    //padding: 15px;
+                    border: none;
+                    html {
+                        body {
+                            border: solid red 1px;
+
+                            #17792_Team1 {
+                                background: magenta;
+                            }
+
+                            .SmallInfoText {
+                                color: red !important;
+                            }
+                        }
+                        
+                    }
+                     
+                }
+            }
+        }
+    }   
+    
+    &#herren1 {
+        .content-wrap {
+            //border: solid blue 1px;
+        }
+    }
     // extra small viewports ( mobile phones )
     @media ( max-width: 600px ) {
         //border: solid red 1px;

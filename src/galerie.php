@@ -7,6 +7,7 @@ $content .='
     <div class="content-wrap col-xs-12 col-md-12">
 
         <section class="galery col-xs-12 col-md-12 col-lg-12" id="galery">
+            <div class="row">
                 <div class="galery-header">
                     <img src="img/tt-icon.svg" alt="">
                     <h2>Bildergallarie</h2>
@@ -103,6 +104,7 @@ $content .='
                         </div> 
                     </a>   
                 </div>
+            </div>
         </section>
     </div>
 </div>';

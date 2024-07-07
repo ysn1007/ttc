@@ -91,46 +91,48 @@ if(isset($_POST['submit'])) {
     <div class="content-wrap col-xs-12 col-md-12">
 
         <div class="form-wrap col-xs-12 col-md-12">
-            <div class="galery-header">
-                <img src="img/tt-icon.svg" alt="">
-                <h2>Kontaktformular</h2>
-            </div>
+            <div class="row">
+                <div class="galery-header">
+                    <img src="img/tt-icon.svg" alt="">
+                    <h2>Kontaktformular</h2>
+                </div>
 
-            <div class="col-xs-12 col-md-6 col-md-offset-3 mailAlert <?php echo $mailSendClass ?>"><?php echo $mailSendMsg ?></div>
-            <div class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 hc-form-content">
-                <div class="form-user" id="form-user">
-                    <form id="kontaktFormular" class="kontakt-formular" method="post" action="<?php echo $_SERVER["PHP_SELF"]; ?>">
-                        <div class="form-box" id="form-box-name">
-                            <input class="form-control form-control-sm form-control-lg form-control-ms" id="kontakt_name" type="text" placeholder="Name *" name="name" value="<?php echo isset($name) ? $name : ''  ?>">
-                            <div class="error err-name <?php echo $nameErr; ?>"><?php echo $errMsg ?></div>
-                        </div>
-                        <div class="form-box" id="form-box-eMail">
-                            <input class="form-control form-control-sm form-control-lg form-control-ms" id="kontakt_absender" type="text" placeholder="eMail *" name="email" value="<?php echo isset($email) ? $email : ''  ?>">
-                            <div class="error err-mail <?php echo $mailErr; ?>"><?php echo $errMsg ?></div>
-                            <div class="error err-mail <?php echo $validMailErr; ?>"><?php echo $errMsg ?></div>
-                        </div>
-                        <div class="form-box" id="form-box-betreff">
-                            <input class="form-control form-control-sm form-control-lg form-control-ms" id="kontakt_betreff" type="text" placeholder="Betreff *" name="betreff" value="<?php echo isset($betreff) ? $betreff : ''  ?>">
-                            <div class="error err-betreff <?php echo $betreffErr; ?>"><?php echo $errMsg ?></div>
-                        </div>
-                        <div class="form-box" id="form-box-nachricht">
-                            <textarea class="form-control form-control-sm form-control-lg form-control-ms" id="kontakt_nachricht" rows="6" cols="40" placeholder="Geben Sie Ihre Nachricht ein *" name="message"><?php echo isset($message) ? $message : ''  ?></textarea>
-                            <div class="error err-nachricht <?php echo $msgErr; ?>"><?php echo $errMsg ?></div>
-                        </div>
-                        <br/>
-                        <div class="form-box" id="form-box-checkbox">
-                            <input type="checkbox" id="check-box" name="checkBox"> Stimmen Sie unsere <a href="impressum.html#kontakt">Datenschutzerklärung zum Kontaktformular</a> zu.
-                            <div class="error <?php echo $checkErr; ?>"><?php echo $errCheckBox ?></div>
-                        </div>
-                        <br/>
-                        <!-- reCAPTCHA -->
-                        <!--div class="g-recaptcha" id="recaptcha" data-sitekey="6LdIP-IZAAAAAGhs1N9UTZ7I0SaOI1qjpsMWh2GZ" data-callback="recaptcha_verify"></div>
-                        <div class="error err-chkbox <?php echo $recaptErr; ?>"><?php echo $reCaptMsg ?></div-->
-                        <br/>
+                <div class="col-xs-12 col-md-6 col-md-offset-3 mailAlert <?php echo $mailSendClass ?>"><?php echo $mailSendMsg ?></div>
+                <div class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 hc-form-content">
+                    <div class="form-user" id="form-user">
+                        <form id="kontaktFormular" class="kontakt-formular" method="post" action="<?php echo $_SERVER["PHP_SELF"]; ?>">
+                            <div class="form-box" id="form-box-name">
+                                <input class="form-control form-control-sm form-control-lg form-control-ms" id="kontakt_name" type="text" placeholder="Name *" name="name" value="<?php echo isset($name) ? $name : ''  ?>">
+                                <div class="error err-name <?php echo $nameErr; ?>"><?php echo $errMsg ?></div>
+                            </div>
+                            <div class="form-box" id="form-box-eMail">
+                                <input class="form-control form-control-sm form-control-lg form-control-ms" id="kontakt_absender" type="text" placeholder="eMail *" name="email" value="<?php echo isset($email) ? $email : ''  ?>">
+                                <div class="error err-mail <?php echo $mailErr; ?>"><?php echo $errMsg ?></div>
+                                <div class="error err-mail <?php echo $validMailErr; ?>"><?php echo $errMsg ?></div>
+                            </div>
+                            <div class="form-box" id="form-box-betreff">
+                                <input class="form-control form-control-sm form-control-lg form-control-ms" id="kontakt_betreff" type="text" placeholder="Betreff *" name="betreff" value="<?php echo isset($betreff) ? $betreff : ''  ?>">
+                                <div class="error err-betreff <?php echo $betreffErr; ?>"><?php echo $errMsg ?></div>
+                            </div>
+                            <div class="form-box" id="form-box-nachricht">
+                                <textarea class="form-control form-control-sm form-control-lg form-control-ms" id="kontakt_nachricht" rows="6" cols="40" placeholder="Geben Sie Ihre Nachricht ein *" name="message"><?php echo isset($message) ? $message : ''  ?></textarea>
+                                <div class="error err-nachricht <?php echo $msgErr; ?>"><?php echo $errMsg ?></div>
+                            </div>
+                            <br/>
+                            <div class="form-box" id="form-box-checkbox">
+                                <input type="checkbox" id="check-box" name="checkBox"> Stimmen Sie unsere <a href="impressum.html#kontakt">Datenschutzerklärung zum Kontaktformular</a> zu.
+                                <div class="error <?php echo $checkErr; ?>"><?php echo $errCheckBox ?></div>
+                            </div>
+                            <br/>
+                            <!-- reCAPTCHA -->
+                            <!--div class="g-recaptcha" id="recaptcha" data-sitekey="6LdIP-IZAAAAAGhs1N9UTZ7I0SaOI1qjpsMWh2GZ" data-callback="recaptcha_verify"></div>
+                            <div class="error err-chkbox <?php echo $recaptErr; ?>"><?php echo $reCaptMsg ?></div-->
+                            <br/>
 
-                        <button type="submit" id="submit" class="btn hc-btn-small" value="submit" name="submit" >Nachricht Senden</button>
-                    </form>
+                            <button type="submit" id="submit" class="btn hc-btn-small" value="submit" name="submit" >Nachricht Senden</button>
+                        </form>
 
+                    </div>
                 </div>
             </div>
         </div>
