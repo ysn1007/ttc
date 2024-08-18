@@ -22,11 +22,11 @@
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mannschaften <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li class="<?= ((basename($_SERVER['PHP_SELF']) == "herren1.php") ? "active" : "") ?>"><a href="herren1.php">1. Herren - VL</a></li>
-                    <li class="<?= ((basename($_SERVER['PHP_SELF']) == "herren2.php") ? "active" : "") ?>"><a href="herren2.php">2. Herren - LL</a></li>
-                    <li class="<?= ((basename($_SERVER['PHP_SELF']) == "herren3.php") ? "active" : "") ?>"><a href="herren3.php">3. Herren - BL1</a></li>
-                    <li class="<?= ((basename($_SERVER['PHP_SELF']) == "herren4.php") ? "active" : "") ?>"><a href="herren4.php">4. Herren - BL-A</a></li>
-                    <li class="<?= ((basename($_SERVER['PHP_SELF']) == "herren5.php") ? "active" : "") ?>"><a href="herren5.php">5. Herren - KL</a></li>
+                    <li class="<?= ((basename($_SERVER['PHP_SELF']) == "herren1.php") ? "active" : "") ?>"><a href="herren1.php">1. Herren</a></li>
+                    <li class="<?= ((basename($_SERVER['PHP_SELF']) == "herren2.php") ? "active" : "") ?>"><a href="herren2.php">2. Herren</a></li>
+                    <li class="<?= ((basename($_SERVER['PHP_SELF']) == "herren3.php") ? "active" : "") ?>"><a href="herren3.php">3. Herren</a></li>
+                    <li class="<?= ((basename($_SERVER['PHP_SELF']) == "herren4.php") ? "active" : "") ?>"><a href="herren4.php">4. Herren</a></li>
+                    <li class="<?= ((basename($_SERVER['PHP_SELF']) == "herren5.php") ? "active" : "") ?>"><a href="herren5.php">5. Herren</a></li>
                     <li role="separator" class="divider"></li>
                     <li class="<?= ((basename($_SERVER['PHP_SELF']) == "jungen1.php") ? "active" : "") ?>"><a href="jungen1.php">1. Jungen</a></li>
                     <li class="<?= ((basename($_SERVER['PHP_SELF']) == "jungen2.php") ? "active" : "") ?>"><a href="jungen2.php">2. Jungen</a></li>
@@ -37,7 +37,7 @@
             <li class="navi <?= ((basename($_SERVER['PHP_SELF']) == "historie.php") ? "active" : "") ?>" id="historie"><a href="historie.php">Historie</a></li>
             <li class="navi <?= ((basename($_SERVER['PHP_SELF']) == "galerie.php") ? "active" : "") ?>" id="galerie"><a href="galerie.php">Galerie</a></li>
             
-            <li class="dropdown">
+            <!--li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tuniere<span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li class="<?= ((basename($_SERVER['PHP_SELF']) == "kreis_ms.php") ? "active" : "") ?>"><a href="kreis_ms.php">Kreismeisterschaften</a></li>
@@ -46,7 +46,7 @@
                     <li role="separator" class="divider"></li>
                     <li class="<?= ((basename($_SERVER['PHP_SELF']) == "ostercup.php") ? "active" : "") ?>"><a href="ostercup.php">Ostercup</a></li>
                 </ul>
-            </li>
+            </li-->
             <li class="navi <?= ((basename($_SERVER['PHP_SELF']) == "sponsoren.php") ? "active" : "") ?>" id="sponsoren"><a href="sponsoren.php">Sponsoren</a></li>
             <li class="navi <?= ((basename($_SERVER['PHP_SELF']) == "kontakt.php") ? "active" : "") ?>" id="kontakt"><a href="kontakt.php">kontakt</a></li>
         </ul>
