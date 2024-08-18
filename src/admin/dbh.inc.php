@@ -365,10 +365,9 @@
 
 
     function getDekadeImages($con, $dekade) {
-        //var_dump($dekade);exit;
-        $query = "SELECT * FROM gallery WHERE dekade = ?";
+        $query = "SELECT * FROM gallery WHERE dekade = ?;";
         $stmt = mysqli_stmt_init($con);
-
+        
         if(!mysqli_stmt_prepare($stmt,$query)) {
             header("location: index.ad.php?error=loadingGalleryImageWithIdFailed");
         }
@@ -380,5 +379,16 @@
         return $res;
 
         mysqli_stmt_close($stmt);
+
+
+        // mysqli_stmt_prepare($stmt,$query);
+
+        // mysqli_stmt_bind_param($stmt,"s", $dekade);
+        // mysqli_stmt_execute($stmt);
+
+        // $res = mysqli_stmt_get_result($stmt);
+        // return $res;
+
+        // mysqli_stmt_close($stmt);
     }
       

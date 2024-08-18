@@ -1,6 +1,7 @@
 <?php
 require_once 'admin/dbh.inc.php';
 include('./includes/header.php');
+$content = '';
 
 $content .= '
 <div class="hero col-xs-12 col-md-12 col-lg-12 ">

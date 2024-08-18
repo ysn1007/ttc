@@ -1,6 +1,7 @@
 <?php 
 require_once 'admin/dbh.inc.php';
 include('./includes/header.php');
+$content = '';
 
 $content .='
 <div class="site-wrap col-xs-12 col-sm-12 col-md-12 col-lg-12" id="galerie">
@@ -25,8 +26,6 @@ $content .='
                         </div>
                     </a>    
                 </div>
-                
-
 
                 <div class="galery-item col-xs-12 col-sm-6 col-md-4 col-lg-3">
                     <a href="bildergalerie.php?dekade=2010-2019">
@@ -95,7 +94,7 @@ $content .='
                 </div>
                 
                 <div class="galery-item col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="bildergalerie.php?dekade=1955-1959">
+                    <a href="bildergalerie.php?dekade=1950-1959">
                         <div class="gal-img">
                             <img src="img/img.jpg" alt=""> 
                         </div>

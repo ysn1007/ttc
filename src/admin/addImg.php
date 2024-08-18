@@ -106,8 +106,6 @@ if(isset($_POST["submit"])) {
                     $fileDestination = "../img/gallery/2020-2029/" . $imgNewName;
                 }
 
-
-                //var_dump($fileTempName[$key], $fileDestination);exit();
                 move_uploaded_file($fileTempName[$key], $fileDestination);
                
                 addImage($con, $headline, $imgText, $year, $dekade, $fileName[$key], $imgNewName, $active, $fileTempName[$key], $fileDestination);
@@ -159,7 +157,7 @@ if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION["
                                     <option value="2">1960-1969</option>
                                     <option value="3">1970-1979</option>
                                     <option value="4">1980-1989</option>
-                                    <option value="5">1990-2099</option>
+                                    <option value="5">1990-1999</option>
                                     <option value="6">2000-2009</option>
                                     <option value="7">2010-2019</option>
                                     <option value="8">2020-2029</option>

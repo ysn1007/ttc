@@ -3,7 +3,7 @@ require_once 'admin/dbh.inc.php';
 include('./includes/header.php');
 
 $dekade = $_GET['dekade'];
-
+//var_dump($dekade);
 $content = '';
 
 $content .= '
@@ -14,32 +14,45 @@ $content .= '
             <section class="col-xs-12 col-md-12 gal-img-group" id="gal-group"> 
                 <div class="galery-header">
                     <img src="img/tt-icon.svg" alt="">
-                    <h2>Bildergallarie</h2>
+                    <h2>Bildergallarie '. $dekade .'</h2>
                 </div>
 
                 <div class="row">';
                 $res = getDekadeImages($con, $dekade);
-                while($row = mysqli_fetch_assoc($res)){
-                    if($dekade === $row['dekade']) {
-                        $content .= '
-                        <div class="col-xs-6 col-md-4 gal-img-item" id="gal-img-item">
-                            
-                            <div class="col-xs-12 img-item-body" id="img-item-body">
-                                <div class="img-header">
-                                    <!--h4>'. $row['title'] .'</h4-->
+
+                if(!$row['num_rows'] = 0) {
+                    while($row = mysqli_fetch_assoc($res)){
+                    
+                        if($dekade === $row['dekade']) {
+                            $content .= '
+                            <div class="col-xs-6 col-md-4 gal-img-item" id="gal-img-item">
+                                
+                                <div class="col-xs-12 img-item-body" id="img-item-body">
+                                    <!--div class="img-header">
+                                        <h4>'. $row['title'] .'</h4>
+                                    </div-->
+                                    <div class="img-item">
+                                        <img src="'. substr($row['imagePath'], 3 ) .'" title="'. $row['title'] .'" class="img" >
+                                    </div>
+                                    <div class="img-data">
+                                        <h4>Im Jahr '. $row['imageYear'] . " " .  (($row['title'] != " ") ? $row['title'] : "Keine weiteren Angaben.") .'</h4>
+                                        <!--div>'. $row['descript'] .'</div-->
+                                        <!--div>'. $row['imageYear'] .'</div-->
+                                    </div>
                                 </div>
-                                <div class="img-item">
-                                    <img src="'. substr($row['imagePath'], 3 ) .'" title="'. $row['title'] .'" class="img" >
-                                </div>
-                                <div class="img-data">
-                                    <h4>'. $row['title'] .'</h4>
-                                    <!--div>'. $row['descript'] .'</div-->
-                                    <!--div>'. $row['imageYear'] .'</div-->
-                                </div>
-                            </div>
-                            
-                        </div>';
+                                
+                            </div>';
+                        }
+                        
                     }
+                } else {
+
+                    $content .= '
+                    <div class="col-xs-12 gal-img-item" id="gal-img-item">
+                        <div class="col-xs-12 img-item-body" id="img-item-body">
+                            <p>Bitte prüfe deine Eingabe, es wurden keine Daten erhalten.</p>
+                        </div>
+                    </div';
                 }
 
                 $content .= '
