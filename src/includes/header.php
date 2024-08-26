@@ -64,6 +64,7 @@
                 </div>
             </nav>
         </header>
+        <?PHP ((basename($_SERVER['PHP_SELF']) == "index.php") ? require_once('hero.img.slider.php') : "") ?>
         <div id="content-wrapper" class="col-xs-12 col-sm-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
             <div class="row">
                 

@@ -63,13 +63,16 @@ body {
             img { margin-right: 15px; }
         }
     }
+    
+    .hero-img-slider {
+        background: #141414;
+        .hero {
+            min-height: 400px;
+            width: 100%;
+            margin-top: 30px;
 
-    .hero {
-        min-height: 400px;
-        width: 100%;
-        margin-top: 30px;
-
-        //.owl-stage-outer { height: 92vh; }
+            //.owl-stage-outer { height: 92vh; }
+        }
     }
 
     #content-wrapper {
@@ -109,9 +112,10 @@ body {
 
                 
                 .article-bg-img {
-                    background: #AA076B;  /* fallback for old browsers */
-                    background: -webkit-linear-gradient(to right, #61045F, #AA076B);  /* Chrome 10-25, Safari 5.1-6 */
-                    background: linear-gradient(to right, #61045F, #AA076B); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+                    background: #bec1c6;  /* fallback for old browsers */
+                    //background: #AA076B;  /* fallback for old browsers */
+                    //background: -webkit-linear-gradient(to right, #61045F, #AA076B);  /* Chrome 10-25, Safari 5.1-6 */
+                    //background: linear-gradient(to right, #61045F, #AA076B); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
                     img { 
                         width: 50%;
@@ -460,6 +464,35 @@ body {
         }
     }
 
+    /** Styles for all men teams **/
+    &#herren1 {
+        .team-section {
+            background: #fff;
+            padding: 0;
+            padding-bottom: 45px;
+
+            .team-image{}
+
+            .team-data {
+                .team-group {
+                    list-style: none;
+                    background: #ddd;
+                    padding: 2.5px;
+                    border-radius: 2px;
+                    .player {
+                        background: linear-gradient(60deg, #fff, #eee);
+                        padding: 7.5px;
+                        margin: 5px;
+
+                        .position {
+                            margin-right: 5px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     &#historie {
         #content-wrapper .content-wrap 
         .galery-header {
@@ -535,16 +568,24 @@ body {
     }
 
     &#index {
+        //border: solid red 1px;
+        
         #content-wrapper {
 
             .tables-wrap {
     
                 iframe {
+                    
                     background: white;
                     //padding: 15px;
                     border: none;
                     html {
+                        
+                        border: solid red 1px;
                         body {
+                            .CONTENTTABLETEXT2ndLine {
+                                background-color: #61045F !important;
+                            }
                             border: solid red 1px;
 
                             #17792_Team1 {

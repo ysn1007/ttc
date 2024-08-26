@@ -363,9 +363,11 @@
     }
 
 
-
+    /**
+     * Gets Images from specific dekade and if they are active to be published
+     */
     function getDekadeImages($con, $dekade) {
-        $query = "SELECT * FROM gallery WHERE dekade = ?;";
+        $query = "SELECT * FROM gallery WHERE dekade = ? AND active = 1;";
         $stmt = mysqli_stmt_init($con);
         
         if(!mysqli_stmt_prepare($stmt,$query)) {
@@ -380,15 +382,5 @@
 
         mysqli_stmt_close($stmt);
 
-
-        // mysqli_stmt_prepare($stmt,$query);
-
-        // mysqli_stmt_bind_param($stmt,"s", $dekade);
-        // mysqli_stmt_execute($stmt);
-
-        // $res = mysqli_stmt_get_result($stmt);
-        // return $res;
-
-        // mysqli_stmt_close($stmt);
     }
       

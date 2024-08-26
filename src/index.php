@@ -4,7 +4,7 @@ include('./includes/header.php');
 $content = '';
 
 $content .= '
-<div class="hero col-xs-12 col-md-12 col-lg-12 ">
+<!--div class="hero col-xs-12 col-md-12 col-lg-12 ">
     <div class="rw">
         <div class="col-sm-12 col-lg-12">
             <div class="row"> 
@@ -17,7 +17,7 @@ $content .= '
             </div>
         </div>
     </div>
-</div>
+</div-->
 <div class="site-wrap col-xs-12 col-sm-12 col-md-12">
     <div class="content-wrap new-player-wrap col-xs-12 col-md-12">
         <div class="row">';
