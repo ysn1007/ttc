@@ -465,7 +465,7 @@ body {
     }
 
     /** Styles for all men teams **/
-    &#herren1 {
+    &#herren1, &#herren2, &#herren3, &#herren4, &#herren5 {
         .team-section {
             background: #fff;
             padding: 0;
@@ -473,20 +473,71 @@ body {
 
 
             .team-data {
+                .tab-header {
+                    background: #ddd;
+                    padding: 7.5px 8px 5px;
+                    font-size: 1.8rem;
+                    font-weight: 700;
+                }
+
                 .team-group {
                     list-style: none;
                     background: #ddd;
                     padding: 2.5px;
                     border-radius: 2px;
-                    .player {
-                        background: linear-gradient(60deg, #fff, #eee);
-                        padding: 7.5px;
-                        margin: 5px;
+                    
+                    .divider {
+                        width: 95%;
+                        height: 1px;
+                        background: #aaa;
+                        margin: 8px;
+                        margin-left: 2.5%;
+                        border-radius: 8px;
+                    }
 
-                        .position {
-                            margin-right: 5px;
+                    .player-header {
+                        display: flex;
+                        justify-content: space-between;
+                        padding: 7.5px 8px 5px;
+                        .player-data-header, .player-points-header {
+                            background: #ddd;
+                            color: #000;
+                            font-weight: 600;
+                        }
+
+                        .player-data-header {
+                            .position {
+                                margin-right: 8px;
+                            }
                         }
                     }
+
+                    .player-data {
+                        display: flex;
+
+                        .position {
+                            background: linear-gradient(60deg, #fff, #eee);
+                            padding: 7.5px;
+                            margin: 5px;
+                            margin-right: 8px;
+                            border-radius: 4px;
+                            //width: 36px;
+                        }
+
+                        .player {
+                            background: linear-gradient(60deg, #fff, #eee);
+                            padding: 7.5px;
+                            margin: 5px;
+                            display: inline-flex;
+                            justify-content: space-between;
+                            width: 100%;
+    
+                        }
+                    }
+
+                    
+
+                    
                 }
             }
         }
