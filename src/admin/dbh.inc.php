@@ -70,12 +70,43 @@
         }
     
         /**
-         * Fügt prepared statement mit der richtigen anzahl ein un d übergibt es es der DB.
+         * Fügt prepared statement mit der richtigen anzahl ein und übergibt es es der DB.
          * 
         */
         mysqli_stmt_bind_param($stmt, "i", $id);
         mysqli_stmt_execute($stmt);
     
+        /**
+         * Gibt das SQL resultat zurück.
+        */
+        $resultData = mysqli_stmt_get_result($stmt);
+        return $resultData;
+        
+        mysqli_stmt_close($stmt);
+    }
+
+
+    function getPlayersOfTeam($con, $teamNr) {
+        /**
+         * Prepared statement
+        */
+        $sql = "SELECT * FROM player WHERE team = ? ORDER BY position ASC;";
+        $stmt = mysqli_stmt_init($con);
+
+        /**
+         * prüft Variablen verbindung
+        */
+        if(!mysqli_stmt_prepare($stmt,$sql)) {
+            header("location: login.php?error=loadingTeamFailed");
+        }
+
+        /**
+         * Fügt prepared statement mit der richtigen anzahl ein und übergibt es es der DB.
+         * 
+        */
+        mysqli_stmt_bind_param($stmt, "i", $teamNr);
+        mysqli_stmt_execute($stmt);
+
         /**
          * Gibt das SQL resultat zurück.
         */

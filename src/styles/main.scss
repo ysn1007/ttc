@@ -40,6 +40,11 @@ body {
                             color: $white;
                         }
                     }
+                    
+                    a.navi.active {
+                        background-color: $clr1;
+                        color: $white;
+                    }
                 }
             }
 
@@ -448,14 +453,6 @@ body {
                 }
             }
 
-           
-            /* .edit-player-section {
-                .edit-actions {
-                    .col:nth-of-type(2) {
-                        text-align: right;
-                    }
-                }
-            } */
         }
 
         footer {
@@ -465,7 +462,8 @@ body {
     }
 
     /** Styles for all men teams **/
-    &#herren1, &#herren2, &#herren3, &#herren4, &#herren5 {
+    //&#herren1, &#herren2, &#herren3, &#herren4, &#herren5 {
+    &#mannschaften {
         .team-section {
             background: #fff;
             padding: 0;
@@ -500,7 +498,6 @@ body {
                         justify-content: space-between;
                         padding: 7.5px 8px 5px;
                         .player-data-header, .player-points-header {
-                            background: #ddd;
                             color: #000;
                             font-weight: 600;
                         }
@@ -516,12 +513,11 @@ body {
                         display: flex;
 
                         .position {
-                            background: linear-gradient(60deg, #fff, #eee);
+                            background: #fff;
                             padding: 7.5px;
                             margin: 5px;
                             margin-right: 8px;
                             border-radius: 4px;
-                            //width: 36px;
                         }
 
                         .player {

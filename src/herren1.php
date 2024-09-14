@@ -3,7 +3,7 @@
     <div class="content-wrap col-xs-12 col-md-12">
         <div class="galery-header">
             <img src="img/tt-icon.svg" alt="">
-            <h2>1. Herren - Verbandsliga</h2>
+            <h2>1. Herren</h2>
         </div>
 
         <section class="team-section col-xs-12">

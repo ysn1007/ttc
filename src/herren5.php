@@ -1,9 +1,11 @@
-<?php include('./includes/header.php');?>
+<?php include('./includes/header.php');
+var_dump($_GET); exit;
+?>
 <div class="site-wrap col-xs-12 col-sm-12 col-md-12">
     <div class="content-wrap col-xs-12 col-md-12">
         <div class="galery-header">
             <img src="img/tt-icon.svg" alt="">
-            <h2>5. herren - 3. Kreisklasse</h2>
+            <h2>5. herren</h2>
         </div>
 
         <section class="team-section col-xs-12">

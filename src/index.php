@@ -49,12 +49,12 @@ $content .= '
 
 </div>
 
-<div class="tables-wrap col-xs-12 col-md-12">
+<!--div class="tables-wrap col-xs-12 col-md-12">
     <h3>Tabellen</h3>
     <div class="tables">
         <iframe src="https://bezirk1.tischtennislive.de/Ajax/Tischtennis/Tabelle_Mini.aspx?WettID=17792" width="300" height="300" id="ttLive-table"></iframe>
     </div>
-</div>';
+</div-->';
 
 echo $content;
 
