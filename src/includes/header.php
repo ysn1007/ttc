@@ -27,8 +27,8 @@
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-right">
                             <li class="navi <?= ((basename($_SERVER['PHP_SELF']) == "index.php") ? "active" : "") ?>" id="Startseite"><a href="index.php">Startseite<span class="sr-only">(current)</span></a></li>
-                            <li class="dropdown">
-                                <a href="#" class="navi <?= ((basename($_SERVER['PHP_SELF']) == "mannschaften.php") ? "active" : "") ?> dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mannschaften <span class="caret"></span></a>
+                            <li class="navi dropdown">
+                                <a href="#" class="navi-item <?= ((basename($_SERVER['PHP_SELF']) == "mannschaften.php") ? "active" : "") ?> dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mannschaften <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li class="<?= ((basename($_SERVER['PHP_SELF']) == "mannschaften.php?id=herren1") ? "active" : "") ?>"><a href="mannschaften.php?id=1herren">1. Herren</a></li>
                                     <li class="<?= ((basename($_SERVER['PHP_SELF']) == "mannschaften.php?id=herren2") ? "active" : "") ?>"><a href="mannschaften.php?id=2herren">2. Herren</a></li>

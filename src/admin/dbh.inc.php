@@ -25,7 +25,7 @@
         /**
          * Prepared statement
         */
-        $sql = "SELECT * FROM player;";
+        $sql = "SELECT * FROM player ORDER BY team ASC, position;";
         $stmt = mysqli_stmt_init($con);
         
         /**
@@ -119,15 +119,15 @@
     /**
      * Adds player to data base
      */
-    function addPlayer($con, $name, $lastname) {
+    function addPlayer($con, $name, $lastname, $livePZ, $team, $position, $active, $spv, $sbem ) {
         $stmt = mysqli_stmt_init($con);
-        $sql = "INSERT INTO player (Vorname, Nachname)" . "VALUES (?, ?)";
+        $sql = "INSERT INTO player (Vorname, Nachname, livePZ, team, position, aktiv, spv, sbem) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
        
         if(!mysqli_stmt_prepare($stmt, $sql)) {
             header("location: index.ad.php?error=addPlayerFailed");
         }
 
-        mysqli_stmt_bind_param($stmt,"ss", $name, $lastname);
+        mysqli_stmt_bind_param($stmt,"ssiiiiii", $name, $lastname, $livePZ, $team, $position, $active, $spv, $sbem);
         mysqli_stmt_execute($stmt);
 
         header("location: index.ad.php?addPlayer=success");
@@ -136,17 +136,17 @@
     /**
      * updates player data
      */
-    function updatePlayer($con, $playerId, $name, $lastname, $livePZ, $team, $position ) {
-        echo "update player - <pre>"; 
-        var_dump($playerId, $name, $lastname, $livePZ, $team, $position);
+    function updatePlayer($con, $playerId, $name, $lastname, $livePZ, $team, $position, $active, $spv, $sbem ) {
+        
+        //var_dump($playerId, $name, $lastname, $livePZ, $team, $position, $active, $spv, $sbem);exit;
         //var_dump($active."<pre>");
         
         $stmt = mysqli_stmt_init($con);
-        $query = "UPDATE player SET Vorname=?, Nachname=?, livePZ=?, team=?, position=?  WHERE id=?";
+        $query = "UPDATE player SET Vorname=?, Nachname=?, livePZ=?, team=?, position=?, aktiv=?, spv=?, sbem=?  WHERE id=?";
         //var_dump( $query);exit();
 
         mysqli_stmt_prepare($stmt, $query);
-        mysqli_stmt_bind_param($stmt, "ssssss", $name, $lastname, $livePZ, $team, $position, $playerId);
+        mysqli_stmt_bind_param($stmt, "ssssssssi", $name, $lastname, $livePZ, $team, $position, $active, $spv, $sbem, $playerId);
         
         if(mysqli_stmt_execute($stmt)) {
             header("location: index.ad.php?success=updatePlayer");

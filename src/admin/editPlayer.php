@@ -16,28 +16,30 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         $livePZ = $_POST["livePZ"];
         $team = $_POST["team"];
         $position = $_POST["position"];
-        //$eMail = $_POST["eMail"];
-        //$spv = $_POST["spv"];
 
-        // if($_POST["aktiv"]) {
-        //     $active = 1;
-        // } else {
-        //     $active = 0;
-        // }
+
+        if($_POST['active'] == "on") {
+            $active = 1;
+        } else {
+            $active = 0;
+        }
         
-        // if($_POST["spv"]) {
-        //     $spv = 1;
-        // } else {
-        //     $spv = 0;
-        // }
+        if($_POST['spv']) {
+            $spv = 1;
+        } else {
+            $spv = 0;
+        }
         
-        // if($_POST["sbem"]) {
-        //     $sbem = 1;
-        // } else {
-        //     $sbem = 0;
-        // }
-        //$name, $lastname, $mail
-        updatePlayer($con, $playerId, $name, $lastname, $livePZ, $team, $position );
+        if($_POST['sbem']) {
+            $sbem = 1;
+        } else {
+            $sbem = 0;
+        }
+
+        //var_dump($spv, $sbem);exit;
+
+
+        updatePlayer($con, $playerId, $name, $lastname, $livePZ, $team, $position, $active, $spv, $sbem );
     }
 
     if(isset($_POST["deletePlayer"])) {
@@ -67,9 +69,9 @@ if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) ){
                 //var_dump($player);exit();
                 
                 if($player["aktiv"] == 1) {
-                    $active = "aktiv";
+                    $active = "checked";
                 } else {
-                    $active = "inaktiv";
+                    $active = " ";
                 }
                 
                 if($player["spv"] == 1) {
@@ -119,10 +121,7 @@ if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) ){
                                     <label>Position</label><br>
                                     <input class="form-control" type="text" name="position" placeholder="Position" value="'.$player["position"].'">
                                 </div>
-                                <!--div class="col-4">
-                                    <label>E-Mail</label><br>
-                                    <input class="form-control" type="text" name="eMail" placeholder="eMail" value="'.$player["E-Mail"].'">
-                                </div-->
+                                
                                 
                             </div>
                         </div>

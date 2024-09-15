@@ -15,33 +15,29 @@ if(isset($_POST["submit"])) {
     $team = intval($_POST["team"]);
     $position = intval($_POST["position"]);
 
-    if(empty($_POST["active"])){
-        $aactive = 0;
+    
+    if($_POST["active"] == "on") {
+        $active = "1";
     } else {
-        $aactive = 1;
+        $active = "0";
     }
     
-    if(empty($_POST["spv"])){
-        $sspv = 0;
+    if($_POST["spv"] == "on") {
+        $spv = "1";
     } else {
-        $sspv = 1;
+        $spv = "0";
     }
     
-    if(empty($_POST["sbem"])){
-        $ssbem = 0;
+    if($_POST["sbem"] == "on") {
+        $sbem ="1";
     } else {
-        $ssbem = 1;
+        $sbem = "0";
     }
     
-    $active = $aactive;
-    $spv = $sspv;
-    $sbem = $ssbem;
-
     
-    
-    //var_dump($active, $spv, $sbem);exit();
+    //var_dump($name, $lastname, $livePZ, $team, $position, $active, $spv, $sbem);exit();
     #, $lastname, $livePZ, $team, $position, $active, $spv, $sbem
-    addPlayer($con, $name, $lastname);
+    addPlayer($con, $name, $lastname, $livePZ, $team, $position, $active, $spv, $sbem);
     
 }
 

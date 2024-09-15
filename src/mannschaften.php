@@ -4,19 +4,37 @@ include('./includes/header.php');
 $content = '';
 
 $teamNr = $_REQUEST['id'];
+$men = substr($teamNr, 1,6);
 $teamNr = substr($teamNr, 0,1);
+
 $addTeam = $teamNr + 1;
 
 $res = getPlayersOfTeam($con, $teamNr);
 $addRes = getPlayersOfTeam($con, $addTeam);
 
-var_dump($teamNr);
+/*
+*   liga
+*/
+$liga = "";
+switch($teamNr) {
+    case 1: $liga = "Verbandsliga";
+    break;
+    case 2: $liga = "1. Bezirksliga";
+    break;
+    case 3: $liga = "1. Bezirksliga";
+    break;
+    case 4: $liga = "2. Bezirksliga Herren B";
+    break;
+    case 5: $liga = "3. Kreisklasse"; 
+}
+
+
 $content .='
 <div class="site-wrap col-xs-12 col-sm-12 col-md-12 ">
     <div class="content-wrap col-xs-12 col-md-12">
         <div class="galery-header">
             <img src="img/tt-icon.svg" alt="">
-            <h2>1. Herren</h2>
+            <h2>'. $teamNr .'. ' . ucfirst($men) . '</h2>
         </div>
 
         <section class="team-section col-xs-12">
@@ -26,7 +44,7 @@ $content .='
 
             <div class="team-data col-xs-12 col-md-6">
                 <div class="team-line-up col-xs-12 col-md-12">
-                    <div class="tab-header">Verbandsliga Nord</div>
+                    <div class="tab-header">'. $liga .'</div>
                     <ul class="team-group">
                         <li class="player-header">
                             <div class="player-data-header"><span class="position">Pos.</span> Name</div>
@@ -34,33 +52,34 @@ $content .='
                         </li>';
 
                         while($player = mysqli_fetch_assoc($res)){
-                            if($player['team'] == 1) {
-                                
+                            if($player['team'] == $teamNr && $player['position'] != 0) {
                             $content .='
                             <li class="player-data">
                                 <div class="position">
                                     <div class="pos-nr">'. $player['position'] .'</div>
                                 </div>
                                 <div class="player">
-                                    <div class="player-name">'. $player['Vorname'] .",". $player['Nachname'] .'</div>
+                                    <div class="player-name">'. $player['Vorname'] .", ". $player['Nachname'] .'</div>
                                     <div class="player-points"><span class="ttr-points">'. $player['livePZ'] .'</span></div>   
                                 </div>
                             </li>';
                             }
-                        }   
+                        }
+                        if(mysqli_num_rows($addRes) > 0) {   
                         $content .= '
                         <li role="separator" class="divider"></li>';
+                        }
                         while($addPlayer = mysqli_fetch_assoc($addRes)){
                             $max = 2;
                             
-                            if ($addPlayer['position'] <= $max) {
+                            if ($addPlayer['position'] <= $max && $addPlayer['position'] != 0) {
                                 $content .='
                                 <li class="player-data">
                                     <div class="position">
                                         <div class="pos-nr">'. $addPlayer['position'] .'</div>
                                     </div>
                                     <div class="player">
-                                        <div class="player-name">'. $addPlayer['Vorname'] .",". $addPlayer['Nachname'] .'</div>
+                                        <div class="player-name">'. $addPlayer['Vorname'] .", ". $addPlayer['Nachname'] .'</div>
                                         <div class="player-points"><span class="ttr-points">'. $addPlayer['livePZ'] .'</span></div>   
                                     </div>
                                 </li>';
