@@ -1,4 +1,5 @@
 <div class="hero-img-slider col-xs-12">
+    <div class="img-overlay"></div>
     <div class="hero col-xs-12 ">
         <div class="row">
             <div class="col-sm-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">

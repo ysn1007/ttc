@@ -1,4 +1,5 @@
 @import './_var';
+
 body {
     background-color: $clr3 !important;
     
@@ -73,6 +74,24 @@ body {
     
     .hero-img-slider {
         background: #141414;
+        background: url("../img/1979-86.png") no-repeat;
+        background-size: cover;
+        background-position: center;
+        width: 100%;
+        height: auto;
+        position: relative;
+        
+        .img-overlay{
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: auto;
+            background: linear-gradient(45deg, rgba(145,22,108, .5), rgba(14, 80, 97, .5));
+        }
+
         .hero {
             min-height: 400px;
             width: 100%;
@@ -87,7 +106,6 @@ body {
 
         // startseite
         .content-wrap {
-            //background: #ddd;
             padding: 45px 0;
             margin-bottom: 30px;
             min-height: calc(100vh - 318px);
@@ -95,7 +113,6 @@ body {
             .galery-header {
                 display: flex;
                 background: $white;
-                //margin-bottom: 15px;
                 margin-top: 7.5px;
                 padding: 7.5px 0;
                 align-items: center;
@@ -120,9 +137,7 @@ body {
                 
                 .article-bg-img {
                     background: #bec1c6;  /* fallback for old browsers */
-                    //background: #AA076B;  /* fallback for old browsers */
-                    //background: -webkit-linear-gradient(to right, #61045F, #AA076B);  /* Chrome 10-25, Safari 5.1-6 */
-                    //background: linear-gradient(to right, #61045F, #AA076B); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+                    
 
                     img { 
                         width: 50%;
@@ -610,6 +625,87 @@ body {
                     // &:hover {
                     //     box-shadow: 0 0 15px .5px #aaa;
                     // }
+                }
+            }
+        }
+
+        
+    }
+
+    &#galerie {
+        .galery-item {
+
+            &.item50 {
+                .gal-img {
+                    background: url("../img/gallery/dek50er.svg") no-repeat;
+                    background-size: cover;
+                    background-position: center;
+                    width: 100%;
+                    height: 200px;
+                }
+            }
+            
+            &.item60 {
+                .gal-img {
+                    background: url("../img/gallery/dek60er.svg") no-repeat;
+                    background-size: cover;
+                    background-position: center;
+                    width: 100%;
+                    height: 200px;
+                }
+            }
+            &.item70 {
+                .gal-img {
+                    background: url("../img/gallery/dek70er.svg") no-repeat;
+                    background-size: cover;
+                    background-position: center;
+                    width: 100%;
+                    height: 200px;
+                }
+            }
+            &.item80 {
+                .gal-img {
+                    background: url("../img/gallery/dek80er.svg") no-repeat;
+                    background-size: cover;
+                    background-position: center;
+                    width: 100%;
+                    height: 200px;
+                }
+            }
+            &.item90 {
+                .gal-img {
+                    background: url("../img/gallery/dek90er.svg") no-repeat;
+                    background-size: cover;
+                    background-position: center;
+                    width: 100%;
+                    height: 200px;
+                }
+            }
+            &.item00 {
+                .gal-img {
+                    background: url("../img/gallery/dek00er.svg") no-repeat;
+                    background-size: cover;
+                    background-position: center;
+                    width: 100%;
+                    height: 200px;
+                }
+            }
+            &.item10 {
+                .gal-img {
+                    background: url("../img/gallery/dek10er.svg") no-repeat;
+                    background-size: cover;
+                    background-position: center;
+                    width: 100%;
+                    height: 200px;
+                }
+            }
+            &.item20 {
+                .gal-img {
+                    background: url("../img/gallery/dek20er.svg") no-repeat;
+                    background-size: cover;
+                    background-position: center;
+                    width: 100%;
+                    height: 200px;
                 }
             }
         }
