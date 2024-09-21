@@ -584,6 +584,18 @@ body {
             margin-top: 0;
             padding: 15px 0;
         }
+
+        .history-item {
+            .his-content {
+                display: flex;
+                justify-content: space-between;
+
+                .his-text {
+                    display: flex;
+                    gap: 28px;
+                }
+            }
+        }
     }
 
     &#bildergalerie {

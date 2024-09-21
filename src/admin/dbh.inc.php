@@ -138,12 +138,8 @@
      */
     function updatePlayer($con, $playerId, $name, $lastname, $livePZ, $team, $position, $active, $spv, $sbem ) {
         
-        //var_dump($playerId, $name, $lastname, $livePZ, $team, $position, $active, $spv, $sbem);exit;
-        //var_dump($active."<pre>");
-        
         $stmt = mysqli_stmt_init($con);
         $query = "UPDATE player SET Vorname=?, Nachname=?, livePZ=?, team=?, position=?, aktiv=?, spv=?, sbem=?  WHERE id=?";
-        //var_dump( $query);exit();
 
         mysqli_stmt_prepare($stmt, $query);
         mysqli_stmt_bind_param($stmt, "ssssssssi", $name, $lastname, $livePZ, $team, $position, $active, $spv, $sbem, $playerId);
@@ -153,6 +149,26 @@
         } else {
             header("location: index.ad.php?error=updatePlayerFailed");  
         }
+    }
+
+
+    /**
+     * deletes player
+     */
+    function deletePlayer($con, $pid) {
+        
+        $stmt = mysqli_stmt_init($con);
+        $query = "DELETE FROM player WHERE id = ?";
+
+        mysqli_stmt_prepare($stmt, $query);
+        mysqli_stmt_bind_param($stmt, "i", $pid);
+
+        if(!mysqli_stmt_execute($stmt)) {
+            header("location: index.ad.php?error=deletePlayerFailed");
+        } else {
+            header("location: index.ad.php?success=deletePlayer");
+        }
+
     }
 
     /**

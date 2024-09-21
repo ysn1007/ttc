@@ -43,10 +43,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if(isset($_POST["deletePlayer"])) {
+        //var_dump("delete: init" . $_POST);exit;
+        $pid = $_POST['player_id'];
+        //var_dump($pid);exit;
+        // if($_POST['active'] == "on") {
+        //     $active = 1;
+        // }   
 
-        //$playerId = $_POST["article_id"];
-
-        //deletePlayer($con, $articleId, );
+        deletePlayer($con, $pid );
 
     }
 }
@@ -66,7 +70,6 @@ if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) ){
                 
                $result = getPlayersId($con, $_GET["id"]);
                while($player = mysqli_fetch_assoc($result)){
-                //var_dump($player);exit();
                 
                 if($player["aktiv"] == 1) {
                     $active = "checked";
