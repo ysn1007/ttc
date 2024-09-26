@@ -45,7 +45,7 @@ if(!isset($_SESSION["useruid"])) {
                         $res = getGalleryImgData($con);
                         if($res->num_rows > 0 ) {
                             while($row = $res->fetch_assoc()){
-                                //var_dump($row);exit();
+                               
                                 $content .='
                                 <tr>
                                     <td><input id="txt" type="text" name="id" value="'. $row['id'] .'"></td>

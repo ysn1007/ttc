@@ -110,7 +110,7 @@ body {
             margin-bottom: 30px;
             min-height: calc(100vh - 318px);
 
-            .galery-header {
+            .galery-header, .section-header {
                 display: flex;
                 background: $white;
                 margin-top: 7.5px;
@@ -125,6 +125,10 @@ body {
             }
 
             // article
+            .article-wrap {
+                margin-bottom: 30px;
+            }
+            
             .article {
                 position: relative;
                 background: $white;
@@ -180,47 +184,9 @@ body {
                 }
                 
             }
-            
-            // gallery
-            .galery {
+
+            .social-wrap {
                 background: $white;
-                min-height: 400px;
-
-                .galery-header {
-                    display: flex;
-                    margin-bottom: 15px;
-                    margin-top: 7.5px;
-                    padding: 7.5px 0;
-                    align-items: center;
-
-                    h2 {
-                        padding: 5px 0;
-                        margin: 0;
-                        color: $black;
-                    }
-                }
-                .galery-item { 
-                    margin-bottom: 20px; 
-
-                    .gal-img {
-                        img { 
-                            width: 100%;
-                            min-height: 200px;
-                            object-fit: cover; 
-                        }
-                    }
-
-                    .galery-time {
-                        background: #F3F3F3;
-                        padding: 7.5px 10px;
-
-                        p {
-                            font-size: 18px;
-                            font-weight: 600px;
-                        }
-                    }
-                }
-    
             }
             
             // site sponsoring styles
@@ -592,7 +558,14 @@ body {
 
                 .his-text {
                     display: flex;
-                    gap: 28px;
+                    gap: 10px;
+                }
+            }
+
+            .history-item-wrap {
+                .his-content {
+                    display: flex;
+                    flex-wrap: wrap;
                 }
             }
         }
@@ -645,82 +618,150 @@ body {
     }
 
     &#galerie {
-        .galery-item {
 
-            &.item50 {
+        // gallery
+        .galery {
+            background: $white;
+            min-height: 400px;
+
+            .galery-header {
+                display: flex;
+                margin-bottom: 15px;
+                margin-top: 7.5px;
+                padding: 7.5px 0;
+                align-items: center;
+
+                h2 {
+                    padding: 5px 0;
+                    margin: 0;
+                    color: $black;
+                }
+            }
+
+            .galery-item {
+                margin-bottom: 20px; 
+    
                 .gal-img {
-                    background: url("../img/gallery/dek50er.svg") no-repeat;
+                    background: url("../img/gallery/dekx.png") no-repeat;
                     background-size: cover;
                     background-position: center;
                     width: 100%;
                     height: 200px;
+    
+                    img { 
+                        width: 100%;
+                        min-height: 200px;
+                        object-fit: cover; 
+                    }
                 }
-            }
-            
-            &.item60 {
-                .gal-img {
-                    background: url("../img/gallery/dek60er.svg") no-repeat;
-                    background-size: cover;
-                    background-position: center;
+    
+                a {
+                    display: block;
                     width: 100%;
-                    height: 200px;
+    
+                    .galery-time {
+                        background: #d2d2d2;
+                        padding: 10px;
+    
+                        p {
+                            font-size: 18px;
+                            font-weight: 600;
+                            text-align: center;
+                            color: #000;
+                        }
+                    }
+                    
+                    &:hover {
+                        box-shadow: 0 0 5px 2.5px #dbdbdb;
+                        text-decoration: none;
+
+                        .galery-time {
+                            background: lighten($clr1, 5%) !important;
+    
+                            p {
+                                color: $white;
+                            }
+                        }
+                    }
                 }
+    
+                /* &.item50 {
+                    .gal-img {
+                        background: url("../img/gallery/dek50er.svg") no-repeat;
+                        background-size: cover;
+                        background-position: center;
+                        width: 100%;
+                        height: 200px;
+                    }
+                } */
+                /* &.item60 {
+                    .gal-img {
+                        background: url("../img/gallery/dek60er.svg") no-repeat;
+                        background-size: cover;
+                        background-position: center;
+                        width: 100%;
+                        height: 200px;
+                    }
+                } */
+                /* &.item70 {
+                    .gal-img {
+                        background: url("../img/gallery/dek70er.svg") no-repeat;
+                        background-size: cover;
+                        background-position: center;
+                        width: 100%;
+                        height: 200px;
+                    }
+                } */
+                /* &.item80 {
+                    .gal-img {
+                        background: url("../img/gallery/dek80er.svg") no-repeat;
+                        background-size: cover;
+                        background-position: center;
+                        width: 100%;
+                        height: 200px;
+                    }
+                } */
+                /* &.item90 {
+                    .gal-img {
+                        background: url("../img/gallery/dek90er.svg") no-repeat;
+                        background-size: cover;
+                        background-position: center;
+                        width: 100%;
+                        height: 200px;
+                    }
+                } */
+                /* &.item00 {
+                    .gal-img {
+                        background: url("../img/gallery/dek00er.svg") no-repeat;
+                        background-size: cover;
+                        background-position: center;
+                        width: 100%;
+                        height: 200px;
+                    }
+                } */
+                /* &.item10 {
+                    .gal-img {
+                        background: url("../img/gallery/dek10er.svg") no-repeat;
+                        background-size: cover;
+                        background-position: center;
+                        width: 100%;
+                        height: 200px;
+                    }
+                } */
+                /* &.item20 {
+                    .gal-img {
+                        background: url("../img/gallery/dek20er.svg") no-repeat;
+                        background-size: cover;
+                        background-position: center;
+                        width: 100%;
+                        height: 200px;
+                    }
+                } */
             }
-            &.item70 {
-                .gal-img {
-                    background: url("../img/gallery/dek70er.svg") no-repeat;
-                    background-size: cover;
-                    background-position: center;
-                    width: 100%;
-                    height: 200px;
-                }
-            }
-            &.item80 {
-                .gal-img {
-                    background: url("../img/gallery/dek80er.svg") no-repeat;
-                    background-size: cover;
-                    background-position: center;
-                    width: 100%;
-                    height: 200px;
-                }
-            }
-            &.item90 {
-                .gal-img {
-                    background: url("../img/gallery/dek90er.svg") no-repeat;
-                    background-size: cover;
-                    background-position: center;
-                    width: 100%;
-                    height: 200px;
-                }
-            }
-            &.item00 {
-                .gal-img {
-                    background: url("../img/gallery/dek00er.svg") no-repeat;
-                    background-size: cover;
-                    background-position: center;
-                    width: 100%;
-                    height: 200px;
-                }
-            }
-            &.item10 {
-                .gal-img {
-                    background: url("../img/gallery/dek10er.svg") no-repeat;
-                    background-size: cover;
-                    background-position: center;
-                    width: 100%;
-                    height: 200px;
-                }
-            }
-            &.item20 {
-                .gal-img {
-                    background: url("../img/gallery/dek20er.svg") no-repeat;
-                    background-size: cover;
-                    background-position: center;
-                    width: 100%;
-                    height: 200px;
-                }
-            }
+
         }
+
+        
     }
 
     &#sponsoren {
@@ -748,36 +789,13 @@ body {
     &#index {
         //border: solid red 1px;
         
-        #content-wrapper {
+        .content-wrap {
+            #article-wrap {
+                background: $white;
 
-            .tables-wrap {
-    
-                iframe {
-                    
-                    background: white;
-                    //padding: 15px;
-                    border: none;
-                    html {
-                        
-                        border: solid red 1px;
-                        body {
-                            .CONTENTTABLETEXT2ndLine {
-                                background-color: #61045F !important;
-                            }
-                            border: solid red 1px;
-
-                            #17792_Team1 {
-                                background: magenta;
-                            }
-
-                            .SmallInfoText {
-                                color: red !important;
-                            }
-                        }
-                        
-                    }
-                     
-                }
+                .section-header {
+                    margin-bottom: 30px;
+                } 
             }
         }
     }   

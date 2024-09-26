@@ -67,7 +67,7 @@
                 
                 <section class="history-item col-xs-12 col-md-12">
                     <div class="row">
-                        <div class="his">
+                        <div class="history-item-wrap">
                             <div class="galery-header">
                                 <img src="img/tt-icon.svg" alt="">
                                 <h2>Titelhistorie</h2>
