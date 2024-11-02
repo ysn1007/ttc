@@ -22,7 +22,7 @@ $content .= '
                                     <a href="post.php?id='.$article["id"].'">
                                         <!--div class="article-bg-img" style="width: 100%; height: 250px; Background-image: url(./img/article/'. $article["imgPath"] .'); background-size: cover; background-position: top;"></div-->
                                         <!--img src="img/article/'. $article["imgPath"] .'" alt="" width="100%"-->
-                                        <div class="post-image article-bg-img"><img src="img/logo.svg" width="50"></div>
+                                        <div class="post-image article-bg-img"><img src="img/tt-icon.svg" width="50" loading="lazy"></div>
                                         <div class="article-content col-md-12">
                                             <div class="post-tag hidden">
                                                 <div class="tag-item">'. $article["tags"] .'</div>

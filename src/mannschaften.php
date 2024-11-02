@@ -44,6 +44,7 @@ $content .='
 
             <div class="team-data col-xs-12 col-md-6">
                 <div class="team-line-up col-xs-12 col-md-12">
+                    <div class="row">
                     <div class="tab-header">'. $liga .'</div>
                     <ul class="team-group">
                         <li class="player-header">
@@ -67,7 +68,7 @@ $content .='
                         }
                         if(mysqli_num_rows($addRes) > 0) {   
                         $content .= '
-                        <li role="separator" class="divider"></li>';
+                        <li class="reserve">Ersatzspieler</li>';
                         }
                         while($addPlayer = mysqli_fetch_assoc($addRes)){
                             $max = 2;
@@ -87,6 +88,7 @@ $content .='
                         }
                     $content .= '
                     </ul>
+                </div>
                 </div>
                 <!--div class="table-line-up col-xs-12 col-md-6">
                     Hier kommt die Tabelle für die liga.

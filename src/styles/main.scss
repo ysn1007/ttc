@@ -121,6 +121,7 @@ body {
                     padding: 5px 0;
                     margin: 0;
                     color: $black;
+                    font-size: 2rem;
                 }
             }
 
@@ -248,6 +249,9 @@ body {
                     }
                 }
             }
+
+
+           
         }
 
         //sidr
@@ -471,6 +475,10 @@ body {
 
             .team-img {
                 margin-bottom: 45px;
+                img {
+                    height: 400px;
+                    object-fit: cover;
+                }
             }
 
             .team-data {
@@ -483,17 +491,14 @@ body {
 
                 .team-group {
                     list-style: none;
-                    background: linear-gradient(0deg, #ddd, #ccc);
+                    background: #eee;
                     padding: 15px;
                     border-radius: 2px;
                     
-                    .divider {
-                        width: 95%;
-                        height: 1px;
-                        background: #aaa;
-                        margin: 8px;
-                        margin-left: 2.5%;
-                        border-radius: 8px;
+                    .reserve {
+                        margin: 30px 0 5px;
+                        font-weight: bold;
+                        padding: 0 15px;
                     }
 
                     .player-header {
@@ -514,30 +519,26 @@ body {
 
                     .player-data {
                         display: flex;
+                        border-bottom: solid #fff 1px;
 
                         .position {
-                            background: #fff;
                             width: 36px;
                             height: 36px;
-                            margin: 5px;
+                            margin: 2px;
                             text-align: center;
                             align-content: center;
                         
                         }
 
                         .player {
-                            background: linear-gradient(60deg, #fff, #eee);
                             padding: 7.5px;
-                            margin: 5px;
+                            margin: 2px;
                             display: inline-flex;
                             justify-content: space-between;
                             width: 100%;
                             height: 36px;
                         }
                     }
-
-                    
-
                     
                 }
             }
@@ -598,6 +599,8 @@ body {
                             height: 400px;
                             object-fit: cover;
                             object-position: 50%;
+
+                            
                         }
                     }
 
@@ -611,10 +614,47 @@ body {
                     //     box-shadow: 0 0 15px .5px #aaa;
                     // }
                 }
+
+                /* @media (max-width: 605px) {
+                    min-height: initial;
+                    .img-item-body {
+                        .img-item {
+                            height: initial;
+
+                            img {
+                                height: initial;
+                            }
+                        }
+
+                    }
+                    
+                } */
             }
         }
 
-        
+         // View image in full scale
+         #fullImageView {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            width: initial;
+            height: 100vh;
+            background: rgba(0,0,0, .75);
+            text-align: center;
+            display: none;
+
+            #full-scale-img {
+                padding: 24px;
+                max-width: 98%;
+                max-height: 98%;
+
+                img {
+                    width: 30%;
+                }
+            }
+        }
     }
 
     &#galerie {
@@ -642,7 +682,7 @@ body {
                 margin-bottom: 20px; 
     
                 .gal-img {
-                    background: url("../img/gallery/dekx.png") no-repeat;
+                    background: url("../img/gallery/dek-x.png") no-repeat;
                     background-size: cover;
                     background-position: center;
                     width: 100%;
@@ -676,7 +716,8 @@ body {
                         text-decoration: none;
 
                         .galery-time {
-                            background: lighten($clr1, 5%) !important;
+                            background: lighten($clr5, 2%) !important;
+                            //background: $clr7 !important;
     
                             p {
                                 color: $white;
@@ -684,79 +725,6 @@ body {
                         }
                     }
                 }
-    
-                /* &.item50 {
-                    .gal-img {
-                        background: url("../img/gallery/dek50er.svg") no-repeat;
-                        background-size: cover;
-                        background-position: center;
-                        width: 100%;
-                        height: 200px;
-                    }
-                } */
-                /* &.item60 {
-                    .gal-img {
-                        background: url("../img/gallery/dek60er.svg") no-repeat;
-                        background-size: cover;
-                        background-position: center;
-                        width: 100%;
-                        height: 200px;
-                    }
-                } */
-                /* &.item70 {
-                    .gal-img {
-                        background: url("../img/gallery/dek70er.svg") no-repeat;
-                        background-size: cover;
-                        background-position: center;
-                        width: 100%;
-                        height: 200px;
-                    }
-                } */
-                /* &.item80 {
-                    .gal-img {
-                        background: url("../img/gallery/dek80er.svg") no-repeat;
-                        background-size: cover;
-                        background-position: center;
-                        width: 100%;
-                        height: 200px;
-                    }
-                } */
-                /* &.item90 {
-                    .gal-img {
-                        background: url("../img/gallery/dek90er.svg") no-repeat;
-                        background-size: cover;
-                        background-position: center;
-                        width: 100%;
-                        height: 200px;
-                    }
-                } */
-                /* &.item00 {
-                    .gal-img {
-                        background: url("../img/gallery/dek00er.svg") no-repeat;
-                        background-size: cover;
-                        background-position: center;
-                        width: 100%;
-                        height: 200px;
-                    }
-                } */
-                /* &.item10 {
-                    .gal-img {
-                        background: url("../img/gallery/dek10er.svg") no-repeat;
-                        background-size: cover;
-                        background-position: center;
-                        width: 100%;
-                        height: 200px;
-                    }
-                } */
-                /* &.item20 {
-                    .gal-img {
-                        background: url("../img/gallery/dek20er.svg") no-repeat;
-                        background-size: cover;
-                        background-position: center;
-                        width: 100%;
-                        height: 200px;
-                    }
-                } */
             }
 
         }
