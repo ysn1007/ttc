@@ -67,7 +67,7 @@ $content .= '
     
     function fullImageView(imgSrc) {
         //alert(imgSrc);
-
+        // noch etwas text
         document.getElementById("full-scale-img").innerHTML += `<img src="`+imgSrc+`">`;
         document.getElementById("fullImageView").style.display = "block";
     }
