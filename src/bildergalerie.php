@@ -30,7 +30,7 @@ $content .= '
                                         <h4>'. $row['title'] .'</h4>
                                     </div-->
                                     <div class="img-item bl">
-                                        <img src="'. substr($row['imagePath'], 3 ) .'" title="'. $row['title'] .'" class="img" loading="lazy" onClick="fullImageView(this.src)">
+                                        <img src="'. substr($row['imagePath'], 3 ) .'" title="'. $row['title'] .'" class="img" loading="lazy">
                                     </div>
                                     <div class="img-data">
                                         <!--h4>Im Jahr '. $row['imageYear'] . " " .  (($row['title'] != " ") ? $row['title'] : "Keine weiteren Angaben.") .'</h4-->
@@ -61,19 +61,7 @@ $content .= '
     </div> 
      
 </div>
-<div id="fullImageView">
-    <div id="full-scale-img"></div>
-</div>
-<script type="text/javascript">
-    
-    function fullImageView(imgSrc) {
-        //alert(imgSrc);
 
-        document.getElementById("full-scale-img").innerHTML += `<img src="`+imgSrc+`">`;
-        document.getElementById("fullImageView").style.display = "block";
-    }
-
-</script>
 
 ';
 echo $content;

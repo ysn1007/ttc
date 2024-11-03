@@ -89,7 +89,7 @@ $content .='
                     $content .= '
                     </ul>
                 </div>
-                </div>
+                
                 <!--div class="table-line-up col-xs-12 col-md-6">
                     Hier kommt die Tabelle für die liga.
                 </div-->
