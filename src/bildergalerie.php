@@ -61,7 +61,18 @@ $content .= '
     </div> 
      
 </div>
+// script unter dem full image teil hinzufügen
 
+<script type="text/javascript">
+    
+    function fullImageView(imgSrc) {
+        //alert(imgSrc);
+
+        document.getElementById("full-scale-img").innerHTML += `<img src="`+imgSrc+`">`;
+        document.getElementById("fullImageView").style.display = "block";
+    }
+
+</script>
 
 ';
 echo $content;
