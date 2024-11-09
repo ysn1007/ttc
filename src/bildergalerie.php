@@ -21,7 +21,6 @@ $content .= '
                 <div class="row">';
                 if(!$row['num_rows'] = 0) {
                     while($row = mysqli_fetch_assoc($res)){
-                    
                         if($dekade === $row['dekade']) {
                             $content .= '
                             <div class="col-xs-12 col-md-4 gal-img-item" id="gal-img-item">
@@ -29,8 +28,8 @@ $content .= '
                                     <!--div class="img-header">
                                         <h4>'. $row['title'] .'</h4>
                                     </div-->
-                                    <div class="img-item bl">
-                                        <img src="'. substr($row['imagePath'], 3 ) .'" title="'. $row['title'] .'" class="img" loading="lazy">
+                                    <div class="img-item" style="background-image: url('. substr($row['imagePath'], 3 ) .'); background-size: cover; background-position: center;">
+                                        <img src="img/glas.png" title="'. $row['title'] .'" class="img" loading="lazy">
                                     </div>
                                     <div class="img-data">
                                         <!--h4>Im Jahr '. $row['imageYear'] . " " .  (($row['title'] != " ") ? $row['title'] : "Keine weiteren Angaben.") .'</h4-->
@@ -60,22 +59,7 @@ $content .= '
         </div>
     </div> 
      
-</div>
-// script unter dem full image teil hinzufügen
-
-<script type="text/javascript">
-    
-    function fullImageView(imgSrc) {
-        //alert(imgSrc);
-        // noch etwas text
-        // neuer Text geschrieben und verändert
-        document.getElementById("full-scale-img").innerHTML += `<img src="`+imgSrc+`">`;
-        document.getElementById("fullImageView").style.display = "block";
-    }
-
-</script>
-
-';
+</div>';
 echo $content;
 
 include('./includes/footer.php');
