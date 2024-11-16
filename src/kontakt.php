@@ -27,7 +27,7 @@ if(isset($_POST['submit'])) {
         $url = "https://www.google.com/recaptcha/api/siteverify?secret=$secretKey&response=$responseKey&remoteip=$userIp";
         $response = file_get_contents($url);*/
 
-        if(!empty($responseKey)) {
+        //if(!empty($responseKey)) {
             // passed
             $toMail = 'yasin.benammar@yahoo.de';
             $header = array ( 
@@ -51,7 +51,7 @@ if(isset($_POST['submit'])) {
                 $mailSendMsg = 'Ihre Nachricht war leider nicht erfolgreich, bitte versuchen Sie es etwas später erneut.';
                 $mailSendClass = 'mailFailed';
             }
-        } /*else {
+        /*} else {
             $reCaptMsg = 'Bitte "Ich bin kein Roboter" Feld ausfüllen.';
             $recaptErr = 'reCaptcha';
         }*/   
@@ -81,6 +81,7 @@ if(isset($_POST['submit'])) {
             $errCheckBox = 'Stimmen Sie bitte unseren Datenschutzrichtlinen zu.';
             $checkErr = 'err-chkbox';
         } 
+        //var_dump($_POST);exit;
     }
     
 }
@@ -141,9 +142,3 @@ if(isset($_POST['submit'])) {
 
 <?php include('./includes/footer.php');?>
 
-<script>
-    $(function(){
-        $('.mailSend').delay(5000).fadeOut();
-        $('.mailFailed').delay(5000).fadeOut();
-    });
-</script>

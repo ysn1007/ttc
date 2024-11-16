@@ -14,7 +14,9 @@
                             
                             <div class="his-content col-xs-12 col-md-12">
                                 <div class="his-text ">
-                                    <div class="img"><img src="img/ttc_logo.png" alt="" width="80"> </div>
+                                    <div class="img">
+                                        <img src="img/ttc_logo.png" alt="" width="80">
+                                    </div>
                                     <p>Im Jahr 1955 wurde der TTC Ramsharde von Horst Maack gegründet.</p>
                                 </div>
                             </div>
@@ -31,34 +33,49 @@
                             </div>
                             
                             <div class="his-content col-xs-12 col-md-12">
-                                <div class="his-text tab">
-                                    <div class="img"><img src="img/maack.jpg" alt="" width="80"> </div>
-                                    <p>Horst Maack <br> 1955 - 1960</p>
+                                <div class="his-text tab col-xs-12 col-sm-4">
+                                <div class="img">
+                                    <img src="img/mueller.jpg" alt="" width="80">
+                                </div>
+                                <p>Arne Heeschen <br> 2015 - Heute</p>
                                 </div>
                                 
-                                <div class="his-text tab">
-                                    <div class="img"><img src="img/henning.jpg" alt="" width="80"> </div>
-                                    <p>Ernst Henning <br> 1960 - 1986</p>
-                                </div>
-                                
-                                <div class="his-text tab">
-                                    <div class="img"><img src="img/pabsch.jpg" alt="" width="80"> </div>
-                                    <p>Karl-Heinz Pabsch <br> 1987 - 1991</p>
-                                </div>
-                                
-                                <div class="his-text tab">
-                                    <div class="img"><img src="img/slezak.jpg" alt="" width="80"> </div>
-                                    <p>Dieter Slezak <br> 1991 - 2003</p>
-                                </div>
-                                
-                                <div class="his-text tab">
-                                    <div class="img"><img src="img/heeschen.jpg" alt="" width="80"> </div>
+                                <div class="his-text tab col-xs-12 col-sm-4">
+                                    <div class="img">
+                                        <img src="img/heeschen.jpg" alt="" width="80">
+                                    </div>
                                     <p>Arne Heeschen <br> 2003 - 2015</p>
                                 </div>
                                 
-                                <div class="his-text tab">
-                                    <div class="img"><img src="img/mueller.jpg" alt="" width="80"> </div>
-                                    <p>Arne Heeschen <br> 2015 - Heute</p>
+                                <div class="his-text tab col-xs-12 col-sm-4">
+                                    <div class="img">
+                                        <img src="img/slezak.jpg" alt="" width="80">
+                                    </div>
+                                    <p>Dieter Slezak <br> 1991 - 2003</p>
+                                </div>
+                                
+                                <div class="his-text tab col-xs-12 col-sm-4">
+                                    
+                                    <div class="img">
+                                        <img src="img/pabsch.jpg" alt="" width="80">
+                                    </div>
+                                    <p>Karl-Heinz Pabsch <br> 1987 - 1991</p>
+                                </div>
+                                
+                                <div class="his-text tab col-xs-12 col-sm-4">
+                                    <div class="img">
+                                        <img src="img/henning.jpg" alt="" width="80">
+                                    </div>
+                                    <p>Ernst Henning <br> 1960 - 1986</p>
+                                    
+                                </div>
+                                
+                                <div class="his-text tab col-xs-12 col-sm-4">
+                                    <div class="img">
+                                        <img src="img/maack.jpg" alt="" width="80">
+                                    </div>
+                                    <p>Horst Maack <br> 1955 - 1960</p>
+                                    
                                 </div>
                             </div>
                         </div>
