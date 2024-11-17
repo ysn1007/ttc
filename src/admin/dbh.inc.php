@@ -233,18 +233,15 @@
     /**
      * Fügt Artikel zur Datenbank
      */
-    function addArticle($con, $headline, $articleText, $fileName, $imgNewName, $active, $fileTempName, $fileDestination) {
-        
+    function addArticle($con, $headline, $articleText, $fileName, $imgNewName, $active, $tagNews, $tagPlayer, $tagReview, $tagSocial, $fileTempName, $fileDestination) {
+        //var_dump($headline, $articleText, $fileName, $imgNewName, $active, $tagNews, $tagPlayer, $tagReview, $tagSocial, $fileTempName, $fileDestination);exit;
         $stmt = mysqli_stmt_init($con);
-        
-        #ToDo: add tags to DB 
-        $tags = "kein #Tag";
-        $sql = "INSERT INTO article (headline, copytext, tags, imgName, imgPath, active) VALUES(?,?,?,?,?,?)";
+        $sql = "INSERT INTO article (headline, copytext, tagNews, tagPlayer, tagReviews, tagSocial, imgName, imgPath, active) VALUES(?,?,?,?,?,?,?,?,?)";
 
         if(!mysqli_stmt_prepare($stmt, $sql)) {
             header("location: index.ad.php?error=addArticleFailed");
         }
-        mysqli_stmt_bind_param($stmt, "ssssss", $headline, $articleText, $tags, $fileName, $imgNewName, $active);
+        mysqli_stmt_bind_param($stmt, "ssiiiisss", $headline, $articleText, $tagNews, $tagPlayer, $tagReview, $tagSocial, $fileName, $imgNewName, $active);
         mysqli_stmt_execute($stmt);
         move_uploaded_file($fileTempName, $fileDestination);
 

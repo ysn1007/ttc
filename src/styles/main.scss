@@ -312,27 +312,30 @@ body {
     // footer styles
     .footer {
         background: $white;
-        //border-top: solid $clr1 2px;
-        //min-height: 220px;
-
+        height: 100px;
         .footer-content { min-height: 200px; }
 
         .footer-links {
-            //background: url('../img/header_highlight_bg.svg') no-repeat;
-            //background-size: 400px;
 
             .link-wrap {
                 display: flex;
                 padding: 0;
+                height: 60px;
+                align-items: center;
 
-                .link-item { padding: 8px; }
+                .link-item { padding: 8px 15px; }
 
                 .link { color: $black; }
             }
 
-            .copyright {
+             .copyright {
+                text-align: right;
+                height: 60px;
                 display: flex;
-                justify-content: flex-end;
+                align-items: center;
+                justify-content: right;
+                .link-item { padding: 8px 15px; }
+                .link { color: $black; }
             }
         }
     }
@@ -782,7 +785,6 @@ body {
             background: $white;
         }
 
-
         .sponsor {
             position: relative;
             background: $white;
@@ -804,6 +806,10 @@ body {
             .sponsor-info {
                 padding-top: 12px;
                 padding-bottom: 12px;
+
+                h4 {
+                    font-weight: 600;
+                }
             }
             
         }
@@ -838,7 +844,22 @@ body {
                 } 
             }
         }
-    }   
+    }
+    
+    &#post {
+        border: solid red 1px;
+
+        .post-header {
+            margin-bottom: 15px;
+
+            a {
+                text-decoration: none;
+                font-size: 16px;
+                font-weight: 600;
+                color: $black !important;
+            }
+        }
+    }
     
     
     // extra small viewports ( mobile phones )

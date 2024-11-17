@@ -13,7 +13,9 @@
                             <div class="link-item"><a href="#" class="link">Datenschutz</a></div>
                         </div>
                         <div class="col-xs-6 col-md-2 copyright">
-                            <span>TTC RAMSHARDE © 2021</span>
+                            <div class="link-item">
+                                <span>TTC RAMSHARDE © 2021</span>
+                            </div>          
                         </div>
                     </div>
                 </div>

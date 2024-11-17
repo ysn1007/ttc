@@ -5,12 +5,36 @@ session_start();
 $content = '';
 
 if(isset($_POST["submit"])) {
+    //var_dump($_POST); exit;
     $headline = $_POST["headline"];
     $articleText = $_POST["text"];
 
     if($_POST["publish"] == "on") {
         $active = 1;
     }
+
+    if(isset($_POST["tagNews"])) {
+        $tagNews = 1;
+    }else {
+        $tagNews = 0;
+    }
+    if(isset($_POST["tagPlayer"])) {
+        $tagPlayer = 1;
+    }else {
+        $tagPlayer = 0;
+    }
+    if(isset($_POST["tagReview"])) {
+        $tagReview = 1;
+    }else {
+        $tagReview = 0;
+    }
+    if(isset($_POST["tagSocial"])) {
+        $tagSocial = 1;
+    }else {
+        $tagSocial = 0;
+    }
+
+    //var_dump($tagNews, $tagPlayer, $tagReview, $tagSocial); exit;
 
     if(empty($_POST["fileName"])) {
         $imgName = "artImg";
@@ -47,7 +71,7 @@ if(isset($_POST["submit"])) {
             }
            
             
-            addArticle($con, $headline, $articleText, $fileName, $imgNewName, $active, $fileTempName, $fileDestination);
+            addArticle($con, $headline, $articleText, $fileName, $imgNewName, $active, $tagNews, $tagPlayer, $tagReview, $tagSocial, $fileTempName, $fileDestination);
 
             
 
@@ -77,23 +101,23 @@ if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION["
                         <input class="img-upload" type="file" name="fileName">
                     </div>
                     <div class="col-12 mb-3">
-                        <input class="form-control" type="text" name="headline" placeholder="Artikelüberschrift">
+                        <input class="form-control" type="text" name="headline" placeholder="Überschrift">
                     </div>
                     <div class="col-12 mb-3">
-                        <textarea class="form-control" type="text" name="text"  rows="10" cols="100" placeholder="Artikeltext"></textarea>
+                        <textarea class="form-control" type="text" name="text"  rows="10" cols="100" placeholder="Artikel"></textarea>
                     </div>
                         
-                    <!--div class="col-12 mb-3">
-                        <div>Tags</div>
-                        <input type="checkbox" name="tag1" >
-                        <label class="check-label-item" for="tag1">Neu</label>
-                        <input type="checkbox" name="tag2" >
+                    <div class="col-12 mb-3">
+                        <h5>Tags</h5>
+                        <input type="checkbox" name="tagNews" >
+                        <label class="check-label-item" for="tag1">Meldung</label>
+                        <input type="checkbox" name="tagPlayer" >
                         <label class="check-label-item" for="tag2">Neuzugang</label>
-                        <input type="checkbox" name="tag3" >
+                        <input type="checkbox" name="tagReviews" >
                         <label class="check-label-item" for="tag3">Spielbericht</label>
-                        <!--input type="checkbox" name="tag4" >
-                        <label class="check-label-item" for="tag4">Video</label-->
-                    </div-->
+                        <input type="checkbox" name="tagSocial" >
+                        <label class="check-label-item" for="tag4">Social Media</label>
+                    </div>
                     <div class="col-12 mb-3">
                         <input type="checkbox" name="publish" checked>
                         <label for="publish">Artikel Veröffenltichen</label>

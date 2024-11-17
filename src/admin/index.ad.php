@@ -1,5 +1,5 @@
 <?php
-//require_once('config.php');
+require_once('config.php');
 require_once 'dbh.inc.php';
 session_start();
 $content = '';
@@ -159,7 +159,10 @@ if(!isset($_SESSION["useruid"])) {
                                             <th scope="col">Nr.</th>
                                             <th scope="col">Überschrift</th>
                                             <th scope="col">Text</th>
-                                            <th scope="col">Tags</th>
+                                            <th scope="col">TagNews</th>
+                                            <th scope="col">Tag Meldungen</th>
+                                            <th scope="col">Tag Neuzugang</th>
+                                            <th scope="col">Tag Social Media</th>
                                             <!--th scope="col">Bildname</th-->
                                             <!--th scope="col">Bildpfad</th-->
                                             <th scope="col">Bild</th>
@@ -175,7 +178,7 @@ if(!isset($_SESSION["useruid"])) {
                                     
                                     $result = getArticle($con);
                                     while($article = mysqli_fetch_assoc($result)) {
-
+                                        //var_dump($article); exit;
                                         if ($article["active"] == 1) {
                                             $status = "online";
                                         } else {
@@ -187,7 +190,10 @@ if(!isset($_SESSION["useruid"])) {
                                             <th scope="row">'. $article["id"] .'</th>
                                             <td><input type="text" name="" value="'. $article["headline"] .'" ></td>
                                             <td><input type="text" name="" title="'. $article["copytext"] .'" value="'. $article["copytext"] .'"></td>
-                                            <td><input type="text" name="" title="'. $article["tags"] .'" value="'. $article["tags"] .'"></td>
+                                            <td><input type="text" name="" title="'. $article["tagNews"] .'" value="'. $article["tagNews"] .'"></td>
+                                            <td><input type="text" name="" title="'. $article["tagReviews"] .'" value="'. $article["tagReviews"] .'"></td>
+                                            <td><input type="text" name="" title="'. $article["tagPlayer"] .'" value="'. $article["tagPlayer"] .'"></td>
+                                            <td><input type="text" name="" title="'. $article["tagSocial"] .'" value="'. $article["tagSocial"] .'"></td>
                                             <!--td><input type="text" name="" value="'. $article["imgName"] .'"></td-->
                                             <!--td><input type="text" name="" value="'. $article["imgPath"] .'"></td-->
                                             <td>
