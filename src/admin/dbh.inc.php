@@ -1,4 +1,7 @@
 <?php
+//define('__ROOT__', dirname(dirname(__FILE__)));
+//require_once(__ROOT__.'\admin\config.php');
+//var_dump(__ROOT__.'\admin\config.php');exit;
 
     $user ="root";
     $psw = "root";
@@ -195,7 +198,8 @@
      * Holt Artikelinhalt aus der Datenbank wenn diese Aktiv sind
      */
     function getActiveArticle($con) {
-    
+        //var_dump($cfg["reviews"]["items"]);exit;
+        //$sql = "SELECT * FROM article WHERE active = 1 AND LIMIT ". $cfg['reviews']['items'] ." ";
         $sql = "SELECT * FROM article WHERE active = 1";
         $stmt = mysqli_stmt_init($con);
         
@@ -234,7 +238,6 @@
      * Fügt Artikel zur Datenbank
      */
     function addArticle($con, $headline, $articleText, $fileName, $imgNewName, $active, $tagNews, $tagPlayer, $tagReview, $tagSocial, $fileTempName, $fileDestination) {
-        //var_dump($headline, $articleText, $fileName, $imgNewName, $active, $tagNews, $tagPlayer, $tagReview, $tagSocial, $fileTempName, $fileDestination);exit;
         $stmt = mysqli_stmt_init($con);
         $sql = "INSERT INTO article (headline, copytext, tagNews, tagPlayer, tagReviews, tagSocial, imgName, imgPath, active) VALUES(?,?,?,?,?,?,?,?,?)";
 
@@ -247,7 +250,7 @@
 
         header("location: index.ad.php?upload=success");
     }
-
+    
     /**
      * Bearbeitet ausgewählte Artikel in der Datenbank 
      */

@@ -1,8 +1,11 @@
 <?php
 require_once 'admin/dbh.inc.php';
-require_once 'admin/config.php';
-
+require_once 'config.php';
 include('./includes/header.php');
+
+//var_dump($cfg); exit;
+//var_dump($dir );exit;
+
 $content = '';
 
 $content .= '
@@ -18,11 +21,10 @@ $content .= '
                             <img src="img/tt-icon.svg" alt="">
                             <h2>Unsere Neuigkeiten</h2>
                         </div>';
-                        $amountOfItems = 0;
-                        $maxRevs = $cfg["reviews"]["items"];
-                        $result = getActiveArticle($con, 1);
-                        while($amountOfItems < $maxRevs) {
-                            $article = mysqli_fetch_assoc($result);
+                       
+                        $result = getActiveArticle($con);
+                        while($article = mysqli_fetch_assoc($result)) {
+                            
                             $content .= '
                             <section class="article-item col-xs-12 col-sm-6 col-md-6 col-lg-4">
                                 <div class="article col-md-12">
@@ -42,7 +44,7 @@ $content .= '
                                     </div>
                                 </div>
                             </section>';
-                            $amountOfItems += 1;
+
                         }
                         $content .= '
                     </div>

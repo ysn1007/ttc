@@ -5,7 +5,6 @@ session_start();
 $content = '';
 
 if(isset($_POST["submit"])) {
-    //var_dump($_POST); exit;
     $headline = $_POST["headline"];
     $articleText = $_POST["text"];
 
@@ -23,7 +22,7 @@ if(isset($_POST["submit"])) {
     }else {
         $tagPlayer = 0;
     }
-    if(isset($_POST["tagReview"])) {
+    if(isset($_POST["tagReviews"])) {
         $tagReview = 1;
     }else {
         $tagReview = 0;
@@ -33,8 +32,6 @@ if(isset($_POST["submit"])) {
     }else {
         $tagSocial = 0;
     }
-
-    //var_dump($tagNews, $tagPlayer, $tagReview, $tagSocial); exit;
 
     if(empty($_POST["fileName"])) {
         $imgName = "artImg";
