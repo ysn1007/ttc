@@ -1,5 +1,5 @@
 <?php
-require_once 'config.php';
+require_once 'config.ad.php';
 require_once 'dbh.inc.php';
 session_start();
 $content = '';
@@ -159,10 +159,10 @@ if(!isset($_SESSION["useruid"])) {
                                             <th scope="col">Nr.</th>
                                             <th scope="col">Überschrift</th>
                                             <th scope="col">Text</th>
-                                            <th scope="col">TagNews</th>
-                                            <th scope="col">Tag Meldungen</th>
-                                            <th scope="col">Tag Neuzugang</th>
-                                            <th scope="col">Tag Social Media</th>
+                                            <th scope="col">News</th>
+                                            <th scope="col">Meldungen</th>
+                                            <th scope="col">Neuzugang</th>
+                                            <th scope="col">Social Media</th>
                                             <!--th scope="col">Bildname</th-->
                                             <!--th scope="col">Bildpfad</th-->
                                             <th scope="col">Bild</th>
