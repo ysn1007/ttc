@@ -15,7 +15,7 @@
                             <div class="his-content col-xs-12 col-md-12">
                                 <div class="his-text publish">
                                     <div class="img">
-                                        <img src="img/ttc_logo.png" alt="" width="80">
+                                        <img src="img/logo/logo.svg" alt="" width="80">
                                     </div>
                                     <p>Der Verein TTC Ramsharde wurde am 22. Februar 1955 von Horst Maack ins Leben gerufen. Die Damenmannschaft spielte 1972 im selben Jahr gegründeten Bundesliga. Die Erfolge beruhten auf eine intensiven Jugendarbeit.</p>
                                 </div>
@@ -35,36 +35,35 @@
                             <div class="his-content col-xs-12 col-md-12">
                                 <div class="his-text tab col-xs-12 col-sm-4">
                                     <div class="img">
-                                        <img src="img/mueller.jpg" alt="" width="80">
+                                        <img src="img/vorsitzendenliste/mueller.jpg" alt="" width="80">
                                     </div>
                                     <p><span>Andreas Müller</span> <br> 2015 - Heute</p>
                                 </div>
                                 
                                 <div class="his-text tab col-xs-12 col-sm-4">
                                     <div class="img">
-                                        <img src="img/heeschen.jpg" alt="" width="80">
+                                        <img src="img/vorsitzendenliste/heeschen.jpg" alt="" width="80">
                                     </div>
                                     <p><span>Arne Heeschen</span> <br> 2003 - 2015</p>
                                 </div>
                                 
                                 <div class="his-text tab col-xs-12 col-sm-4">
                                     <div class="img">
-                                        <img src="img/slezak.jpg" alt="" width="80">
+                                        <img src="img/vorsitzendenliste/slezak.jpg" alt="" width="80">
                                     </div>
                                     <p><span>Dieter Slezak</span> <br> 1991 - 2003</p>
                                 </div>
                                 
                                 <div class="his-text tab col-xs-12 col-sm-4">
-                                    
                                     <div class="img">
-                                        <img src="img/pabsch.jpg" alt="" width="80">
+                                        <img src="img/vorsitzendenliste/pabsch.jpg" alt="" width="80">
                                     </div>
                                     <p><span>Karl-Heinz Pabsch</span> <br> 1987 - 1991</p>
                                 </div>
                                 
                                 <div class="his-text tab col-xs-12 col-sm-4">
                                     <div class="img">
-                                        <img src="img/henning.jpg" alt="" width="80">
+                                        <img src="img/vorsitzendenliste/henning.jpg" alt="" width="80">
                                     </div>
                                     <p><span>Ernst Henning</span> <br> 1960 - 1986</p>
                                     
@@ -72,10 +71,9 @@
                                 
                                 <div class="his-text tab col-xs-12 col-sm-4">
                                     <div class="img">
-                                        <img src="img/maack.jpg" alt="" width="80">
+                                        <img src="img/vorsitzendenliste/maack.jpg" alt="" width="80">
                                     </div>
                                     <p><span>Horst Maack</span> <br> 1955 - 1960</p>
-                                    
                                 </div>
                             </div>
                         </div>
@@ -93,7 +91,7 @@
                             <div class="his-content col-xs-12 col-md-12">
                                 <div class="his-text titles">
                                     <div class="img">
-                                        <img src="img/ttc_logo.png" alt="" width="80">
+                                        <img src="img/vorsitzendenliste/ttc_logo.png" alt="" width="80">
                                     </div>
                                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione dignissimos fuga quisquam, porro debitis ipsa, perferendis dicta, deleniti aperiam sunt magni impedit beatae reprehenderit nulla eius illo consequatur deserunt nihil nesciunt itaque enim voluptatum quo quas perspiciatis. Sapiente magnam, minus, illum totam debitis nesciunt quaerat placeat modi reiciendis sit cupiditate.</p>
                                 </div>

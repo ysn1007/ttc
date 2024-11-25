@@ -5,7 +5,7 @@
         <meta name="TTC Ramsharde - seit 1955">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="keywords" content="Tischtennis in Flensburg">
-        <meta name="description" content="TTC, TTC Ramsharde, Tischtennis, Flensburg, Tischtennis-Power, Ramsharde">
+        <meta name="description" content="TTC, TTC Ramsharde, Tischtennis, Flensburg, Tischtennis-Power, Ramsharde, Tischtennis Verein in Flensburg">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
         <!--includes-->

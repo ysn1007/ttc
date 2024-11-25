@@ -9,8 +9,8 @@ $teamNr = substr($teamNr, 0,1);
 
 $addTeam = $teamNr + 1;
 
-$res = getPlayersOfTeam($con, $teamNr);
-$addRes = getPlayersOfTeam($con, $addTeam);
+$res = getActivePlayersOfTeam($con, $teamNr);
+$addRes = getActivePlayersOfTeam($con, $addTeam);
 
 /*
 *   liga
@@ -48,8 +48,16 @@ $content .='
                     <div class="tab-header">'. $liga .'</div>
                     <ul class="team-group">
                         <li class="player-header">
-                            <div class="player-data-header"><span class="position">Pos.</span> Name</div>
-                            <div class="player-points-header"><span class="ttr-points">Punkte</span></div>   
+                            <div class="player player-data-header">
+                                <span class="position">Pos.</span> 
+                                <span>Name</span>
+                            </div>
+                            <div class="player player-attr-header">
+                                <span class="spv">spv</span>
+                                <span class="sbem">sbem</span>
+                                <span class="gender">m/w</span>
+                                <span class="ttrPoints">Punkte</span>
+                            </div>   
                         </li>';
 
                         while($player = mysqli_fetch_assoc($res)){
@@ -61,7 +69,12 @@ $content .='
                                 </div>
                                 <div class="player">
                                     <div class="player-name">'. $player['Vorname'] .", ". $player['Nachname'] .'</div>
-                                    <div class="player-points"><span class="ttr-points">'. $player['livePZ'] .'</span></div>   
+                                    <div class="player-attributes-group">
+                                        <span class="player-attributes-item">'. (( $player['spv'] == 1 ) ? "<div class='checked'></div>" : "") .'</span>
+                                        <span class="player-attributes-item">'. (( $player['sbem'] == 1 ) ? "<div class='checked'></div>" : "").'</span>
+                                        <span class="player-attributes-item">'. (( $player['m/w'] == 1 ) ? "<div class='checked'></div>" : "").'</span>
+                                        <span class="player-attributes-item">'. $player['livePZ'] .'</span>
+                                    </div>   
                                 </div>
                             </li>';
                             }
@@ -81,7 +94,11 @@ $content .='
                                     </div>
                                     <div class="player">
                                         <div class="player-name">'. $addPlayer['Vorname'] .", ". $addPlayer['Nachname'] .'</div>
-                                        <div class="player-points"><span class="ttr-points">'. $addPlayer['livePZ'] .'</span></div>   
+                                        <div class="player-attributes-group">
+                                        <span class="player-attributes-item">'. (( $addPlayer['spv'] == 1 ) ? "<div class='checked'></div>" : "").'</span>
+                                        <span class="player-attributes-item">'. (( $addPlayer['sbem'] == 1 ) ? "<div class='checked'></div>" : "").'</span>
+                                        <span class="player-attributes-item">'. (( $addPlayer['m/w']== 1  ) ? "<div class='checked'></div>" : "").'</span>
+                                        <span class="player-attributes-item">'. $addPlayer['livePZ'] .'</span> 
                                     </div>
                                 </li>';
                             }

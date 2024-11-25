@@ -6,14 +6,14 @@
             <div class="row">
                 <div class="galery-header">
                     <img src="img/tt-icon.svg" alt="">
-                    <h2>Sponsoren</h2>
+                    <h2>Unsere Sponsoren</h2>
                 </div>
 
                 <section class="sponsor-item col-xs-12 col-sm-6 col-md-6 col-lg-4">
                     <div class="sponsor col-md-12">
                         <div class="row">
                             <div class="spon-image spon-bg-img">
-                                <img src="img/flenst-logo.png" width="50" alt="sponsor logo" loading="lazy">
+                                <img src="img/sponsoren/flenst-logo.png" width="50" alt="sponsor logo" loading="lazy">
                             </div>
                             <div class="sponsor-info col-md-12">
                                 <h4>Flensburger Brauerei GmbH</h4>
@@ -29,7 +29,7 @@
                     <div class="sponsor col-md-12">
                         <div class="row">
                             <div class="spon-image spon-bg-img">
-                                    <img src="img/sw-logo.png" width="40%" alt="sponsor logo" loading="lazy">
+                                    <img src="img/sponsoren/sw-logo.png" width="40%" alt="sponsor logo" loading="lazy">
                             </div>
                             <div class="sponsor-info col-md-12">
                                 <h4>Stadtwerke GmbH</h4>

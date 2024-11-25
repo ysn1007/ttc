@@ -89,11 +89,11 @@
     }
 
 
-    function getPlayersOfTeam($con, $teamNr) {
+    function getActivePlayersOfTeam($con, $teamNr) {
         /**
          * Prepared statement
         */
-        $sql = "SELECT * FROM player WHERE team = ? ORDER BY position ASC;";
+        $sql = "SELECT * FROM player WHERE team = ? AND aktiv = 1 ORDER BY position ASC;";
         $stmt = mysqli_stmt_init($con);
 
         /**

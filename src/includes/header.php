@@ -17,7 +17,7 @@
                         </button>
                         <div class="header-brand">
                             <a class="navbar-brand" href="index.php">
-                                <img src="img/logo.svg"  width="60" alt=""> TTC RAMSHARDE
+                                <img src="img/logo/logo.svg"  width="60" alt=""> TTC RAMSHARDE
                             </a>
                         </div>
                     </div>
