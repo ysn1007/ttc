@@ -1,5 +1,5 @@
 <?php
-require_once('config.php');
+require_once 'config.php';
 require_once 'dbh.inc.php';
 session_start();
 $content = '';

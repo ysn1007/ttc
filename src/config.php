@@ -1,7 +1,7 @@
 <?php
-//define('__ROOT__', dirname(dirname(__FILE__)));
-//require_once(__ROOT__.'\admin\config.php');
-$dir = __DIR__;
+define('__ROOT__', dirname(dirname(__FILE__)));
+//require_once(__ROOT__.'\admin\config.ad.php');
+    //$dir = __DIR__;
     session_start();
     $cfg = $GLOBALS;
     //$cfg = 6;

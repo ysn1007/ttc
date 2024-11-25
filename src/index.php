@@ -1,10 +1,11 @@
 <?php
 require_once 'admin/dbh.inc.php';
 require_once 'config.php';
-include('./includes/header.php');
 
-//var_dump($cfg); exit;
-//var_dump($dir );exit;
+//echo "root :". __ROOT__;
+
+
+include('./includes/header.php');
 
 $content = '';
 

@@ -1,5 +1,7 @@
 <?php 
 require_once 'admin/dbh.inc.php';
+
+
 include('./includes/header.php');
 $content = '';
 
