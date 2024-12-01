@@ -41,7 +41,7 @@ $content .='
             <div class="team-img col-xs-12 col-md-6">
                 <img src="img/team.jpg" width="100%" alt="Team bild">
             </div>
-
+           
             <div class="team-data col-xs-12 col-md-6">
                 <div class="team-line-up col-xs-12 col-md-12">
                     <div class="row">

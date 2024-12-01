@@ -280,7 +280,6 @@
         $resData = mysqli_fetch_array($imgRes);
 
         $image = $resData["imgPath"];
-
         $stmt = mysqli_stmt_init($con);
         $query = "DELETE FROM article WHERE id=?";
 
@@ -290,9 +289,11 @@
         if(!mysqli_stmt_execute($stmt)) {
             header("location: index.ad.php?error=deleteArticleFailed");
         }else {
-
             if(file_exists("../img/article/".$image)) {
-                unlink("../img/article/".$image);
+                $dir = getcwd();
+                chdir("../img/article/");
+                unlink($image);
+                chdir($dir);
             }
 
             header("location: index.ad.php?success=deleteArticle");

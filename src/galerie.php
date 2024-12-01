@@ -24,7 +24,6 @@ $content .='
                         </div>
                         <div class="galery-time">
                             <p>2020 bis Jetzt</p>
-                            
                         </div>
                     </a>    
                 </div>

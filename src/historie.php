@@ -91,7 +91,7 @@
                             <div class="his-content col-xs-12 col-md-12">
                                 <div class="his-text titles">
                                     <div class="img">
-                                        <img src="img/vorsitzendenliste/ttc_logo.png" alt="" width="80">
+                                        <!--Images of trophies-->
                                     </div>
                                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione dignissimos fuga quisquam, porro debitis ipsa, perferendis dicta, deleniti aperiam sunt magni impedit beatae reprehenderit nulla eius illo consequatur deserunt nihil nesciunt itaque enim voluptatum quo quas perspiciatis. Sapiente magnam, minus, illum totam debitis nesciunt quaerat placeat modi reiciendis sit cupiditate.</p>
                                 </div>
