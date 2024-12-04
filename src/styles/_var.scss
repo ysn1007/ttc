@@ -16,3 +16,18 @@ $white: #fff;
 $red: #f00;
 $light-gray: #eee;
 $grey: #808080;
+
+// adding font to project
+
+@font-face {
+    font-family: "geist-regular";
+    src: url("../font/geist/Geist-Regular.ttf");
+}
+@font-face {
+    font-family: "geist-medium";
+    src: url("../font/geist/Geist-Medium.ttf");
+}
+@font-face {
+    font-family: "geist-Bold";
+    src: url("../font/geist/Geist-Bold.ttf");
+}

@@ -1,6 +1,8 @@
 @import './_var';
 
 body {
+    font-family: "geist-regular";
+
     background-color: $clr3 !important;
 
     // style for tags 
@@ -174,6 +176,10 @@ body {
                     margin-top: 5px;
                     min-height: 100px;
                     max-height: 140px;
+
+                    h4 {
+                        font-family: "geist-medium";
+                    }
                 }
                 
                 a {
@@ -863,9 +869,9 @@ body {
                     margin-bottom: 30px;
                 }
                 
-                .article-item {
+                // .article-item {
                     
-                }
+                // }
             }
         }
     }
