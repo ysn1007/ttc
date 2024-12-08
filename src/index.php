@@ -54,7 +54,7 @@ $content .= '
                                         </div>
                                        
                                         <div class="col-xs-12 more text-right ">
-                                            <a class="btn btn-default" href="post.php?id='.$article["id"].'">Weiter lesen</a>
+                                            <a class="btn btn-default" href="post.php?id='.$article["id"].'">Weiter lesen <img src="./img/arrow.svg" width="15px"></a>
                                         </div>
                                     </div>
                                 </div>

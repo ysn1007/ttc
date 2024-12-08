@@ -11,7 +11,7 @@
                     </div>
 
                     <div class="col-xs-6 col-md-3 training">
-                        <h4>Hallenzeiten:</h4>
+                        <h4>Hallenzeiten</h4>
                         <p>Mo: Nach Absprache</p>
                         <p>Di: 17:00 - 18:00 Schüler / Jugend </p>
                         <p>Di: 18:00 - 22:00 Herren</p>
@@ -20,11 +20,20 @@
                     </div>
                     
                     <div class="col-xs-6 col-md-3 halle">
-                        <h4>Halle:</h4>
-                        <p>Halle: Petrihalle</p>
+                        <h4>Halle</h4>
+                        <p>Petrihalle Halle</p>
                         <p>Apenrader Str. 164</p>
                         <p>24939 Flansburg</p>
                     </div>
+                    
+                    
+                    <div class="col-xs-6 col-md-3 social">
+                        <h4>Social Media</h4>
+                        <p>Facebook</p>
+                        <p>Instagramm</p>
+                    </div>
+
+
                 </section>
 
                 <section class="col-xs-12 col-md-12 footer-links">

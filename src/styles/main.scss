@@ -206,6 +206,10 @@ body {
                         background-color: $clr9;
                         border: solid $clr9 1px;
                         color: $white;
+
+                        img {
+                            margin-top: -1px;
+                        }
                     }
                 }
                 
@@ -334,9 +338,10 @@ body {
         .footer-content { min-height: 200px; }
 
         .footer-section {
-            .training, .halle, .club {
+            .training, .halle, .club, .social {
                 h4 {
                     font-family: "geist-bold";
+                    text-transform: uppercase;
                     margin-bottom: 16px;
                 }
             }
