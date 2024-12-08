@@ -37,7 +37,7 @@
                         </div>
                         <div class="col-xs-6 col-md-2 copyright">
                             <div class="link-item">
-                                <span>TTC RAMSHARDE © 2025</span>
+                                <span>TTC RAMSHARDE © 2024 - 2025</span>
                             </div>          
                         </div>
                     </div>
