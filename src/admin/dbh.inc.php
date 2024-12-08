@@ -240,15 +240,25 @@
     function addArticle($con, $headline, $articleText, $fileName, $imgNewName, $active, $tagNews, $tagPlayer, $tagReview, $tagSocial, $fileTempName, $fileDestination) {
         $stmt = mysqli_stmt_init($con);
         $sql = "INSERT INTO article (headline, copytext, tagNews, tagPlayer, tagReviews, tagSocial, imgName, imgPath, active) VALUES(?,?,?,?,?,?,?,?,?)";
-
+        
+        //var_dump("imgNewName : -> " . $imgNewName );exit;
         if(!mysqli_stmt_prepare($stmt, $sql)) {
             header("location: index.ad.php?error=addArticleFailed");
         }
-        mysqli_stmt_bind_param($stmt, "ssiiiisss", $headline, $articleText, $tagNews, $tagPlayer, $tagReview, $tagSocial, $fileName, $imgNewName, $active);
-        mysqli_stmt_execute($stmt);
-        move_uploaded_file($fileTempName, $fileDestination);
-
-        header("location: index.ad.php?upload=success");
+        
+        if($fileName == ""){
+            $fileName =   "Kein Bild";
+            $imgNewName = "";
+            mysqli_stmt_bind_param($stmt, "ssiiiisss", $headline, $articleText, $tagNews, $tagPlayer, $tagReview, $tagSocial, $fileName, $imgNewName, $active);
+            mysqli_stmt_execute($stmt);
+            header("location: index.ad.php?upload=success");
+        } else {
+            mysqli_stmt_bind_param($stmt, "ssiiiisss", $headline, $articleText, $tagNews, $tagPlayer, $tagReview, $tagSocial, $fileName, $imgNewName, $active);
+            mysqli_stmt_execute($stmt);   
+            move_uploaded_file($fileTempName, $fileDestination);
+            header("location: index.ad.php?upload=success");
+        }
+       
     }
     
     /**

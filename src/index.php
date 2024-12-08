@@ -14,7 +14,7 @@ $content .= '
     <div class="content-wrap col-xs-12 col-md-12">
         <div class="row">';
 
-            if($cfg["reviews"]["active"] == "on" ) {
+            if($cfg["index-section"]["reviews"]["active"] == "on" ) {
                 $content .= '
                 <section class="article-wrap col-xs-12 col-md-12 col-lg-12" id="article-wrap">
                     <div class="row">
@@ -30,18 +30,18 @@ $content .= '
                                 <div class="article col-md-12">
                                     <div class="row">
                                         <div class="post-tag">';
-                                                if($article["tagNews"] === 1){
-                                                     $content .= '<div class="tag-item">Neues</div>';
-                                                }
-                                                if($article["tagReviews"] === 1){
-                                                     $content .= '<div class="tag-item">Bericht</div>';
-                                                }
-                                                if($article["tagPlayer"] === 1){
-                                                    $content .= '<div class="tag-item">Neuzugang</div>';
-                                                }
-                                                if($article["tagSocial"] === 1){
-                                                    $content .= '<div class="tag-item">Social</div>';
-                                                }
+                                        if($article["tagNews"] === 1){
+                                                $content .= '<div class="tag-item">Neues</div>';
+                                        }
+                                        if($article["tagReviews"] === 1){
+                                                $content .= '<div class="tag-item">Bericht</div>';
+                                        }
+                                        if($article["tagPlayer"] === 1){
+                                            $content .= '<div class="tag-item">Neuzugang</div>';
+                                        }
+                                        if($article["tagSocial"] === 1){
+                                            $content .= '<div class="tag-item">Social</div>';
+                                        }
                                         $content .= '    
                                         </div>
                                         <div class="post-image article-bg-img">
@@ -66,7 +66,7 @@ $content .= '
                 </section>';
             }
 
-            if($cfg["social"]["active"] == "on" ) {
+            if($cfg["index-section"]["social"]["active"] == "on" ) {
                 $content .= '
                 <section class="social-wrap col-xs-12 col-md-12 col-lg-12" id="social-wrap"">
                     <div class="row">

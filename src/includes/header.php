@@ -35,11 +35,6 @@
                                     <li class="<?= ((basename($_SERVER['PHP_SELF']) == "mannschaften.php?id=herren3") ? "active" : "") ?>"><a href="mannschaften.php?id=3herren">3. Herren</a></li>
                                     <li class="<?= ((basename($_SERVER['PHP_SELF']) == "mannschaften.php?id=herren4") ? "active" : "") ?>"><a href="mannschaften.php?id=4herren">4. Herren</a></li>
                                     <li class="<?= ((basename($_SERVER['PHP_SELF']) == "mannschaften.php?id=herren5") ? "active" : "") ?>"><a href="mannschaften.php?id=5herren">5. Herren</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li class="<?= ((basename($_SERVER['PHP_SELF']) == "jungen1.php") ? "active" : "") ?>"><a href="jungen1.php">1. Jungen</a></li>
-                                    <li class="<?= ((basename($_SERVER['PHP_SELF']) == "jungen2.php") ? "active" : "") ?>"><a href="jungen2.php">2. Jungen</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li class="<?= ((basename($_SERVER['PHP_SELF']) == "schueler.php") ? "active" : "") ?>"><a href="schueler.php">Schüler</a></li>
                                 </ul>
                             </li>
                             <li class="navi <?= ((basename($_SERVER['PHP_SELF']) == "historie.php") ? "active" : "") ?>" id="historie"><a href="historie.php">Historie</a></li>

@@ -47,7 +47,6 @@ if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION["
 
                $result = getArticleId($con, $_GET["id"]);
                while($article = mysqli_fetch_assoc($result)){
-                //var_dump($article);exit();
 
                 if($article["active"] == 1) {
                     $status = "checked";
@@ -59,8 +58,16 @@ if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION["
                     <form action="'.basename($_SERVER['PHP_SELF']).'" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="article_id" value="'.$_GET["id"].'" >
                          
-                        <div class="col-6 mb-3">
-                            <div class="article-bg-img" style="width: 270px; height: 200px; Background-image: url(../img/article/'. $article["imgPath"] .'); background-size: cover; background-position: top; margin-bottom: 30px;"></div>
+                        <div class="col-6 mb-3">';
+                            if($article["imgPath"] != "") {
+                                $content .= '
+                                <div class="article-bg-img" style="width: 270px; height: 200px; Background-image: url(../img/article/'. $article["imgPath"] .'); background-size: cover; background-position: top; margin-bottom: 30px;"></div>';
+                            } else {
+                                $content .='
+                                <div class="article-bg-img" style="width: 270px; height: 200px; Background-image: url(../img/tt-icon.svg); background-size: cover; background-position: top; margin-bottom: 30px;"></div><br>
+                                <p>Kein Bild vorhanden</p>';
+                            }
+                            $content .= '
                             <!--input class="img-upload" type="file" name="fileName"-->
                             <!--input class="img-name" type="text" name="imgName" placeholder="Bildname"-->
                         </div>

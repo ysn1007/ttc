@@ -8,14 +8,17 @@ define('__ROOT__', dirname(dirname(__FILE__)));
     //global $cfg;
 
     $cfg = array(
-        "reviews" => array ( 
-            "active" => "on",
-            "items" => 6,
-        ),
 
-        "social" => array (
-            "active" => "off",
-            "items" => 8,
+        "index-section" => array (
+            "reviews" => array ( 
+                "active" => "on",
+                "items" => 6,
+            ),
+
+            "social" => array (
+                "active" => "off",
+                "items" => 8,
+            )
         )
 
     )

@@ -38,27 +38,30 @@ $content .='
         </div>
 
         <section class="team-section col-xs-12">
-            <div class="team-img col-xs-12 col-md-6">
-                <img src="img/team.jpg" width="100%" alt="Team bild">
-            </div>
+            <!--div class="team-img col-xs-12 col-md-6">
+                <img src="" width="100%" alt="Team bild">
+            </div-->
            
-            <div class="team-data col-xs-12 col-md-6">
+            <div class="team-data col-xs-12 col-md-12">
                 <div class="team-line-up col-xs-12 col-md-12">
                     <div class="row">
-                    <div class="tab-header">'. $liga .'</div>
-                    <ul class="team-group">
-                        <li class="player-header">
-                            <div class="player player-data-header">
-                                <span class="position">Pos.</span> 
-                                <span>Name</span>
-                            </div>
-                            <div class="player player-attr-header">
-                                <span class="spv">spv</span>
-                                <span class="sbem">sbem</span>
-                                <span class="gender">m/w</span>
-                                <span class="ttrPoints">Punkte</span>
-                            </div>   
-                        </li>';
+                    <div class="tab-header">
+                        <ul class="team-group-header">
+                            <li class="team-header">
+                                <div class="team-data-header">
+                                    <span class="position">Pos.</span> 
+                                    <span>Name</span>
+                                </div>
+                                <div class="team-attr-header">
+                                    <span class="spv">spv</span>
+                                    <span class="sbem">sbem</span>
+                                    <span class="gender">m/w</span>
+                                    <span class="ttrPoints">Punkte</span>
+                                </div>   
+                            </li>
+                        </ul>
+                    </div>
+                    <ul class="team-group">';
 
                         while($player = mysqli_fetch_assoc($res)){
                             if($player['team'] == $teamNr && $player['position'] != 0) {

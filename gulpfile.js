@@ -18,7 +18,7 @@ const sass = require('gulp-sass');
 const browserify = require('gulp-browserify');
 const uglify = require('gulp-uglify');
 
-
+const develop = './dev';
 const src = './src';
 const dest = './dest';
 
@@ -109,26 +109,26 @@ const buildScript = () => {
 // dev mode    //
 //*************//
 function php(){
-    return gulp.src(`${src}/*.php`);
+    return gulp.src(`${develop}/*.php`);
 }
 
 // PHP Admin
 function phpAdminComponents() {
-    return gulp.src(`${src}/admin/components/*.php`);
+    return gulp.src(`${develop}/admin/components/*.php`);
 }
 
 function phpAdmin() {
-    return gulp.src(`${src}/admin/*.php`);
+    return gulp.src(`${develop}/admin/*.php`);
 }
 
 // PHP Include handling
 function phpIncludes(){
-    return gulp.src(`${src}/includes/*.php`);
+    return gulp.src(`${develop}/includes/*.php`);
 }
 
 // SASS => CSS Handling 
 const css = () => {
-    return gulp.src(`${src}/styles/*.scss`)
+    return gulp.src(`${develop}/styles/*.scss`)
     
     // compile SASS to CSS
     .pipe(sass.sync({ outputStyle: "compressed" })).on( 'error', sass.logError)

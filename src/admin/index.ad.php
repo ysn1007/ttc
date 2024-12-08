@@ -195,10 +195,21 @@ if(!isset($_SESSION["useruid"])) {
                                             <td><input type="text" name="" title="'. $article["tagPlayer"] .'" value="'. $article["tagPlayer"] .'"></td>
                                             <td><input type="text" name="" title="'. $article["tagSocial"] .'" value="'. $article["tagSocial"] .'"></td>
                                             <!--td><input type="text" name="" value="'. $article["imgName"] .'"></td-->
-                                            <!--td><input type="text" name="" value="'. $article["imgPath"] .'"></td-->
-                                            <td>
-                                                <img src="../img/article/'.$article["imgPath"].'" width="50" height="50"/>
-                                            </td>
+                                            <!--td><input type="text" name="" value="'. $article["imgPath"] .'"></td-->';
+                                            if($article["imgPath"] != "") {
+                                                $content .= '
+                                                <td>
+                                                    <img src="../img/article/'.$article["imgPath"].'" width="50" height="50"/>
+                                                </td>';
+                                                
+                                            } else {
+                                                $content .= '
+                                                <td>
+                                                    <img src="../img/tt-icon.svg" width="50" height="50"/>
+                                                </td>';
+                                            } 
+                                            
+                                            $content .= '
                                             <td><input type="text" name="" value="'. $status .'"></td>';
                                             if(isset($_SESSION["admin"])) {
                                                 $content .= '<td><a class="btn btn-success" href="editArticle.php?id='. $article["id"] .'">Bearbeiten</a> ';

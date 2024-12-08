@@ -45,42 +45,53 @@ if(isset($_POST["submit"])) {
     $fileTempName = $file["tmp_name"];
     $fileError = $file["error"];
     $fileSize = $file["size"];
-
+   
     $fileExt = explode(".", $fileName);
     $fileActExt = strtolower(end($fileExt));
-    
+
     $allowed = array("jpg", "jpeg", "png"); 
 
-    if(in_array($fileActExt, $allowed)) {
-        if($fileSize > 2000000) {
-            echo "Das Bild darf nicht größer als 2MB sein.";
-        }
 
-        if($fileError === 0) {
-            $imgNewName =  $imgName . "." . uniqid("", true) . "." . $fileActExt;
-            $fileDestination = "../img/article/" . $imgNewName;
-            
-            require_once 'dbh.inc.php';
+    if($fileError !== 4 ){
+        
+        if(in_array($fileActExt, $allowed)) {
 
-            if(empty($headline) || empty($articleText)) {
-                header("location: addArticle.php?upload=empty");
+            if($fileError === 0 ) {
+                require_once 'dbh.inc.php';
+                if($fileSize > 2000000) {
+                    echo "Das Bild darf nicht größer als 2MB sein.";
+                }
+               
+                $imgNewName =  $imgName . "." . uniqid("", true) . "." . $fileActExt;
+                $fileDestination = "../img/article/" . $imgNewName;
+               
+    
+                if(empty($headline) || empty($articleText)) {
+                    header("location: addArticle.php?upload=empty");
+                    exit();
+                }
+
+                addArticle($con, $headline, $articleText, $fileName, $imgNewName, $active, $tagNews, $tagPlayer, $tagReview, $tagSocial, $fileTempName, $fileDestination);
+    
+            } else {
+                echo "Etwas ist schief gelaufen.";
                 exit();
             }
-           
-            
-            addArticle($con, $headline, $articleText, $fileName, $imgNewName, $active, $tagNews, $tagPlayer, $tagReview, $tagSocial, $fileTempName, $fileDestination);
-
-            
 
         } else {
-            echo "Etwas ist schief gelaufen.";
+            echo "Es wurde kein Bild gefunden. Bitte versuche es erneut";
             exit();
         }
-    } else {
-        echo "Nur Bilder als .jpg, .jpeg oder .png werden akzeptiert.";
-        exit();
-    }
 
+    } else {
+        if($fileError === 4 ) {
+            require_once 'dbh.inc.php';
+            $imgNewName = "";
+            $fileDestination = "";
+            $fileTempName = "";
+            addArticle($con, $headline, $articleText, $fileName, $imgNewName, $active, $tagNews, $tagPlayer, $tagReview, $tagSocial, $fileTempName, $fileDestination);
+        }
+    }
 }
 
 include('./components/header.php');

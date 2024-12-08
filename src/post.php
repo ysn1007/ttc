@@ -13,10 +13,16 @@ while($article = mysqli_fetch_assoc($result)) {
             <div class="post-header">
                 <a href="index.php"><img src="img/back-icon.png" alt="zurück icon" width="30">zurück</a>
             </div>
-            <div class="head-content">
-                <div class="article-img">
-                    <div class="article-bg-img" style="width: 100%; height: 500px; Background-image: url(./img/article/'. $article["imgPath"] .'); background-repeat: no-repeat; background-size: cover; background-position: top;"></div>
-                </div>
+            <div class="head-content">';
+                if($article["imgPath"] != "") {
+                    $content .= '
+                    <div class="article-img" style="width: 100%; height: 500px; Background-image: url(./img/article/'. $article["imgPath"] .'); background-repeat: no-repeat; background-size: cover; background-position: top;"></div>';
+                } else {
+                    $content .='
+                    <div class="article-img" style="width: 100%; height: 200px; Background-image: url(img/tt-icon.svg); background-size: contain; background-repeat: no-repeat; background-position: top; margin-bottom: 30px;"></div>';
+                }
+                $content .= '
+                
                 <div class="headline"><h2>'. $article["headline"] .'</h2></div>';
                 if(isset($article["tagNews"]) || isset($article["tagReviews"]) || isset($article["tagPlayer"]) || isset($article["tagSocial"] )) {
                     $content .= '

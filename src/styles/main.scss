@@ -4,6 +4,7 @@ body {
     font-family: "geist-regular";
 
     background-color: $clr3 !important;
+    font-size: 16px;
 
     // style for tags 
     .post-tag {
@@ -91,7 +92,7 @@ body {
 
     .hero-img-slider {
         background: #141414;
-        background: url("../img/hero-bg.png") no-repeat;
+        background: url("../img/heroBg.png") no-repeat;
         background-size: cover;
         background-position: center;
         width: 100%;
@@ -116,6 +117,9 @@ body {
             margin-bottom: 30px;
 
             //.owl-stage-outer { height: 92vh; }
+            .carousel-section {
+                display: none;
+            }
         }
     }
 
@@ -138,8 +142,10 @@ body {
                 h2 {
                     padding: 5px 0;
                     margin: 0;
+                    font-family: "geist-bold";
                     color: $black;
-                    font-size: 2rem;
+                    font-size: 2.2rem;
+
                 }
             }
 
@@ -268,8 +274,6 @@ body {
                     }
                 }
             }
-
-
            
         }
 
@@ -325,11 +329,24 @@ body {
     // footer styles
     .footer {
         background: $white;
-        height: 100px;
+        min-height: 100px;
+        padding: 28px 15px 0;
         .footer-content { min-height: 200px; }
 
-        .footer-links {
+        .footer-section {
+            .training, .halle, .club {
+                h4 {
+                    font-family: "geist-bold";
+                    margin-bottom: 16px;
+                }
+            }
+            
+        }
 
+        .footer-links {
+            background: $clr1;
+            margin-top: 24px;
+            
             .link-wrap {
                 display: flex;
                 padding: 0;
@@ -338,7 +355,7 @@ body {
 
                 .link-item { padding: 8px 15px; }
 
-                .link { color: $black; }
+                .link { color: $white; }
             }
 
              .copyright {
@@ -347,8 +364,10 @@ body {
                 display: flex;
                 align-items: center;
                 justify-content: right;
-                .link-item { padding: 8px 15px; }
-                .link { color: $black; }
+                .link-item { 
+                    padding: 8px 15px;
+                    color: $white; 
+                }
             }
         }
     }
@@ -502,7 +521,30 @@ body {
                     font-size: 1.8rem;
                     font-weight: 700;
                 }
-
+                
+                .team-group-header {
+                    list-style: none;
+                    padding: 0;
+                    border-radius: 2px;
+                    .team-header {
+                        display: flex;
+                        justify-content: space-between;
+                        padding: 7.5px 8px 5px;
+                        .team-data-header {
+                            .position {
+                                margin-right: 8px;
+                            }    
+                        }
+                        .team-attr-header {
+                            display: flex;
+                            gap: 20px;
+                            span {
+                                color: #000;
+                                font-weight: 600;
+                            }
+                        }
+                    }
+                }
                 .team-group {
                     list-style: none;
                     background: #eee;
@@ -561,7 +603,7 @@ body {
                                 position: absolute;
                                 right: 30px;
                                 display: flex;
-                                gap: 40px;
+                                gap: 55px;
                                 
                                 .player-attributes-item {
                                     align-self: center;
@@ -887,6 +929,28 @@ body {
                 font-weight: 600;
                 color: $black !important;
             }
+        }
+    }
+
+    &#impressum {
+       
+        #impress {
+            background: $white;
+            .content {
+                padding: 0 30px;
+                .section-item {
+                    margin: 60px 0;
+
+                    &:last-child {
+                        margin-bottom: 160px;
+                    }
+                }
+                .impress-header {
+                    margin-bottom:  8px; 
+                    font-weight: 600;
+                }
+            }
+            
         }
     }
     
