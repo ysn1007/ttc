@@ -18,7 +18,6 @@ const sass = require('gulp-sass');
 const browserify = require('gulp-browserify');
 const uglify = require('gulp-uglify');
 
-const develop = './dev';
 const src = './src';
 const dest = './dest';
 
@@ -48,6 +47,12 @@ function buildPhp(){
         .pipe(gulp.dest("./dest"));
 }
 
+function buildAdmin() {
+    return gulp.src("./src/admin/*.php")
+        .pipe(gulp.dest("./dest/admin"));
+}
+
+
 // PHP Include handling
 function buildPhpIncludes(){
     return gulp.src("./src/includes/*.php")
@@ -59,7 +64,7 @@ const buildCss = () => {
     return gulp.src(`${src}/styles/*.scss`)
         .pipe( plumber() )
         // Format SASS
-        .pipe(sassLint.format())
+        //.pipe(sassLint.format())
         // init source map
         .pipe(sourcemaps.init())
         // compile SASS to CSS
@@ -85,7 +90,7 @@ const buildScript = () => {
          // init source map
         .pipe(sourcemaps.init())
         // concat js flies
-        .pipe(concat('concat.js'))
+        //.pipe(concat('concat.js'))
         // js hint
         //.pipe(jshint())
         //.pipe(jshint.reporter('jshint-stylish'))
@@ -109,26 +114,26 @@ const buildScript = () => {
 // dev mode    //
 //*************//
 function php(){
-    return gulp.src(`${develop}/*.php`);
+    return gulp.src(`${src}/*.php`);
 }
 
 // PHP Admin
 function phpAdminComponents() {
-    return gulp.src(`${develop}/admin/components/*.php`);
+    return gulp.src(`${src}/admin/components/*.php`);
 }
 
 function phpAdmin() {
-    return gulp.src(`${develop}/admin/*.php`);
+    return gulp.src(`${src}/admin/*.php`);
 }
 
 // PHP Include handling
 function phpIncludes(){
-    return gulp.src(`${develop}/includes/*.php`);
+    return gulp.src(`${src}/includes/*.php`);
 }
 
 // SASS => CSS Handling 
 const css = () => {
-    return gulp.src(`${develop}/styles/*.scss`)
+    return gulp.src(`${src}/styles/*.scss`)
     
     // compile SASS to CSS
     .pipe(sass.sync({ outputStyle: "compressed" })).on( 'error', sass.logError)
@@ -164,7 +169,7 @@ const watch = () => gulp.watch([`${src}/styles/*scss`, `${src}/*php`, `${src}/in
 const dev = gulp.series(serve, watch );
 
 // just building project
-const build = gulp.series(buildScript, buildPhp, buildPhpIncludes, buildCss);
+const build = gulp.series(buildScript, buildPhp, buildAdmin, buildPhpIncludes, buildCss);
 
 // default function
 exports.dev = dev;
