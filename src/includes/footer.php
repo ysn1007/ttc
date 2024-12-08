@@ -7,7 +7,6 @@
                     <div class="col-xs-6 col-md-3 club">
                         <h4>TTC RAMSHARDE</h4>
                         <p>Andreas Müller</p>
-                        <p>E-Mail: amueller123@web.de</p>
                         <p>Telefon: 0152/53917291</p>
                     </div>
 

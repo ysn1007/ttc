@@ -29,7 +29,7 @@
                         <div class="his">
                             <div class="galery-header">
                                 <img src="img/tt-icon.svg" alt="">
-                                <h2>Vorsitzendenhistorie</h2>
+                                <h2>Vorsitzende</h2>
                             </div>
                             
                             <div class="his-content col-xs-12 col-md-12">
