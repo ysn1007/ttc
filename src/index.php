@@ -1,10 +1,5 @@
 <?php
 require_once 'admin/dbh.inc.php';
-require_once 'config.php';
-
-//echo "root :". __ROOT__;
-
-
 include('./includes/header.php');
 
 $content = '';

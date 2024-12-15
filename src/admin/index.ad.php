@@ -1,7 +1,6 @@
 <?php
-require_once 'config.ad.php';
 require_once 'dbh.inc.php';
-//session_start();
+
 $content = '';
 
 

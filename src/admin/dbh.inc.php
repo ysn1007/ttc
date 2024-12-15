@@ -1,12 +1,11 @@
 <?php
-//define('__ROOT__', dirname(dirname(__FILE__)));
-//require_once(__ROOT__.'\admin\config.php');
-//var_dump(__ROOT__.'\admin\config.php');exit;
-
-    $user ="root";
-    $psw = "root";
-    $host = "localhost";
-    $dbName = "ttcr_db";
+define('__ROOT__', dirname(dirname(__FILE__)));
+require_once(__ROOT__.'/admin/config.ad.php');
+session_start();
+    $user = $cfg["database"]["user"];
+    $psw = $cfg["database"]["psw"];
+    $host = $cfg["database"]["host"];
+    $dbName = $cfg["database"]["dbName"];
     
     
     // connect to database
