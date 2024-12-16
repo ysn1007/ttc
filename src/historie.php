@@ -14,7 +14,7 @@
                             
                             <div class="his-content col-xs-12 col-md-12">
                                 <div class="his-text publish">
-                                    <div class="img">
+                                    <div class="pub-img">
                                         <img src="img/logo/logo.svg" alt="" width="80">
                                     </div>
                                     <p>Der Verein TTC Ramsharde wurde am 22. Februar 1955 von Horst Maack ins Leben gerufen. Die Damenmannschaft spielte als Gründungsmitglied der in 1972 gegründeten Bundesliga. Unsere Erfolge beruhten auf eine intensiven Jugendarbeit.</p>
