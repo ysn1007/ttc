@@ -32,6 +32,13 @@ $content .= '
 
                     <section class="section-item">
                         <h4 class="impress-header">Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:</h4> 
+                        <p>Andreas Müller</p>  
+                        <p>Am Moorbach 3</p>
+                        <p>24939 Flensburg</p>
+                    </section>
+
+                    <section class="section-item">
+                     <h4 class="impress-header">Webmaster</h4>
                         <p>Yasin Ben Ammar</p>  
                         <p>Steinkamp 35</p>  
                         <p>24955 Harrislee</p>  
