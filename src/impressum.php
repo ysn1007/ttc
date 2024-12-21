@@ -40,8 +40,6 @@ $content .= '
                     <section class="section-item">
                      <h4 class="impress-header">Webmaster</h4>
                         <p>Yasin Ben Ammar</p>  
-                        <p>Steinkamp 35</p>  
-                        <p>24955 Harrislee</p>  
                         <p>yasin.benammar@yahoo.de</p>
                     </section>
 
