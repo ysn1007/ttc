@@ -24,13 +24,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
             $active = 0;
         }
         
-        if($_POST['spv']) {
+        if($_POST['spv'] = "on") {
             $spv = 1;
         } else {
             $spv = 0;
         }
         
-        if($_POST['sbem']) {
+        if($_POST['sbem'] = "on") {
             $sbem = 1;
         } else {
             $sbem = 0;

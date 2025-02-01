@@ -129,7 +129,7 @@ session_start();
             header("location: index.ad.php?error=addPlayerFailed");
         }
 
-        mysqli_stmt_bind_param($stmt,"ssiiiiii", $name, $lastname, $livePZ, $team, $position, $active, $spv, $sbem);
+        mysqli_stmt_bind_param($stmt,"ssiiisss", $name, $lastname, $livePZ, $team, $position, $active, $spv, $sbem);
         mysqli_stmt_execute($stmt);
 
         header("location: index.ad.php?addPlayer=success");

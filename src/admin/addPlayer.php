@@ -37,6 +37,7 @@ if(isset($_POST["submit"])) {
     
     //var_dump($name, $lastname, $livePZ, $team, $position, $active, $spv, $sbem);exit();
     #, $lastname, $livePZ, $team, $position, $active, $spv, $sbem
+    //var_dump($con, $name, $lastname, $livePZ, $team, $position, $active, $spv, $sbem);exit;
     addPlayer($con, $name, $lastname, $livePZ, $team, $position, $active, $spv, $sbem);
     
 }

@@ -8,6 +8,7 @@
                         <h4>TTC RAMSHARDE</h4>
                         <p>Andreas Müller</p>
                         <p>Telefon: 0152/53917291</p>
+                        <p>E-Mail: amueller123@web.de</p>
                     </div>
 
                     <div class="col-xs-6 col-md-3 footer-section-item training">
@@ -23,13 +24,13 @@
                         <h4>Anfahrt</h4>
                         <p>Petrihalle Halle</p>
                         <p>Apenrader Str. 164</p>
-                        <p>24939 Flansburg</p>
+                        <p>24939 Flensburg</p>
                     </div>
                     
                     <div class="col-xs-6 col-md-3 footer-section-item social">
                         <h4>Social Media</h4>
                         <p>Facebook</p>
-                        <p>Instagramm</p>
+                        <p><a href="https://www.instagram.com/ttc_ramsharde/?igsh=cWg3dmxzM3U5bTNt" target="blank">Instagramm</a></p>
                     </div>
                 </section>
 
@@ -41,7 +42,7 @@
                         </div>
                         <div class="col-xs-12 col-md-3 copyright">
                             <div class="link-item">
-                                <span>TTC RAMSHARDE © 2024-2025</span>
+                                <span>TTC RAMSHARDE © 2025</span>
                             </div>          
                         </div>
                     </div>

@@ -16,7 +16,7 @@
         <link rel="stylesheet" href="./owlcarousel/owl.carousel.min.css" />
         <link rel="stylesheet" href="./owlcarousel/owl.theme.default.min.css" />
         <!--styles-->
-        <!--link rel="stylesheet" href="./styles/main.scss"-->
+        <!--link rel="stylesheet" type="text/css" href="./styles/main.scss"-->
         <link rel="stylesheet" type="text/css" href="./styles/style.min.css">
         
         <title>TTC RAMSHARDE</title>
