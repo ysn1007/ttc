@@ -5,22 +5,22 @@ include('./includes/header.php');
 $content = '';
 
 $content .= '
-<div class="site-wrap col-xs-12 col-sm-12 col-md-12">
-    <div class="content-wrap col-xs-12 col-md-12">';
+<div class="site-wrap">
+    <div class="content-wrap">';
         if($cfg["index-section"]["reviews"]["active"] == "on" ) {
             $content .= '
-            <section class="article-wrap col-xs-12 col-md-12 col-lg-12" id="article-wrap">
-                <div class="row">
-                    <div class="section-header">
-                        <img src="img/tt-icon.svg" alt="">
-                        <h2>Unsere Neuigkeiten</h2>
-                    </div>';
+            <section class="article-wrap container" id="article-wrap">
+                <div class="section-header">
+                    <img src="img/tt-icon.svg" alt="">
+                    <h2>Unsere Neuigkeiten</h2>
+                </div>
+                <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3">';
                     
                     $result = getActiveArticle($con);
                     while($article = mysqli_fetch_assoc($result)) {
                         $content .= '
-                        <section class="article-item col-xs-12 col-sm-6 col-md-6 col-lg-4">
-                            <div class="article col-md-12">
+                        <section class="article-item">
+                            <div class="article">
                                 <div class="row">
                                     <div class="post-tag">';
                                     if($article["tagNews"] === 1){

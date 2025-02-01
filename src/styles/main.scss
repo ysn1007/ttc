@@ -22,7 +22,7 @@ body {
     }
 
     #header {
-        height: 90px;
+        //min-height: 90px;
         background: $white;
         .navbar-default {
             background: none;
@@ -30,6 +30,16 @@ body {
         .navbar {
             border: 0;
             margin-bottom: 0;
+
+            .navbar-toggler {
+                border-color: transparent; 
+                
+                &:focus {
+                    color: $clr1;
+                    box-shadow: none;
+                }
+            }
+
             .navbar-collapse {
 
                 &[aria-expanded='true'] {
@@ -45,16 +55,9 @@ body {
                     top: 90px;
                 }
 
-                &.collapsing {
-                    background: $white;
-                    position: absolute;
-                    width: 100%;
-                    z-index: 100;
-                }
-
-                .nav {
-                    .navi a {color: $black;}
-                    .navi.active {
+                .navbar-nav {
+                    .nav-item a {color: $black;}
+                    .nav-item.active {
                         a {
                             background-color: $clr1;
                             color: $white;
@@ -62,7 +65,7 @@ body {
                         }
                     }
                     
-                    a.navi-item.active {
+                    a.nav-item.active {
                         background-color: $clr1;
                         color: $white;
                         border-radius: 2px;
@@ -70,7 +73,7 @@ body {
                 }
             }
 
-            .container-fluid { margin: 20px 0; }
+            .container-fluid { margin: 10px 0; }
         }
     }
 
@@ -80,9 +83,6 @@ body {
         margin-left: -15px;
 
         .navbar-brand {
-            padding: 10px 25px;
-            display: flex;
-            align-items: center;
             color: $black;
             font-size: 20px;
             font-weight: 600;
@@ -968,16 +968,36 @@ body {
         }
     }
     
-    
+    @media (min-width: 200px ) and (max-width: 992px ) {
+        // mobile header styles for mobile menu
+        #header .navbar .navbar-collapse .navbar-nav {
+            margin-top: 44px;
+            .nav-item {
+                margin: 8px 0;
+                
+                a {
+                    padding: 8px;
+                }
+
+                .dropdown-menu {
+                    background-color: transparent;
+                    border: none;
+                    li {
+                        margin-left: 16px;
+                    }
+                }
+            }
+        }
+    }
+
     // extra small viewports ( mobile phones )
     @media ( max-width: 600px ) {
+
         #galerie .galery .galery-item .gal-img {
             min-height: 250px;
         }
 
         .navbar {
-            //border: solid red 1px;
-            //.navbar-collapse[aria-expanded='true'] { background-color: $white; }
             .header-brand {
                 min-width: 100px;
             }
@@ -1006,9 +1026,10 @@ body {
     
     // small viewports ( bigger mobile phones )
     @media ( min-width: 600px ) {
-        //border: solid greenyellow 1px;
         // white mobile menu bg 
         .navbar .navbar-collapse[aria-expanded='true'] { background-color: $white; }
+
+       
     }
     
     // medium viewports ( tablets )
