@@ -163,15 +163,13 @@ body {
                 margin-bottom: 15px;
                 border-radius: 5px;
                 .post-tag {
-                    display: flex;
-                    gap: 10px;
-                    margin: 15px 0 15px 0;
                     position: absolute;
                     top: 0;
-                    left: 15px;
+                    left: 0;
                 }
                 .article-bg-img {
                     background: linear-gradient(180deg, $clr10, $clr11);
+                    margin-top: 4px;
                     
                     img { 
                         width: 50%;
@@ -180,7 +178,7 @@ body {
                 }
 
                 .article-content {
-                    margin-top: 5px;
+                    margin-top: 12px;
                     min-height: 100px;
                     max-height: 140px;
 
