@@ -481,11 +481,11 @@ body {
         .team-section {
             background: #fff;
             padding: 0;
-            padding-bottom: 45px;
+            padding: 44px 0;
             
 
             .team-img {
-                margin-bottom: 45px;
+                margin-bottom: 44px;
                 img {
                     height: 400px;
                     object-fit: cover;
@@ -493,10 +493,11 @@ body {
             }
 
             .team-data {
+                position: relative;
                 .tab-header {
                     background: #ddd;
                     padding: 15px 15px 5px;
-                    font-size: 1.8rem;
+                    font-size: 1.2rem;
                     font-weight: 700;
                 }
                 
@@ -507,7 +508,7 @@ body {
                     .team-header {
                         display: flex;
                         justify-content: space-between;
-                        padding: 7.5px 8px 5px;
+                        padding: 8px 8px 5px;
                         .team-data-header {
                             .position {
                                 margin-right: 8px;
@@ -568,23 +569,30 @@ body {
                         display: flex;
                         border-bottom: solid #fff 1px;
 
-                        .position {
-                            width: 36px;
-                            height: 36px;
-                            margin: 2px;
-                            text-align: center;
-                            align-content: center;
-                        }
-
                         .player {
+                            .position {
+                                width: 36px;
+                                height: 36px;
+                                margin: 2px;
+                                text-align: center;
+                                align-content: center;
+                            }
+                            .player-name {
+                                align-content: center;
+                            }
                             .player-attributes-group {
                                 position: absolute;
                                 right: 30px;
                                 display: flex;
-                                gap: 55px;
+                                gap: 40px;
                                 
                                 .player-attributes-item {
                                     align-self: center;
+                                    &.player-info {
+                                        width: 30px;
+                                        height: 36px;
+                                        align-content: center;
+                                    }
                                     .checked {
                                         width: 10px;
                                         height: 10px;

@@ -1,7 +1,7 @@
 
 <?php include('./includes/headContent.php');?>    
 
-<body class="body-wrapper col col-xs-12 col-sm-12 " id="<?= pathinfo($_SERVER['PHP_SELF'])['filename'] ?>">
+<body class="body-wrapper" id="<?= pathinfo($_SERVER['PHP_SELF'])['filename'] ?>">
     <div class="row">
         <header id="header">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -40,7 +40,7 @@
             
         </header>
         <?PHP ((basename($_SERVER['PHP_SELF']) == "index.php") ? require_once('hero.img.slider.php') : "") ?>
-        <div id="content-wrapper" class="cw">
+        <div id="content-wrapper">
             <div class="row">
                 
 
