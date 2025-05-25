@@ -61,8 +61,6 @@ function emptyInputLogin($username, $pwd) {
 function loginUser($con, $username, $pwd) {
 
     $uidExists = uidExists($con, $username );
-    //var_dump($pwd);exit;
-    
 
     if($uidExists === false) {
        header("location: login.php?error=wronglogin");
@@ -70,9 +68,7 @@ function loginUser($con, $username, $pwd) {
     }
 
     $pwdHashed = $uidExists["passwort"];
-    //var_dump($pwdHashed);
     $checkPwd = password_verify($pwd, $pwdHashed);
-    //var_dump($checkPwd);exit;
     
     if($checkPwd == 0) {
         header("location: login.php?error=wronglogin");
@@ -82,9 +78,6 @@ function loginUser($con, $username, $pwd) {
         $_SESSION["userid"] = $uidExists["id"];
         $_SESSION["admin"] = $uidExists["admin"];
         $_SESSION["useruid"] = $uidExists["uid"];
-
-        //var_dump("userid :" . $_SESSION["userid"] . "<br><br>");
-        //var_dump("username :" . $_SESSION["useruid"] . "<br><br>");
 
         header("location: index.ad.php");
         exit(); 
