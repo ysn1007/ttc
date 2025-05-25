@@ -40,7 +40,7 @@ $content .='
 
             <div class="team-section">
                 <div class="row justify-content-center">
-                <div class="team-data col-8 ">
+                <div class="team-data col-8 col-sm-10 col-md-8">
                     <div class="team-line-up">
                         
                         <div class="tab-header">

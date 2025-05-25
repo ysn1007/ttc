@@ -1,17 +1,17 @@
             </div>
         </div>
 
-        <footer class="col-xs-12 col-md-12 footer">
+        <footer class="footer">
             <div class="row">
-                <section class="col-xs-12 col-md-12 footer-section">
-                    <div class="col-xs-6 col-md-3 footer-section-item club">
+                <section class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-4 footer-section">
+                    <div class="footer-section-item mb-3 club">
                         <h4>TTC RAMSHARDE</h4>
                         <p>Andreas Müller</p>
                         <p>Telefon: 0152/53917291</p>
                         <p>E-Mail: amueller123@web.de</p>
                     </div>
 
-                    <div class="col-xs-6 col-md-3 footer-section-item training">
+                    <div class="footer-section-item mb-3 training">
                         <h4>Hallenzeiten</h4>
                         <p>Mo: Nach Absprache</p>
                         <p>Di: 17:00 - 18:00 Schüler / Jugend </p>
@@ -20,14 +20,14 @@
                         <p>Fr: 18:00 - 22:00 Herren</p>
                     </div>
                     
-                    <div class="col-xs-6 col-md-3 footer-section-item halle">
+                    <div class="footer-section-item mb-3 halle">
                         <h4>Anfahrt</h4>
                         <p>Petrihalle Halle</p>
                         <p>Apenrader Str. 164</p>
                         <p>24939 Flensburg</p>
                     </div>
                     
-                    <div class="col-xs-6 col-md-3 footer-section-item social">
+                    <div class="footer-section-item mb-3 social">
                         <h4>Social Media</h4>
                         <p>Facebook</p>
                         <p><a href="https://www.instagram.com/ttc_ramsharde/?igsh=cWg3dmxzM3U5bTNt" target="blank">Instagramm</a></p>

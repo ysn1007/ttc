@@ -37,21 +37,83 @@ $content .= '
                                     }
                                     $content .= '    
                                     </div>
-                                    <div class="post-image article-bg-img">
-                                        <img src="img/tt-icon.svg" width="50" loading="lazy">
+                                    <div class="post-image article-bg-img">';
+                                        if($article["imgPath"] != "") {
+                                            $content .= '
+                                            <div class="article-img mb-3" style="width: 100%; height: 240px; Background-image: url(./img/article/'. $article["imgPath"] .'); background-repeat: no-repeat; background-size: cover; background-position: top;"></div>';
+                                        } else {
+                                            $content .= '
+                                            <div class="article-img mb-3" style="width: 100%; height: 240px; Background-image: url(img/tt-icon.svg); background-size: contain; background-repeat: no-repeat; background-position: top; margin-bottom: 30px;"></div>';
+                                        }
+                                        $content .= '
                                     </div>
                                     <div class="article-content col-md-12">
-                                        
-                                        <h4>'. $article["headline"] .'</h4>
+                                        <h5>'. $article["headline"] .'</h5>
                                         <!--p>'. substr($article["copytext"], 0, 40) .' [...]</p--> 
                                     </div>
-                                    
-                                    <div class="col-xs-12 more text-right ">
-                                        <a class="btn btn-default" href="post.php?id='.$article["id"].'">Weiter lesen <img src="./img/arrow.svg" width="15px"></a>
+
+                                    <button type="button" class="btn btn-default" data-bs-toggle="modal" data-bs-target="#article-'.$article["id"].'">
+                                        Weiter lesen <img src="./img/arrow.svg" width="15px">
+                                    </button>
+                                </div>
+                            </div>
+                        </section>
+                        
+                        
+                        <!-- Modal -->
+                        <div class="modal fade" id="article-'.$article["id"].'" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-scrollable">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">'. $article["headline"] .'</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="article-img">';
+                                        if($article["imgPath"] != "") {
+                                            $content .= '
+                                            <div class="article-img mb-3" style="width: 100%; height: 500px; Background-image: url(./img/article/'. $article["imgPath"] .'); background-repeat: no-repeat; background-size: cover; background-position: top;"></div>';
+                                        } else {
+                                            $content .= '
+                                            <div class="article-img mb-3" style="width: 100%; height: 200px; Background-image: url(img/tt-icon.svg); background-size: contain; background-repeat: no-repeat; background-position: top; margin-bottom: 30px;"></div>';
+                                        }
+
+                                        if(isset($article["tagNews"]) || isset($article["tagReviews"]) || isset($article["tagPlayer"]) || isset($article["tagSocial"] )) {
+                                            $content .= '
+                                            <div class="post-tag">';
+                                                if ($article["tagNews"] == 1) {
+                                                    $meldung = "Meldung";
+                                                    $content .= '
+                                                    <div class="tag-item '. $meldung .'">'. $meldung .'</div>';
+                                                } 
+                                                if ($article["tagReviews"] == 1) {
+                                                    $bericht = "Bericht";
+                                                    $content .= '
+                                                    <div class="tag-item '. $bericht .'">'. $bericht .'</div>';
+                                                } 
+                                                if ($article["tagPlayer"] == 1) {
+                                                    $neuzugang = "Neuzugang";
+                                                    $content .= '
+                                                    <div class="tag-item '. $neuzugang .'">'. $neuzugang .'</div>';
+                                                } 
+                                                if ($article["tagSocial"] == 1) {
+                                                    $social = "Social Media";
+                                                    $content .= '
+                                                    <div class="tag-item '. $social .'">'. $social .'</div>'; 
+                                                } 
+                                            $content .= '
+                                            </div>';
+                                        }
+                                        $content .= '
+                                        </div>
+
+                                        <div  class="article-content">
+                                        '.$article["copytext"].' 
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </section>';
+                        </div>';
 
                     }
                     $content .= '
@@ -69,9 +131,7 @@ $content .= '
                     </div>
 
                     <div class="social-group">
-                        
                             Social Media
-                        
                     </div>
                 </div>
             </section>';

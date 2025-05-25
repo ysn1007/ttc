@@ -73,18 +73,18 @@ if(isset($_POST['submit'])) {
 ?>
 
 <?php include('./includes/header.php');?>
-<div class="site-wrap col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <div class="content-wrap col-xs-12 col-md-12">
+<div class="site-wrap">
+    <div class="content-wrap">
 
-        <div class="form-wrap col-xs-12 col-md-12">
+        <div class="form-wrap container">
             <div class="row">
                 <div class="galery-header">
                     <img src="img/tt-icon.svg" alt="">
                     <h2>Kontaktformular</h2>
                 </div>
 
-                <div class="col-xs-12 col-md-6 col-md-offset-3 mailAlert <?php echo $mailSendClass ?>"><?php echo $mailSendMsg ?></div>
-                <div class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 hc-form-content">
+                <div class="col-12 align-self-center mailAlert <?php echo $mailSendClass ?>"><?php echo $mailSendMsg ?></div>
+                <div class="col-8 g-2 align-self-center hc-form-content">
                     <div class="form-user" id="form-user">
                         <form id="kontaktFormular" class="kontakt-formular" method="post" action="<?php echo $_SERVER["PHP_SELF"]; ?>">
                             <div class="form-box" id="form-box-name">
@@ -115,12 +115,10 @@ if(isset($_POST['submit'])) {
                                 <div class="error <?php echo $checkErr; ?>"><?php echo $errCheckBox ?></div>
                             </div>
                             <br/>
-                            <!-- reCAPTCHA -->
-                            <!--div class="g-recaptcha" id="recaptcha" data-sitekey="6LdIP-IZAAAAAGhs1N9UTZ7I0SaOI1qjpsMWh2GZ" data-callback="recaptcha_verify"></div>
-                            <div class="error err-chkbox <?php echo $recaptErr; ?>"><?php echo $reCaptMsg ?></div-->
+                            
                             <br/>
 
-                            <button type="submit" id="submit" class="btn hc-btn-small" value="submit" name="submit" >Nachricht Senden</button>
+                            <button type="submit" id="submit" class="btn btn-default hc-btn-small" value="submit" name="submit" >Nachricht Senden</button>
                         </form>
 
                     </div>

@@ -8,7 +8,9 @@ define('__ROOT__', dirname(dirname(__FILE__)));
     //global $cfg;
 
     $cfg = array(
-
+        "header" => array(
+            "kontakt" => 1,
+        ),
         "index-section" => array (
             "reviews" => array ( 
                 "active" => "on",

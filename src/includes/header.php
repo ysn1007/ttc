@@ -1,5 +1,7 @@
 
-<?php include('./includes/headContent.php');?>    
+<?php include('./includes/headContent.php');
+global $cfg;
+?>    
 
 <body class="body-wrapper" id="<?= pathinfo($_SERVER['PHP_SELF'])['filename'] ?>">
     <div class="row">
@@ -16,23 +18,25 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
                     <ul class="navbar-nav">
-                        <li class="nav-item navi <?= ((basename($_SERVER['PHP_SELF']) == "index.php") ? "active" : "") ?>" id="Startseite"><a class="nav-link" href="index.php">Startseite<span class="sr-only"></span></a></li>
+                        <li class="nav-item navi <?= ((basename($_SERVER['PHP_SELF']) == "index.php" || (basename($_SERVER['PHP_SELF']) == "post.php")) ? "active" : "") ?>" id="Startseite"><a class="nav-link" href="index.php">Startseite<span class="sr-only"></span></a></li>
                         <li class="nav-item navi dropdown">
                             <a href="#" class="nav-link <?= ((basename($_SERVER['PHP_SELF']) == "mannschaften.php") ? "active" : "") ?> dropdown-toggle" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mannschaften <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li class="<?= ((basename($_SERVER['PHP_SELF']) == "mannschaften.php?id=herren1") ? "active" : "") ?>"><a class="nav-link" href="mannschaften.php?id=1herren">1. Herren</a></li>
-                                <li class="<?= ((basename($_SERVER['PHP_SELF']) == "mannschaften.php?id=herren2") ? "active" : "") ?>"><a class="nav-link" href="mannschaften.php?id=2herren">2. Herren</a></li>
-                                <li class="<?= ((basename($_SERVER['PHP_SELF']) == "mannschaften.php?id=herren3") ? "active" : "") ?>"><a class="nav-link" href="mannschaften.php?id=3herren">3. Herren</a></li>
-                                <li class="<?= ((basename($_SERVER['PHP_SELF']) == "mannschaften.php?id=herren4") ? "active" : "") ?>"><a class="nav-link" href="mannschaften.php?id=4herren">4. Herren</a></li>
-                                <li class="<?= ((basename($_SERVER['PHP_SELF']) == "mannschaften.php?id=herren5") ? "active" : "") ?>"><a class="nav-link" href="mannschaften.php?id=5herren">5. Herren</a></li>
+                                <li class="<?= ((basename($_SERVER['PHP_SELF']) == "mannschaften.php?id=1herren") ? "active" : "") ?>"><a class="nav-link" href="mannschaften.php?id=1herren">1. Herren</a></li>
+                                <li class="<?= ((basename($_SERVER['PHP_SELF']) == "mannschaften.php?id=2herren") ? "active" : "") ?>"><a class="nav-link" href="mannschaften.php?id=2herren">2. Herren</a></li>
+                                <li class="<?= ((basename($_SERVER['PHP_SELF']) == "mannschaften.php?id=3herren") ? "active" : "") ?>"><a class="nav-link" href="mannschaften.php?id=3herren">3. Herren</a></li>
+                                <li class="<?= ((basename($_SERVER['PHP_SELF']) == "mannschaften.php?id=4herren") ? "active" : "") ?>"><a class="nav-link" href="mannschaften.php?id=4herren">4. Herren</a></li>
+                                <li class="<?= ((basename($_SERVER['PHP_SELF']) == "mannschaften.php?id=5herren") ? "active" : "") ?>"><a class="nav-link" href="mannschaften.php?id=5herren">5. Herren</a></li>
                             </ul>
                         </li>
                         <li class="nav-item navi <?= ((basename($_SERVER['PHP_SELF']) == "historie.php") ? "active" : "") ?>" id="historie"><a class="nav-link" href="historie.php">Historie</a></li>
-                        <li class="nav-item navi <?= ((basename($_SERVER['PHP_SELF']) == "galerie.php") ? "active" : "") ?>" id="galerie"><a class="nav-link" href="galerie.php">Galerie</a></li>
+                        <li class="nav-item navi <?= ((basename($_SERVER['PHP_SELF']) == "galerie.php" || (basename($_SERVER['PHP_SELF']) == "bildergalerie.php")) ? "active" : "") ?>" id="galerie"><a class="nav-link" href="galerie.php">Galerie</a></li>
                         
                         
                         <li class="nav-item <?= ((basename($_SERVER['PHP_SELF']) == "sponsoren.php") ? "active" : "") ?>" id="sponsoren"><a class="nav-link" href="sponsoren.php">Sponsoren</a></li>
-                        <li class="nav-item <?= ((basename($_SERVER['PHP_SELF']) == "kontakt.php") ? "active" : "") ?>" id="kontakt"><a class="nav-link" href="kontakt.php">kontakt</a></li>
+                        <?= 
+                        (($cfg['header']['kontakt'] == 1) ? '<li class="nav-item '. ((basename($_SERVER['PHP_SELF']) == "kontakt.php") ? "active" : "") .' " id="kontakt"><a class="nav-link" href="kontakt.php">kontakt</a></li>' : '');
+                        ?>
                     </ul>
                     </div>
                 </div>

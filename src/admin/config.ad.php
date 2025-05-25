@@ -13,6 +13,10 @@
             "dbName" =>      "ttcr_db",
         ),
 
+        "header" => array(
+            "kontakt" => 0,
+        ),
+
         "index-section" => array (
             "reviews" => array ( 
                 "active" => "on",
