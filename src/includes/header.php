@@ -34,9 +34,7 @@ global $cfg;
                         
                         
                         <li class="nav-item <?= ((basename($_SERVER['PHP_SELF']) == "sponsoren.php") ? "active" : "") ?>" id="sponsoren"><a class="nav-link" href="sponsoren.php">Sponsoren</a></li>
-                        <?= 
-                        (($cfg['header']['kontakt'] == 1) ? '<li class="nav-item '. ((basename($_SERVER['PHP_SELF']) == "kontakt.php") ? "active" : "") .' " id="kontakt"><a class="nav-link" href="kontakt.php">kontakt</a></li>' : '');
-                        ?>
+                        <?= (($cfg['header']['kontakt'] == 1) ? '<li class="nav-item '. ((basename($_SERVER['PHP_SELF']) == "kontakt.php") ? "active" : "") .' " id="kontakt"><a class="nav-link" href="kontakt.php">kontakt</a></li>' : ''); ?>
                     </ul>
                     </div>
                 </div>

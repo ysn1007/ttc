@@ -53,7 +53,7 @@ $content .= '
                                     </div>
 
                                     <button type="button" class="btn btn-default" data-bs-toggle="modal" data-bs-target="#article-'.$article["id"].'">
-                                        Weiter lesen <img src="./img/arrow.svg" width="15px">
+                                        Artikel lesen <img src="./img/arrow.svg" width="15px">
                                     </button>
                                 </div>
                             </div>

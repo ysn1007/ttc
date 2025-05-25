@@ -36,8 +36,8 @@
 
                 <section class="col-xs-12 col-md-12 footer-links">
                     <div class="row">
-                        <div class="col-xs-12 col-md-9 link-wrap">
-                            <div class="link-item"><a href="kontakt.php" class="link">Kontakt</a></div>
+                        <div class="col-xs-12 col-md-9 link-wrap">';
+                            <?= (($cfg['header']['kontakt'] == 1) ? '<div class="link-item"><a href="kontakt.php" class="link">Kontakt</a></div>' : ''); ?>
                             <div class="link-item"><a href="impressum.php" class="link">Impressum</a></div>
                         </div>
                         <div class="col-xs-12 col-md-3 copyright">
