@@ -2,7 +2,7 @@
 require_once 'dbh.inc.php';
 
 $content = '';
-
+//var_dump($_SESSION['useruid']);exit;
 
 if(!isset($_SESSION["useruid"])) {
     echo "Verbindungsfehler: 500";
