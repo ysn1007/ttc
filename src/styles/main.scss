@@ -38,6 +38,17 @@ body {
         .modal-body {
             padding: 30px 25%;
         }
+
+        @media (max-width: 430px) {
+            max-width: 100%;
+
+            .modal-body {
+                padding: 15px;
+            }
+            .article-img .article-img {
+                height: 200px !important;
+            }
+        }
     }
 
     #header {
@@ -105,7 +116,13 @@ body {
                 }
             }
 
-            .container-fluid { margin: 10px 0; }
+            .container-fluid { 
+                margin: 10px 0; 
+
+                .header-brand {
+                    width:80%;
+                }
+            }
         }
     }
 
@@ -153,6 +170,10 @@ body {
             .carousel-section {
                 display: block;
             }
+
+            @media (max-width: 430px) {
+                min-height: 200px;
+            }
         }
     }
 
@@ -178,6 +199,10 @@ body {
                     font-family: "geist-bold";
                     color: $black;
                     font-size: 2.2rem;
+
+                    @media (max-width: 430px) {
+                        font-size: 1.6rem;
+                    }
 
                 }
             }
@@ -536,6 +561,7 @@ body {
 
             .team-data {
                 position: relative;
+                
                 .tab-header {
                     background: #ddd;
                     padding: 15px 15px 5px;
@@ -647,6 +673,28 @@ body {
                         }
                     }
                     
+                }
+
+                @media(max-width: 430px) {
+                    width: 100%;
+
+                    .team-group-header {
+                    
+                        .team-header {
+                            
+                            
+                            .team-attr-header {
+                                .spv, .sbem, .gender { display: none;}
+                            }
+                        }
+
+                    }
+
+                    .team-group {
+                        .player-data .player {
+                            .player-info { display: none;}
+                        }
+                    }
                 }
             }
         }
@@ -787,9 +835,18 @@ body {
                         padding: 7.5px;
                     }
 
-                    // &:hover {
-                    //     box-shadow: 0 0 15px .5px #aaa;
-                    // }
+                    
+                }
+
+                @media (max-width:430px) {
+                    min-height: 220px;
+                    .img-item-body {
+                        .img-item {
+                            img {
+                                height: 200px;
+                            }
+                        }
+                    }
                 }
 
                 /* @media (max-width: 605px) {
@@ -1066,7 +1123,8 @@ body {
     @media ( min-width: 600px ) {
         // white mobile menu bg 
         .navbar .navbar-collapse[aria-expanded='true'] { background-color: $white; }
-
+        
+        
        
     }
     
@@ -1075,6 +1133,18 @@ body {
         
         #galerie .galery-group .galery-item .gal-img {
             min-height: 320px;
+        }
+
+        
+
+        &#mannschaften {
+            .team-wrap {
+                .team-section {
+                    .team-data {
+                        width: 90%;
+                    }
+                }
+            }
         }
 
         .footer {
@@ -1098,11 +1168,22 @@ body {
         #galerie .galery-group .galery-item .gal-img {
             min-height: 180px;
         }
+
+        
     }
     
     // extra large viewports ( laptops / desktop )
-    @media ( min-width: 992px ) {
-        
+    @media ( max-width: 1400px ) {
+        &#bildergalerie {
+            .modal {
+                .modal-dialog {
+                    max-width: 100%;
+                    .modal-body {
+                        padding: 15px;
+                    }
+                }
+            }
+        }
     }
     
     

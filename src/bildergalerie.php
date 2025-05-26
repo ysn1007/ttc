@@ -26,7 +26,7 @@ $content .= '
                         //var_dump($row);exit;
                         if($dekade === $row['dekade']) {
                             $content .= '
-                            <div class="col-xs-12 col-md-4 col-lg-4 gal-img-item" id="gal-img-item-'.$row['id'].'">
+                            <div class="col-xs-12 col-md-6 col-lg-4 gal-img-item" id="gal-img-item-'.$row['id'].'">
                                 <div class="col-xs-12 img-item-body" id="img-item-body">
                                     
                                     <div class="img-item" style="background-image: url('. substr($row['imagePath'], 3 ) .'); background-size: cover; background-position: center;">
