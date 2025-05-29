@@ -1,9 +1,11 @@
-<?php include('./includes/header.php');?>
+<?php 
+require_once 'admin/dbh.inc.php';
+include('./includes/header.php');?>
+
 <div class="site-wrap">
     <div class="content-wrap">
-
-        <div class="history-group container">
-            <div class="row">
+        <section class="container history-group">
+            
                 <section class="history-item">
                     <div class="his">
                         <div class="galery-header">
@@ -82,8 +84,8 @@
                     </div>
                 </section>
                 
-            </div>
-        </div>
+            
+        </section>
     </div>
 </div>
 <?php include('./includes/footer.php');?>

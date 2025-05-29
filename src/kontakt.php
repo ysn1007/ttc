@@ -1,5 +1,5 @@
 <?php 
-
+require_once 'admin/dbh.inc.php';
 $errMsg = '';
 if(isset($_POST['submit'])) {
     

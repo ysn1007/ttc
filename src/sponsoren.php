@@ -1,7 +1,10 @@
-<?php include('./includes/header.php');?>
+<?php 
+require_once 'admin/dbh.inc.php';
+include('./includes/header.php'); ?>
+
+
 <div class="site-wrap">
     <div class="content-wrap ">
-        
         <section class="container sponsoring-group">
             <div class="galery-header">
                 <img src="img/tt-icon.svg" alt="">
@@ -29,4 +32,4 @@
         
     </div>
 </div>
-<?php include('./includes/footer.php');?>
+<?PHP include('./includes/footer.php'); ?>
