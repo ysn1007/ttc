@@ -9,6 +9,7 @@ if(isset($_POST['submit'])) {
     $betreff = htmlspecialchars($_POST['betreff']);
     $message = htmlspecialchars($_POST['message']);
     $checkBox = isset($_POST['checkBox']);
+
     
     if(!empty($name) && !empty($betreff) && !empty($email) && !empty($message) && $checkBox === true ){
     
@@ -31,7 +32,7 @@ if(isset($_POST['submit'])) {
             $betreff = '';
             $message= '';
 
-            $mailSendMsg = 'Ihre Nachricht wurde erfolgreich gesendet. <br /> Vielen Dank für Ihre Anfrage, wir melden uns so bald wie möglich bei Ihnen.';
+            $mailSendMsg = 'Ihre Nachricht wurde erfolgreich gesendet. <br /> Vielen Dank für Ihre Nachricht, wir melden uns so bald wie möglich bei Ihnen.';
             $mailSendClass = 'mailSend';
 
         } else {
@@ -66,7 +67,6 @@ if(isset($_POST['submit'])) {
             $errCheckBox = 'Stimmen Sie bitte unseren Datenschutzrichtlinen zu.';
             $checkErr = 'err-chkbox';
         } 
-        //var_dump($_POST);exit;
     }
     
 }
@@ -88,23 +88,23 @@ if(isset($_POST['submit'])) {
                     <div class="form-user" id="form-user">
                         <form id="kontaktFormular" class="kontakt-formular" method="post" action="<?php echo $_SERVER["PHP_SELF"]; ?>">
                             <div class="form-box" id="form-box-name">
-                                <label for="name">Name</label>
+                                <label for="name">Name *</label>
                                 <input class="form-control form-control-sm form-control-lg form-control-ms" id="kontakt_name" type="text" placeholder="Max Mustermann" name="name" value="<?php echo isset($name) ? $name : ''  ?>">
                                 <div class="error err-name <?php echo $nameErr; ?>"><?php echo $errMsg ?></div>
                             </div>
                             <div class="form-box" id="form-box-eMail">
-                                <label for="name">E-Mail</label>
+                                <label for="name">E-Mail *</label>
                                 <input class="form-control form-control-sm form-control-lg form-control-ms" id="kontakt_absender" type="text" placeholder="m.mustermann@mail.de" name="email" value="<?php echo isset($email) ? $email : ''  ?>">
                                 <div class="error err-mail <?php echo $mailErr; ?>"><?php echo $errMsg ?></div>
                                 <!--div class="error err-mail <?php echo $validMailErr; ?>"><?php echo $errMsg ?></div-->
                             </div>
                             <div class="form-box" id="form-box-betreff">
-                                <label for="name">Betreff</label>
+                                <label for="name">Betreff *</label>
                                 <input class="form-control form-control-sm form-control-lg form-control-ms" id="kontakt_betreff" type="text" placeholder="Training" name="betreff" value="<?php echo isset($betreff) ? $betreff : ''  ?>">
                                 <div class="error err-betreff <?php echo $betreffErr; ?>"><?php echo $errMsg ?></div>
                             </div>
                             <div class="form-box" id="form-box-nachricht">
-                                <label for="name">Nachricht</label>
+                                <label for="name">Nachricht *</label>
                                 <textarea class="form-control form-control-sm form-control-lg form-control-ms" id="kontakt_nachricht" rows="6" cols="40" placeholder="Hallo Andreas, ..." name="message"><?php echo isset($message) ? $message : ''  ?></textarea>
                                 <div class="error err-nachricht <?php echo $msgErr; ?>"><?php echo $errMsg ?></div>
                             </div>

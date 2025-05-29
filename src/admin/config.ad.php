@@ -14,7 +14,7 @@
         ),
 
         "header" => array(
-            "kontakt" => 0,
+            "kontakt" => 1,
         ),
 
         "index-section" => array (
