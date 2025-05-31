@@ -13,6 +13,10 @@
             "dbName" =>      "ttcr_db",
         ),
 
+        "contactMail"=> array(
+            "email" => " amueller123@web.de"
+        ), 
+
         "header" => array(
             "kontakt" => 1,
         ),

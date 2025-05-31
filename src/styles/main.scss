@@ -51,6 +51,11 @@ body {
         }
     }
 
+    .error {
+        padding: 7.5px 5px;
+        color: $red;
+    }
+
     #header {
         //min-height: 90px;
         background: $white;
@@ -269,16 +274,6 @@ body {
                         }
                     }
                 }
-
-                button.btn {
-                    margin-bottom: 15px;
-                    background-color: $clr9;
-                    border: solid $clr9 1px;
-                    color: $white;
-
-                    img { margin-top: -1px; }
-                }
-                
             }
 
             .social-wrap {
@@ -588,7 +583,12 @@ body {
                             span {
                                 color: #000;
                                 font-weight: 600;
+
+                                &.spv,&.sbem,&.gender {
+                                    display: none;
+                                }
                             }
+                            
                         }
                     }
                 }
@@ -657,9 +657,7 @@ body {
                                 .player-attributes-item {
                                     align-self: center;
                                     &.player-info {
-                                        width: 30px;
-                                        height: 36px;
-                                        align-content: center;
+                                        display: none;
                                     }
                                     .checked {
                                         width: 10px;
