@@ -27,15 +27,16 @@
                                 <span class="navbar-toggler-icon"></span>
                             </button>
                             <div class="collapse navbar-collapse justify-content-md-end" id="navbarNav">
+                           
+                                <ul class='navbar-nav'>
+                                    <li class='nav-item'>Welcher admin ist online</li>
+                                </ul> 
+                                
                             <ul class="navbar-nav">
-                                <li class="nav-item">Welcher admin ist online</li>
-                            </ul>
-                            <ul class="navbar-nav">
-                                <li class="nav-item">test</li>
-                                <li class="nav-item">test2</li>
-                                <li class="nav-item">Galerie</li>
+                                <li class="nav-item"><a href="index.ad.php">Start</a></li>
+                                <li class="nav-item"><a href="galerie.php">Galerie</a></li>
                                 <li class="nav-item"><a href="player.php">Spieler</a></li>
-                                <li class="nav-item">Artikel</li>
+                                <li class="nav-item"><a href="artikel.php">Artikel</a></li>
                                 <li class="nav-item">
                                     <?php echo "Hallo " .  $_SESSION["useruid"] ?>!
                                 </li>
