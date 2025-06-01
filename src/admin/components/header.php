@@ -28,7 +28,14 @@
                             </button>
                             <div class="collapse navbar-collapse justify-content-md-end" id="navbarNav">
                             <ul class="navbar-nav">
+                                <li class="nav-item">Welcher admin ist online</li>
+                            </ul>
+                            <ul class="navbar-nav">
                                 <li class="nav-item">test</li>
+                                <li class="nav-item">test2</li>
+                                <li class="nav-item">Galerie</li>
+                                <li class="nav-item">Spieler</li>
+                                <li class="nav-item">Artikel</li>
                                 <li class="nav-item">
                                     <?php echo "Hallo " .  $_SESSION["useruid"] ?>!
                                 </li>
