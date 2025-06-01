@@ -8,6 +8,7 @@
                         <p>Andreas Müller</p>
                         <p>Telefon: 0152/53917291</p>
                         <p>E-Mail: amueller123@web.de</p>
+                        <a href="kontakt.php">Andreas kontaktieren</a>
                     </div>
 
                     <div class="col col-sm-12 col-md-6 col-lg-3 footer-section-item mb-3 training">
