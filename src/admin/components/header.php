@@ -34,7 +34,7 @@
                                 <li class="nav-item">test</li>
                                 <li class="nav-item">test2</li>
                                 <li class="nav-item">Galerie</li>
-                                <li class="nav-item">Spieler</li>
+                                <li class="nav-item"><a href="player.php">Spieler</a></li>
                                 <li class="nav-item">Artikel</li>
                                 <li class="nav-item">
                                     <?php echo "Hallo " .  $_SESSION["useruid"] ?>!
