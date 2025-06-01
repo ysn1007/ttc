@@ -1,17 +1,16 @@
-            </div>
         </div>
 
         <footer class="footer">
-            <div class="row">
-                <section class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-4 footer-section">
-                    <div class="footer-section-item mb-3 club">
+            <div class="footer-section">
+                <div class="row">
+                    <div class="col col-sm-12 col-md-6 col-lg-3 footer-section-item mb-3 club">
                         <h4>TTC RAMSHARDE</h4>
                         <p>Andreas Müller</p>
                         <p>Telefon: 0152/53917291</p>
                         <p>E-Mail: amueller123@web.de</p>
                     </div>
 
-                    <div class="footer-section-item mb-3 training">
+                    <div class="col col-sm-12 col-md-6 col-lg-3 footer-section-item mb-3 training">
                         <h4>Hallenzeiten</h4>
                         <p>Mo: Nach Absprache</p>
                         <p>Di: 17:00 - 18:00 Schüler / Jugend </p>
@@ -20,34 +19,34 @@
                         <p>Fr: 18:00 - 22:00 Herren</p>
                     </div>
                     
-                    <div class="footer-section-item mb-3 halle">
+                    <div class="col col-sm-12 col-md-6 col-lg-3 footer-section-item mb-3 halle">
                         <h4>Anfahrt</h4>
                         <p>Petrihalle Halle</p>
                         <p>Apenrader Str. 164</p>
                         <p>24939 Flensburg</p>
                     </div>
                     
-                    <div class="footer-section-item mb-3 social">
+                    <div class="col col-sm-12 col-md-6 col-lg-3 footer-section-item mb-3 social">
                         <h4>Social Media</h4>
                         <p>Facebook</p>
                         <p><a href="https://www.instagram.com/ttc_ramsharde/?igsh=cWg3dmxzM3U5bTNt" target="blank">Instagramm</a></p>
                     </div>
-                </section>
+                </div>
+            </div>
 
-                <section class="col-xs-12 col-md-12 footer-links">
-                    <div class="row">
-                        <div class="col-xs-12 col-md-9 link-wrap">';
-                            <?= (($cfg['header']['kontakt'] == 1) ? '<div class="link-item"><a href="kontakt.php" class="link">Kontakt</a></div>' : ''); ?>
-                            <div class="link-item"><a href="impressum.php" class="link">Impressum</a></div>
-                        </div>
-                        <div class="col-xs-12 col-md-3 copyright">
-                            <div class="link-item">
-                                <span>TTC RAMSHARDE © 2025</span>
-                            </div>          
-                        </div>
+            <div class="footer-links">
+                <div class="row">	
+                    <div class="col col-sm-12 col-md-9 link-wrap">
+                        <?= (($cfg['header']['kontakt'] == 1) ? '<div class="link-item"><a href="kontakt.php" class="link">Kontakt</a></div>' : ''); ?>
+                        <div class="link-item"><a href="impressum.php" class="link">Impressum</a></div>
                     </div>
-                </section>
-
+                    <div class="col col-sm-12 col-md-3 copyright">
+                        <div class="link-item">
+                            <span>TTC RAMSHARDE © 2025</span>
+                        </div>          
+                    </div>
+                </div>
+                
             </div>
         </footer>
     </body>

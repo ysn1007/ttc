@@ -126,6 +126,7 @@ body {
 
                 .header-brand {
                     width:80%;
+                    padding: 0 30px;
                 }
             }
         }
@@ -168,12 +169,12 @@ body {
         .hero {
             min-height: 400px;
             width: 100%;
-            margin-top: 30px;
             margin-bottom: 30px;
 
             //.owl-stage-outer { height: 92vh; }
             .carousel-section {
                 display: block;
+                margin-top: 30px;
             }
 
             @media (max-width: 430px) {
@@ -363,11 +364,15 @@ body {
     .footer {
         background: $white;
         min-height: 100px;
-        padding: 28px 15px 0;
+        .container {
+            width: 100%;
+        }
         .footer-content { min-height: 200px; }
 
         .footer-section {
             max-width: 2000px;
+            padding: 28px 15px 0;
+            margin: 0 auto;
             .training, .halle, .club, .social {
                 h4 {
                     font-family: "geist-bold";
@@ -387,6 +392,9 @@ body {
             background: $clr1;
             margin-top: 24px;
             
+            .row {
+                margin: 0;
+            }
             .link-wrap {
                 display: flex;
                 padding: 0;
@@ -543,8 +551,10 @@ body {
         .team-section {
             background: #fff;
             padding: 0;
-            padding: 44px 0;
             
+            .team-img-carousel {
+                margin-bottom: 30px;
+            }
 
             .team-img {
                 margin-bottom: 44px;
@@ -1013,6 +1023,14 @@ body {
 
                     .article-img {
                         margin-bottom: 0 !important;
+                    }
+                }
+
+                .article-item {
+                    .article {
+                        button {
+                            margin-bottom: 5px;
+                        }
                     }
                 }
 
