@@ -5,9 +5,9 @@
                 <div class="row">
                     <div class="col col-sm-12 col-md-6 col-lg-3 footer-section-item mb-3 club">
                         <h4>TTC RAMSHARDE</h4>
-                        <p>Andreas Müller</p>
-                        <p>Telefon: 0152/53917291</p>
-                        <p>E-Mail: amueller123@web.de</p>
+                        <p>Vorstand: Andreas Müller</p>
+                        <!--p>Telefon: 0152/53917291</p>
+                        <p>E-Mail: amueller123@web.de</p-->
                         <a href="kontakt.php">Andreas kontaktieren</a>
                     </div>
 
