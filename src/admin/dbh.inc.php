@@ -263,13 +263,23 @@ session_start();
     /**
      * Bearbeitet ausgewählte Artikel in der Datenbank 
      */
-    function updateArticle($con, $articleId, $headline, $articleText, $active ) {
-        
+    function updateArticle($con, $articleId, $headline, $articleText, $imgPath, $active ) {
+        $loadImgPath = "SELECT imgPath FROM article WHERE id=$articleId";
+        $imgRes = mysqli_query($con, $loadImgPath);
+        $imgData = mysqli_fetch_array($imgRes);
+        var_dump($imgData['imgPath'], $imgPath);exit;
+        if($imgData['imgPath'] != $imgPath) {
+            var_dump("sind nicht gleich");exit;
+            $dir = getcwd();
+            chdir("../img/article/");
+            unlink($image);
+            chdir($dir);
+        } 
         $stmt = mysqli_stmt_init($con);
-        $query = "UPDATE article SET headline=?, copytext=?, active=? WHERE id=?";
+        $query = "UPDATE article SET headline=?, copytext=?, imgPath=?, active=? WHERE id=?";
 
         mysqli_stmt_prepare($stmt,$query);
-        mysqli_stmt_bind_param($stmt, "ssss", $headline, $articleText, $active, $articleId);
+        mysqli_stmt_bind_param($stmt, "sssss", $headline, $articleText, $imgPath, $active, $articleId);
         
         if(!mysqli_stmt_execute($stmt)) {
             header("location: index.ad.php?error=updateArticleFailed");

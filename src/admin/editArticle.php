@@ -9,18 +9,50 @@ $content = '';
 if($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if(isset($_POST["updateArticle"])) {
+        var_dump($_FILES);exit();
+        //var_dump($_POST);exit();
         //var_dump($_POST["updateArticle"]);exit();
+
+        $file = $_FILES["fileName"];
+        $fileName = $file["name"];
+        $fileTempName = $file["tmp_name"];
+        $fileError = $file["error"];
+        $fileSize = $file["size"];
+        /* if(empty($_POST["fileName"])) {
+            $imgName = "artImg";
+        } else {
+            # input imageName is not displayed, this else would be skipped.
+            $imgName = strtolower(str_replace(" ", "-", $imgName)); 
+        } */
+        $fileExt = explode(".", $fileName);
+        $fileActExt = strtolower(end($fileExt));
+
+        $allowed = array("jpg", "jpeg", "png");
+        
+        if($fileName['error'] === 1){
+            echo "Datei zu groß. Bitte die Datei komprimieren.";
+        }
+
+        if($fileSize > 2000000) {
+            echo "Das Bild darf nicht größer als 2MB sein.";
+        }
+
+        // Text Aktualisierung
         $articleId = $_POST["article_id"];
         $headline = $_POST["headline"];
         $articleText = $_POST["text"];
-        
+        $imgPath = $_POST['imgPath'];
+    
         if($_POST["publish"] == "on") {
             $active = 1;
         } else {
             $active = 0;
         }
+    
+        updateArticle($con, $articleId, $headline, $articleText, $imgPath, $active );
+
         
-        updateArticle($con, $articleId, $headline, $articleText, $active );
+        
     }
 
     if(isset($_POST["deleteArticle"])) {
@@ -57,18 +89,20 @@ if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION["
                 <div class="card-body">
                     <form action="'.basename($_SERVER['PHP_SELF']).'" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="article_id" value="'.$_GET["id"].'" >
+                        <input type="hidden" name="imgPath" value="'. $article["imgPath"] .'">
                          
                         <div class="col-6 mb-3">';
                             if($article["imgPath"] != "") {
                                 $content .= '
-                                <div class="article-bg-img" style="width: 270px; height: 200px; Background-image: url(../img/article/'. $article["imgPath"] .'); background-size: cover; background-position: top; margin-bottom: 30px;"></div>';
+                                <div class="article-bg-img" style="width: 270px; height: 200px; Background-image: url(../img/article/'. $article["imgPath"] .'); background-size: cover; background-position: top; margin-bottom: 30px;"></div>
+                                <img src="/img/article/'. $article["imgPath"] .'" alt="" type="file" width=100px>';
                             } else {
                                 $content .='
                                 <div class="article-bg-img" style="width: 270px; height: 200px; Background-image: url(../img/tt-icon.svg); background-size: cover; background-position: top; margin-bottom: 30px;"></div><br>
                                 <p>Kein Bild vorhanden</p>';
                             }
                             $content .= '
-                            <!--input class="img-upload" type="file" name="fileName"-->
+                            <input class="img-upload" type="file" name="fileName">
                             <!--input class="img-name" type="text" name="imgName" placeholder="Bildname"-->
                         </div>
                         
