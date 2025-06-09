@@ -9,50 +9,113 @@ $content = '';
 if($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if(isset($_POST["updateArticle"])) {
-        var_dump($_FILES);exit();
-        //var_dump($_POST);exit();
-        //var_dump($_POST["updateArticle"]);exit();
 
-        $file = $_FILES["fileName"];
-        $fileName = $file["name"];
-        $fileTempName = $file["tmp_name"];
-        $fileError = $file["error"];
-        $fileSize = $file["size"];
-        /* if(empty($_POST["fileName"])) {
-            $imgName = "artImg";
-        } else {
-            # input imageName is not displayed, this else would be skipped.
-            $imgName = strtolower(str_replace(" ", "-", $imgName)); 
-        } */
-        $fileExt = explode(".", $fileName);
-        $fileActExt = strtolower(end($fileExt));
-
-        $allowed = array("jpg", "jpeg", "png");
-        
-        if($fileName['error'] === 1){
-            echo "Datei zu groß. Bitte die Datei komprimieren.";
-        }
-
-        if($fileSize > 2000000) {
-            echo "Das Bild darf nicht größer als 2MB sein.";
-        }
-
-        // Text Aktualisierung
+        // Variablen definition für Artikel Aktualisierung
         $articleId = $_POST["article_id"];
         $headline = $_POST["headline"];
         $articleText = $_POST["text"];
         $imgPath = $_POST['imgPath'];
-    
+
         if($_POST["publish"] == "on") {
             $active = 1;
         } else {
             $active = 0;
         }
-    
-        updateArticle($con, $articleId, $headline, $articleText, $imgPath, $active );
 
+        var_dump($_FILES);
+        echo "<pre>";
+        var_dump($_POST);
         
+        // neues Bild speichern
+        if($fileError === 0 ) {
+            echo "Fehler Beim hochladen eines Bildes";
+            header('Location: editArticle.php?uploadImg=fileError');exit;
+        }
         
+        if($_FILES["fileName"] != "") {
+            echo "Bild vorhanden" . "<br>";
+
+            // Integiert Datenbank
+            require_once 'dbh.inc.php';
+
+            // variablen definition für die geladene Datei
+            $file = $_FILES["fileName"];
+            $fileName = $_FILES["fileName"]["name"];
+            $fileTempName = $_FILES["fileName"]["tmp_name"];
+            $fileError = $_FILES["fileName"]["error"];
+            $fileSize = $_FILES["fileName"]["size"];
+            $imgName = "artImg";
+
+            mysqli_stmt_prepare($stmt,$query);
+            mysqli_stmt_bind_param($stmt, "s", $articleId);
+
+            if($fileName['error'] === 1){
+                echo "Datei zu groß. Bitte die Datei komprimieren.";
+                header('Location: editArticle.php?uploadImg=tooBig');exit;
+            }
+
+
+            if($_FILES["fileName"]["tmp_name"] != ""){ 
+                var_dump("Bild zwischenspeicher: ".$_FILES["fileName"]["tmp_name"]);
+
+                /**
+                 * Löschen des vorhandenen Bildes
+                 * 
+                **/
+                 
+                $image = $_POST["imgPath"];
+                // prüft ob Artikel schon bild gespeichert hat
+                if(file_exists("../img/article/".$image)) {
+
+                    // Löschen des aktuellen Bildes
+                    $dir = getcwd();
+                    chdir("../img/article/");
+                    unlink($image);
+                    chdir($dir);
+
+                    var_dump("Bild wurde gelöscht.");
+                }
+                
+                /**
+                 * Speichern des neuen Bildes 
+                 * 
+                **/ 
+
+                // extrahiert datei typ zur prüfung ob Datei erlaubt
+                $fileExt = explode(".", $fileName);
+                $fileActExt = strtolower(end($fileExt));
+
+                // erlaubte dateien
+                $allowed = array("jpg", "jpeg", "png");
+                
+                // prüft den Dateityp korrekt ist.
+                if(!in_array($fileActExt, $allowed)) {
+                    var_dump("Prüfung dateityp");
+                    //echo "Dateityp des Bildes Prüfen. Es sind nur .jpg, .jpeg und .png erlaubt.";
+                    header('Location: editArticle.php?uploadImgType=notRight');exit;
+                }
+
+                // Prüft Bildgröße, Bild nbicht größer als 2MB
+                if($fileSize > 2000000) {
+                     var_dump("Prüfung dateigröße");
+                    echo "Das Bild darf nicht größer als 2MB sein.";
+                    header('Location: editArticle.php?uploadImg=toBig');exit;
+                }
+            
+                // Dateipfad und Dateiname werden vergeben 
+                $imgNewName =  $imgName . "." . uniqid("", true) . "." . $fileActExt;
+                $fileDestination = "../img/article/" . $imgNewName;
+                var_dump("imgNewName: ".$imgNewName . ", and destination :" . $fileDestination );
+                move_uploaded_file($fileTempName, $fileDestination);
+                $imgPath = $imgNewName;
+                // Daten zum Aktualisieren des Artikels übertragen
+                updateArticle($con, $articleId, $headline, $articleText, $fileName, $imgPath, $active );
+                                
+            }
+        }
+    
+        updateArticle($con, $articleId, $headline, $articleText, $fileName, $imgPath, $active );
+
     }
 
     if(isset($_POST["deleteArticle"])) {
@@ -96,11 +159,11 @@ if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION["
                                 $content .= '
                                 <div class="article-bg-img" style="width: 270px; height: 200px; Background-image: url(../img/article/'. $article["imgPath"] .'); background-size: cover; background-position: top; margin-bottom: 30px;"></div>
                                 <img src="/img/article/'. $article["imgPath"] .'" alt="" type="file" width=100px>';
-                            } else {
+                            } /* else {
                                 $content .='
                                 <div class="article-bg-img" style="width: 270px; height: 200px; Background-image: url(../img/tt-icon.svg); background-size: cover; background-position: top; margin-bottom: 30px;"></div><br>
                                 <p>Kein Bild vorhanden</p>';
-                            }
+                            } */
                             $content .= '
                             <input class="img-upload" type="file" name="fileName">
                             <!--input class="img-name" type="text" name="imgName" placeholder="Bildname"-->

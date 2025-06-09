@@ -87,7 +87,9 @@ session_start();
         mysqli_stmt_close($stmt);
     }
 
-
+    /**
+     * Gets Player who are set active
+     */
     function getActivePlayersOfTeam($con, $teamNr) {
         /**
          * Prepared statement
@@ -185,7 +187,6 @@ session_start();
             header("location: index.ad.php?error=loadingArticleFailed");
         }
     
-        //mysqli_stmt_bind_param($stmt, "i");
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
         return $result;
@@ -197,8 +198,7 @@ session_start();
      * Holt Artikelinhalt aus der Datenbank wenn diese Aktiv sind
      */
     function getActiveArticle($con) {
-        //var_dump($cfg["reviews"]["items"]);exit;
-        //$sql = "SELECT * FROM article WHERE active = 1 AND LIMIT ". $cfg['reviews']['items'] ." ";
+
         $sql = "SELECT * FROM article WHERE active = 1";
         $stmt = mysqli_stmt_init($con);
         
@@ -206,7 +206,6 @@ session_start();
             header("location: index.ad.php?error=loadingArticleFailed");
         }
     
-        //mysqli_stmt_bind_param($stmt, "i", $active);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
         return $result;
@@ -237,10 +236,10 @@ session_start();
      * Fügt Artikel zur Datenbank
      */
     function addArticle($con, $headline, $articleText, $fileName, $imgNewName, $active, $tagNews, $tagPlayer, $tagReview, $tagSocial, $fileTempName, $fileDestination) {
+
         $stmt = mysqli_stmt_init($con);
         $sql = "INSERT INTO article (headline, copytext, tagNews, tagPlayer, tagReviews, tagSocial, imgName, imgPath, active) VALUES(?,?,?,?,?,?,?,?,?)";
         
-        //var_dump("imgNewName : -> " . $imgNewName );exit;
         if(!mysqli_stmt_prepare($stmt, $sql)) {
             header("location: index.ad.php?error=addArticleFailed");
         }
@@ -263,23 +262,13 @@ session_start();
     /**
      * Bearbeitet ausgewählte Artikel in der Datenbank 
      */
-    function updateArticle($con, $articleId, $headline, $articleText, $imgPath, $active ) {
-        $loadImgPath = "SELECT imgPath FROM article WHERE id=$articleId";
-        $imgRes = mysqli_query($con, $loadImgPath);
-        $imgData = mysqli_fetch_array($imgRes);
-        var_dump($imgData['imgPath'], $imgPath);exit;
-        if($imgData['imgPath'] != $imgPath) {
-            var_dump("sind nicht gleich");exit;
-            $dir = getcwd();
-            chdir("../img/article/");
-            unlink($image);
-            chdir($dir);
-        } 
+    function updateArticle($con, $articleId, $headline, $articleText, $imgName, $imgPath, $active ) {
+        
         $stmt = mysqli_stmt_init($con);
-        $query = "UPDATE article SET headline=?, copytext=?, imgPath=?, active=? WHERE id=?";
+        $query = "UPDATE article SET headline=?, copytext=?, imgName=?, imgPath=?, active=? WHERE id=?";
 
         mysqli_stmt_prepare($stmt,$query);
-        mysqli_stmt_bind_param($stmt, "sssss", $headline, $articleText, $imgPath, $active, $articleId);
+        mysqli_stmt_bind_param($stmt, "ssssss", $headline, $articleText, $imgName, $imgPath, $active, $articleId);
         
         if(!mysqli_stmt_execute($stmt)) {
             header("location: index.ad.php?error=updateArticleFailed");
@@ -354,12 +343,7 @@ session_start();
         }
 
         mysqli_stmt_execute($stmt);
-        
-
-        //$res = mysqli_stmt_get_result($stmt);
         return mysqli_stmt_get_result($stmt);
-        //return $res;
-
         mysqli_stmt_close($stmt);
         
     }
