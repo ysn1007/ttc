@@ -456,11 +456,11 @@ body {
        
         header {
             height: 70px;
-            margin-bottom: 90px;
+            margin-bottom: 30px;
         }
 
         .navbar {
-            padding: 7.5;
+            padding: 0.5rem;
             .container-fluid {
                 margin: 0;
 
@@ -473,6 +473,8 @@ body {
        
         #content-wrapper { 
             min-height: calc(100vh - 220px);
+        
+        
             .accordion { margin-bottom: 30px;
                 
                 .accordion-header {
@@ -513,16 +515,16 @@ body {
             }
 
             #gal-data-group {
-              .tbl {
+            .tbl {
                 input {
                     pointer-events: none;
                     min-width: 100px;
                 }
 
                 input[name="descript"] {
-                   width: 350px;
+                width: 350px;
                 }
-              }  
+            }  
             }
 
             .edit-article-section, .edit-player-section {
@@ -536,6 +538,8 @@ body {
                     
                 }
             }
+            
+            
 
         }
 

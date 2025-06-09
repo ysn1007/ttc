@@ -7,13 +7,13 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <meta http-equiv="X-UA-Compatible" content="ie=edge">
             <!--includes-->
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
             <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap" rel="stylesheet">
 
             <!--styles-->
             <link rel="stylesheet" type="text/css" href="../styles/style.min.css">
 
-            <title>TTC RAMSHARDE</title>
+            <title>TTC RAMSHARDE - ADMIN</title>
         </head>
         <body class="body-wrapper col" id="loggedin">
             <div class="rwl">
@@ -28,15 +28,33 @@
                             </button>
                             <div class="collapse navbar-collapse justify-content-md-end" id="navbarNav">
                            
-                                <ul class='navbar-nav'>
+                                <ul class='nav'>
                                     <li class='nav-item'>Welcher admin ist online</li>
                                 </ul> 
                                 
-                            <ul class="navbar-nav">
-                                <li class="nav-item"><a href="index.ad.php">Start</a></li>
-                                <li class="nav-item"><a href="galerie.php">Galerie</a></li>
-                                <li class="nav-item"><a href="player.php">Spieler</a></li>
-                                <li class="nav-item"><a href="artikel.php">Artikel</a></li>
+                            <ul class="nav">
+                                <li class="nav-item <?php ((basename($_SERVER['PHP_SELF']) == "index.ad.php") ? "active" : "") ?>">
+                                    <a href="index.ad.php" class="nav-link">Start</a>
+                                </li>
+                                <li class="nav-item <?php ((basename($_SERVER['PHP_SELF']) == "gallery.php") ? "active" : "") ?> dropdown">
+                                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="gallery.php" role="button" aria-expanded="false">Galerie</a>
+                                    <ul class="dropdown-menu ">
+                                        <li><a class="dropdown-item" href="gallery.php?1950-1959">1950-1959</a></li>
+                                        <li><a class="dropdown-item" href="gallery.php?1960-1969">1960-1969</a></li>
+                                        <li><a class="dropdown-item" href="gallery.php?1970-1979">1970-1979</a></li>
+                                        <li><a class="dropdown-item" href="gallery.php?1980-1989">1980-1989</a></li>
+                                        <li><a class="dropdown-item" href="gallery.php?1990-1999">1990-1999</a></li>
+                                        <li><a class="dropdown-item" href="gallery.php?2000-2009">2000-2009</a></li>
+                                        <li><a class="dropdown-item" href="gallery.php?2010-2019">2010-2019</a></li>
+                                        <li><a class="dropdown-item" href="gallery.php?2020-2029">2020-2029</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item <?php ((basename($_SERVER['PHP_SELF']) == "player.php") ? "active" : "") ?>">
+                                    <a href="player.php" class="nav-link">Spieler</a>
+                                </li>
+                                <li class="nav-item <?php ((basename($_SERVER['PHP_SELF']) == "article.php") ? "active" : "") ?>">
+                                    <a href="article.php" class="nav-link">Artikel</a>
+                                </li>
                                 <li class="nav-item">
                                     <?php echo "Hallo " .  $_SESSION["useruid"] ?>!
                                 </li>
@@ -49,5 +67,5 @@
                         </div>
                     </nav>
                 </header>
-                <div id="content-wrapper" class="col-xs-12 col-sm-12 col-md-10 offset-md-1">
+                <div id="content-wrapper" class="container-fluid">
                     <div class="row">
