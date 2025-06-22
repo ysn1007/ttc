@@ -131,7 +131,7 @@ if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION["
     <div class="col add-img-section">
         <div class="card">
             <div class="card-header">
-                <h4>Bild hinzufügen <a href="index.ad.php" class="btn btn-danger float-end">Zurück</a></h4>
+                <h4>Bild hinzufügen <a href="javascript:history.go(-1)" class="btn btn-danger float-end">Zurück</a></h4>
             </div>
             <div class="card-body">
                 <form action="'.basename($_SERVER['PHP_SELF']).'" method="post" enctype="multipart/form-data">

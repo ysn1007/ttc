@@ -39,14 +39,14 @@
                                 <li class="nav-item <?php ((basename($_SERVER['PHP_SELF']) == "gallery.php") ? "active" : "") ?> dropdown">
                                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="gallery.php" role="button" aria-expanded="false">Galerie</a>
                                     <ul class="dropdown-menu ">
-                                        <li><a class="dropdown-item" href="gallery.php?1950-1959">1950-1959</a></li>
-                                        <li><a class="dropdown-item" href="gallery.php?1960-1969">1960-1969</a></li>
-                                        <li><a class="dropdown-item" href="gallery.php?1970-1979">1970-1979</a></li>
-                                        <li><a class="dropdown-item" href="gallery.php?1980-1989">1980-1989</a></li>
-                                        <li><a class="dropdown-item" href="gallery.php?1990-1999">1990-1999</a></li>
-                                        <li><a class="dropdown-item" href="gallery.php?2000-2009">2000-2009</a></li>
-                                        <li><a class="dropdown-item" href="gallery.php?2010-2019">2010-2019</a></li>
-                                        <li><a class="dropdown-item" href="gallery.php?2020-2029">2020-2029</a></li>
+                                        <li><a class="dropdown-item" href="gallery.php?dekade=1950-1959">1950-1959</a></li>
+                                        <li><a class="dropdown-item" href="gallery.php?dekade=1960-1969">1960-1969</a></li>
+                                        <li><a class="dropdown-item" href="gallery.php?dekade=1970-1979">1970-1979</a></li>
+                                        <li><a class="dropdown-item" href="gallery.php?dekade=1980-1989">1980-1989</a></li>
+                                        <li><a class="dropdown-item" href="gallery.php?dekade=1990-1999">1990-1999</a></li>
+                                        <li><a class="dropdown-item" href="gallery.php?dekade=2000-2009">2000-2009</a></li>
+                                        <li><a class="dropdown-item" href="gallery.php?dekade=2010-2019">2010-2019</a></li>
+                                        <li><a class="dropdown-item" href="gallery.php?dekade=2020-2029">2020-2029</a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item <?php ((basename($_SERVER['PHP_SELF']) == "player.php") ? "active" : "") ?>">

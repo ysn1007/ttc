@@ -474,7 +474,9 @@ body {
         #content-wrapper { 
             min-height: calc(100vh - 220px);
         
-        
+            .img-group-header {
+                background: $white;
+            }
             .accordion { margin-bottom: 30px;
                 
                 .accordion-header {
@@ -495,7 +497,12 @@ body {
                                 input {
                                 border: none;
                                 background: none;
-                                width: 50px;
+                                //width: 50px;
+                                width: 100%;
+
+                                &#dekade {
+                                    width: 100%;
+                                }
                                 }
                             }
                         }
