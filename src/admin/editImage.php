@@ -54,7 +54,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if(isset($_POST["deleteImage"])) {
-        //var_dump($_POST);exit();
         $imageId = $_POST["imageId"];
 
         deleteImage($con, $imageId );
@@ -71,13 +70,12 @@ if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION["
     <div class="col edit-article-section">
         <div class="card">
             <div class="card-header">
-                <h4>Artikel bearbeiten <a href="index.ad.php" class="btn btn-danger float-end">Zurück</a></h4>
+                <h4>Artikel bearbeiten <a href="javascript:history.go(-1)" class="btn btn-danger float-end">Zurück</a></h4>
             </div>';
             
             if(isset($_GET["id"])) {
                $res = getImageId($con, $_GET["id"]);
                while($row = mysqli_fetch_assoc($res)){
-                //var_dump($row);exit();
                 if($row["active"] == 1) {
                     $status = "checked";
                 } else {

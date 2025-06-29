@@ -41,7 +41,7 @@ if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION["
     <div class="col edit-article-section">
         <div class="card">
             <div class="card-header">
-                <h4>Artikel bearbeiten <a href="index.ad.php" class="btn btn-danger float-end">Zurück</a></h4>
+                <h4>Artikel bearbeiten <a href="javascript:history.go(-1)" class="btn btn-danger float-end">Zurück</a></h4>
             </div>';
             if(isset($_GET["id"])) {
 

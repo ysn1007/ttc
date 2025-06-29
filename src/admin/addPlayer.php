@@ -35,9 +35,6 @@ if(isset($_POST["submit"])) {
     }
     
     
-    //var_dump($name, $lastname, $livePZ, $team, $position, $active, $spv, $sbem);exit();
-    #, $lastname, $livePZ, $team, $position, $active, $spv, $sbem
-    //var_dump($con, $name, $lastname, $livePZ, $team, $position, $active, $spv, $sbem);exit;
     addPlayer($con, $name, $lastname, $livePZ, $team, $position, $active, $spv, $sbem);
     
 }
@@ -47,7 +44,7 @@ if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION["
     <div class="col edit-player-section">
         <div class="card">
             <div class="card-header">
-                <h4>Spieler bearbeiten <a href="index.ad.php" class="btn btn-danger float-end">Zurück</a></h4>
+                <h4>Spieler bearbeiten <a href="javascript:history.go(-1)" class="btn btn-danger float-end">Zurück</a></h4>
             </div>
 
             <div class="card-body">

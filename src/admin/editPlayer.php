@@ -64,7 +64,7 @@ if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) ){
     <div class="col edit-player-section">
         <div class="card">
             <div class="card-header">
-                <h4>Spieler bearbeiten <a href="index.ad.php" class="btn btn-danger float-end">Zurück</a></h4>
+                <h4>Spieler bearbeiten <a href="javascript:history.go(-1)" class="btn btn-danger float-end">Zurück</a></h4>
             </div>';
             if(isset($_GET["id"])) {
                 
