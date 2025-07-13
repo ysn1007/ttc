@@ -473,7 +473,7 @@ body {
        
         #content-wrapper { 
             min-height: calc(100vh - 220px);
-        
+            max-width: 1600px;
             .img-group-header {
                 background: $white;
             }

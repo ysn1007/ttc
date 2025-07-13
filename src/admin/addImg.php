@@ -139,19 +139,16 @@ if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION["
                         <input class="img-upload" type="file" name="imgName[]" multiple>
                         <!--input class="img-name" type="text" name="imgName" placeholder="Bildname"-->
                     </div>
-                    <div class="row row-cols-2">
-                        <div class="col-3">
-                            <div class="col-12 mb-3">
+                    <div class="col-12 mb-3">
+                        <div class="row d-flex justify-content-between flex-sm-column flex-md-column flex-lg-row">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-4 mb-3">
                                 <input class="form-control" type="text" name="year" placeholder="Das Jahr">
                             </div> 
-                            <div class="col-12 mb-3">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-4 mb-3">
                                 <input class="form-control" type="text" name="headline" placeholder="* Bildüberschrift">
                             </div>
-                           
-                        </div>
-                        <div class="col-3">
-                            <div class="col-12 mb-3">
-                                <select class="form-select form-select-md mb-3" name="dekade" aria-label=".form-select-md example">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-4">
+                                <select class="form-select form-select-md" name="dekade" aria-label=".form-select-md example">
                                     <option selected>* Das Jahrzehnt auswählen</option>
                                     <option value="1">1950-1959</option>
                                     <option value="2">1960-1969</option>

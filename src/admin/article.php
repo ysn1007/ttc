@@ -6,7 +6,13 @@ $content .= '';
 
 if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION["author"]) ) {
     $content .= '
-    <div class="accordion" id="accordionExample-3">    
+    <div class="accordion" id="accordionExample-3">
+        <section class="img-group-header d-flex justify-content-between align-items-center mb-3 p-4">
+            <div class="dekades">Anzahl Artikel gespeichert</div>
+            <div class="add-img add-item">
+                <a class="btn btn-primary" href="addArticle.php">Artikel hinzufügen</a>
+            </div>
+        </section>    
         <div class="accordion-item">
             <h2 class="accordion-header">
             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
@@ -17,9 +23,9 @@ if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION["
                 <div class="accordion-body">
                     
                     <form action="editArticle.php" method="post" enctype="multipart/form-data">
-                        <div class="add-article add-item">
+                        <!--div class="add-article add-item">
                             <a class="btn btn-primary" href="addArticle.php">Artikel hinzufügen</a>
-                        </div>
+                        </div-->
                         <table class="tbl table table-light table-striped"> 
                             <thead>
                                 <tr>

@@ -11,10 +11,27 @@ if(!isset($_SESSION["useruid"])) {
         if(isset($_SESSION["admin"])) {
             $content .= '
             
-
+            <section class="img-group-header mb-3">
+                <div class="d-flex justify-content-between p-2">
+                    <div class="dekades align-self-center">
+                        Schnell aktion ausführen
+                    </div>
+                    <div class="d-flex justify-content-end align-items-center gap-4">
+                        <div class="add-img add-item">
+                            <a class="btn btn-primary" href="addPlayer.php">Spieler hinzufügen</a>
+                        </div>
+                        <div class="add-img add-item">
+                            <a class="btn btn-primary" href="addArticle.php">Artikel hinzufügen</a>
+                        </div>
+                        <div class="add-img add-item">
+                            <a class="btn btn-primary" href="addImg.php">Bild hinzufügen</a>
+                        </div>
+                    </div>
+                </div>
+            </section>    
             <div class="col-12">
                 <div class="row">
-                    <div class="col-4" id="addPlayerPanel">
+                    <div class="col col-sm-12 col-md-6 col-lg-4" id="addPlayerPanel">
                        
                         <div class="card">
                             <div class="card-header">
@@ -92,7 +109,7 @@ if(!isset($_SESSION["useruid"])) {
                         
                         </div>
                     </div>
-                    <div class="col-4">
+                    <div class="col col-sm-12 col-md-6 col-lg-4">
                         <div class="card">
                             <div class="card-header">
                                 <h4>Artikel hinzufügen</h4>
@@ -106,7 +123,7 @@ if(!isset($_SESSION["useruid"])) {
                                         <input class="form-control" type="text" name="headline" placeholder="Überschrift">
                                     </div>
                                     <div class="col-12 mb-3">
-                                        <textarea class="form-control" type="text" name="text"  rows="10" cols="100" placeholder="Artikel"></textarea>
+                                        <textarea class="form-control" type="text" name="text"  rows="3" cols="100" placeholder="Artikel"></textarea>
                                     </div>
                                         
                                     <div class="col-12 mb-3">
@@ -129,7 +146,7 @@ if(!isset($_SESSION["useruid"])) {
                             </div>
                         </div>
                     </div>
-                    <div class="col-4">
+                    <div class="col col-sm-12 col-md-6 col-lg-4">
                         <div class="card">
                             <div class="card-header">
                                 <h4>Bild hinzufügen</h4>

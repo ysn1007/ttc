@@ -7,6 +7,12 @@ $content .= '';
 if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) ) {
 $content .= '
 <div class="accordion" id="accordionExample-2">
+    <section class="img-group-header d-flex justify-content-between align-items-center mb-3 p-4">
+        <div class="dekades">Anzahl Spieler gespeichert</div>
+        <div class="add-img add-item">
+            <a class="btn btn-primary" href="addPlayer.php">Spieler hinzufügen</a>
+        </div>
+    </section>
     <div class="accordion-item">
         <h2 class="accordion-header">
         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
@@ -17,9 +23,7 @@ $content .= '
             <div class="accordion-body">
                 
                 <form action="editPlayer.php" method="post" enctype="multipart/form-data">
-                    <div class="add-player add-item">
-                        <a class="btn btn-primary" href="addPlayer.php">Spieler hinzufügen</a>
-                    </div>
+                    
                     <table class="tbl table table-light table-striped"> 
                         <thead>
                             <tr>

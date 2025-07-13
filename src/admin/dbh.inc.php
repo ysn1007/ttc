@@ -34,7 +34,7 @@ session_start();
          * prüft Variablen verbindung
         */
         if(!mysqli_stmt_prepare($stmt,$sql)) {
-            header("location: login.php?error=loadingPlayersFailed");
+            header("location: player.php?error=loadingPlayersFailed");
         }
     
         /**
@@ -68,7 +68,7 @@ session_start();
          * prüft Variablen verbindung
         */
         if(!mysqli_stmt_prepare($stmt,$sql)) {
-            header("location: login.php?error=loadingPlayersFailed");
+            header("location: player.php?error=loadingPlayersFailed");
         }
     
         /**
@@ -99,7 +99,7 @@ session_start();
          * prüft Variablen verbindung
         */
         if(!mysqli_stmt_prepare($stmt,$sql)) {
-            header("location: login.php?error=loadingTeamFailed");
+            header("location: player.php?error=loadingTeamFailed");
         }
 
         /**
@@ -126,13 +126,13 @@ session_start();
         $sql = "INSERT INTO player (Vorname, Nachname, livePZ, team, position, aktiv, spv, sbem) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
        
         if(!mysqli_stmt_prepare($stmt, $sql)) {
-            header("location: index.ad.php?error=addPlayerFailed");
+            header("location: player.php?error=addPlayerFailed");
         }
 
         mysqli_stmt_bind_param($stmt,"ssiiisss", $name, $lastname, $livePZ, $team, $position, $active, $spv, $sbem);
         mysqli_stmt_execute($stmt);
 
-        header("location: index.ad.php?addPlayer=success");
+        header("location: player.php?addPlayer=success");
     }
 
     /**
@@ -147,9 +147,9 @@ session_start();
         mysqli_stmt_bind_param($stmt, "ssssssssi", $name, $lastname, $livePZ, $team, $position, $active, $spv, $sbem, $playerId);
         
         if(mysqli_stmt_execute($stmt)) {
-            header("location: index.ad.php?success=updatePlayer");
+            header("location: player.php?success=updatePlayer");
         } else {
-            header("location: index.ad.php?error=updatePlayerFailed");  
+            header("location: player.php?error=updatePlayerFailed");  
         }
     }
 
@@ -166,9 +166,9 @@ session_start();
         mysqli_stmt_bind_param($stmt, "i", $pid);
 
         if(!mysqli_stmt_execute($stmt)) {
-            header("location: index.ad.php?error=deletePlayerFailed");
+            header("location: player.php?error=deletePlayerFailed");
         } else {
-            header("location: index.ad.php?success=deletePlayer");
+            header("location: player.php?success=deletePlayer");
         }
 
     }
@@ -182,7 +182,7 @@ session_start();
         $stmt = mysqli_stmt_init($con);
         
         if(!mysqli_stmt_prepare($stmt,$sql)) {
-            header("location: index.ad.php?error=loadingArticleFailed");
+            header("location: article.php?error=loadingArticleFailed");
         }
     
         //mysqli_stmt_bind_param($stmt, "i");
@@ -197,16 +197,13 @@ session_start();
      * Holt Artikelinhalt aus der Datenbank wenn diese Aktiv sind
      */
     function getActiveArticle($con) {
-        //var_dump($cfg["reviews"]["items"]);exit;
-        //$sql = "SELECT * FROM article WHERE active = 1 AND LIMIT ". $cfg['reviews']['items'] ." ";
         $sql = "SELECT * FROM article WHERE active = 1";
         $stmt = mysqli_stmt_init($con);
         
         if(!mysqli_stmt_prepare($stmt,$sql)) {
-            header("location: index.ad.php?error=loadingArticleFailed");
+            header("location: article.php?error=loadingArticleFailed");
         }
     
-        //mysqli_stmt_bind_param($stmt, "i", $active);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
         return $result;
@@ -222,7 +219,7 @@ session_start();
         $stmt = mysqli_stmt_init($con);
 
         if(!mysqli_stmt_prepare($stmt,$sql)) {
-            header("location: index.ad.php?error=loadingArticleWithIdFailed");
+            header("location: article.php?error=loadingArticleWithIdFailed");
         }
 
         mysqli_stmt_bind_param($stmt, "i", $id);
@@ -240,9 +237,8 @@ session_start();
         $stmt = mysqli_stmt_init($con);
         $sql = "INSERT INTO article (headline, copytext, tagNews, tagPlayer, tagReviews, tagSocial, imgName, imgPath, active) VALUES(?,?,?,?,?,?,?,?,?)";
         
-        //var_dump("imgNewName : -> " . $imgNewName );exit;
         if(!mysqli_stmt_prepare($stmt, $sql)) {
-            header("location: index.ad.php?error=addArticleFailed");
+            header("location: article.php?error=addArticleFailed");
         }
         
         if($fileName == ""){
@@ -250,12 +246,12 @@ session_start();
             $imgNewName = "";
             mysqli_stmt_bind_param($stmt, "ssiiiisss", $headline, $articleText, $tagNews, $tagPlayer, $tagReview, $tagSocial, $fileName, $imgNewName, $active);
             mysqli_stmt_execute($stmt);
-            header("location: index.ad.php?upload=success");
+            header("location: article.php?upload=success");
         } else {
             mysqli_stmt_bind_param($stmt, "ssiiiisss", $headline, $articleText, $tagNews, $tagPlayer, $tagReview, $tagSocial, $fileName, $imgNewName, $active);
             mysqli_stmt_execute($stmt);   
             move_uploaded_file($fileTempName, $fileDestination);
-            header("location: index.ad.php?upload=success");
+            header("location: article.php?upload=success");
         }
        
     }
@@ -272,9 +268,9 @@ session_start();
         mysqli_stmt_bind_param($stmt, "ssss", $headline, $articleText, $active, $articleId);
         
         if(!mysqli_stmt_execute($stmt)) {
-            header("location: index.ad.php?error=updateArticleFailed");
+            header("location: article.php?error=updateArticleFailed");
         }else {
-            header("location: index.ad.php?success=updateArticle");
+            header("location: article.php?success=updateArticle");
         }
         
     }
@@ -296,7 +292,7 @@ session_start();
         mysqli_stmt_bind_param($stmt, "s", $articleId);
 
         if(!mysqli_stmt_execute($stmt)) {
-            header("location: index.ad.php?error=deleteArticleFailed");
+            header("article.php?error=deleteArticleFailed");
         }else {
             if(file_exists("../img/article/".$image)) {
                 $dir = getcwd();
@@ -305,7 +301,7 @@ session_start();
                 chdir($dir);
             }
 
-            header("location: index.ad.php?success=deleteArticle");
+            header("article.php?success=deleteArticle");
         }
 
     }
@@ -327,7 +323,7 @@ session_start();
         $stmt2->bind_param("sssssssssss", $headline, $imgText, $year, $dekade, $fileName, $imgNewName, $fileDestination, $tags, $active, $datum, $datum);
         $stmt2->execute();
 
-        header("location: index.ad.php?upload=success");
+        header("location: gallery.php?upload=success");
 
     }
 
@@ -340,15 +336,11 @@ session_start();
         $stmt = mysqli_stmt_init($con);
        
         if(!mysqli_stmt_prepare($stmt,$sql)) {
-            header("location: index.ad.php?error=loadingGalleryImagesFailed");
+            header("location: gallery.php?error=loadingGalleryImagesFailed");
         }
 
         mysqli_stmt_execute($stmt);
-        
-
-        //$res = mysqli_stmt_get_result($stmt);
         return mysqli_stmt_get_result($stmt);
-        //return $res;
 
         mysqli_stmt_close($stmt);
         
@@ -362,7 +354,7 @@ session_start();
         $stmt = mysqli_stmt_init($con);
 
         if(!mysqli_stmt_prepare($stmt,$sql)) {
-            header("location: index.ad.php?error=loadingGalleryImageWithIdFailed");
+            header("location: gallery.php?error=loadingGalleryImageWithIdFailed");
         }
 
         mysqli_stmt_bind_param($stmt, "i", $imgId);
@@ -384,9 +376,9 @@ session_start();
         mysqli_stmt_bind_param($stmt, "ssssss", $title, $descript, $year, $dekade, $active, $imageId);
         
         if(!mysqli_stmt_execute($stmt)) {
-            header("location: index.ad.php?error=updateImageFailed");
+            header("location: gallery.php?error=updateImageFailed");
         }else {
-            header("location: index.ad.php?success=updateImage");
+            header("location: gallery.php?success=updateImage");
         }
     }
 
@@ -407,14 +399,14 @@ session_start();
         mysqli_stmt_bind_param($stmt, "s", $imageId);
 
         if(!mysqli_stmt_execute($stmt)) {
-            header("location: index.ad.php?error=deleteGalleryImageFailed");
+            header("location: gallery.php?error=deleteGalleryImageFailed");
         }else {
 
             if(file_exists($imgPath)) {
                 unlink($imgPath);
             }
 
-            header("location: index.ad.php?success=deleteGalleryImage");
+            header("location: gallery.php?success=deleteGalleryImage");
         }
 
     }
@@ -428,7 +420,7 @@ session_start();
         $stmt = mysqli_stmt_init($con);
         
         if(!mysqli_stmt_prepare($stmt,$query)) {
-            header("location: index.ad.php?error=loadingGalleryImageWithIdFailed");
+            header("location: gallery.php?error=loadingGalleryImageWithIdFailed");
         }
 
         mysqli_stmt_bind_param($stmt, "s", $dekade);
