@@ -453,7 +453,14 @@ body {
 
     /** Styles for logged admin in section **/
     &#loggedin {
-       
+        a {
+            color: $black;
+        }
+
+        .btn {
+            color: $white;
+        }
+
         header {
             height: 70px;
             margin-bottom: 30px;
@@ -461,12 +468,22 @@ body {
 
         .navbar {
             padding: 0.5rem;
+            
             .container-fluid {
                 margin: 0;
 
                 .nav-item{ 
                     padding: 0.5rem;
                     align-self: center;
+
+                    ul {
+                        li {
+                            a {
+                                font-size: 1em !important;
+                            }
+                            
+                        }
+                    }
                 }
             }
         }
@@ -546,7 +563,35 @@ body {
                 }
             }
             
-            
+            //index.ad
+            #individual-cards {
+                .card-body {
+                    padding-top: 0.5em;
+                    padding-bottom: 0.5;
+                    height: 400px;
+                    overflow: scroll;
+
+                    ul {
+                        margin: 0;
+                        padding: 0;
+                        li {
+                            padding: 8px;
+                            list-style: none;
+                            a {
+                                text-decoration: none;
+                                color: $black;
+                            }
+                        }
+                    }
+                }
+
+                #article-panel {
+                    .list-group-item {
+                        display: flex;
+                        gap: 15px;
+                    }
+                }
+            }
 
         }
 

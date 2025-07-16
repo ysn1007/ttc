@@ -323,7 +323,7 @@ session_start();
         $stmt2->bind_param("sssssssssss", $headline, $imgText, $year, $dekade, $fileName, $imgNewName, $fileDestination, $tags, $active, $datum, $datum);
         $stmt2->execute();
 
-        header("location: gallery.php?upload=success");
+        header("location: index.ad.php");
 
     }
 
@@ -416,7 +416,7 @@ session_start();
      * Gets Images from specific dekade and if they are active to be published
      */
     function getDekadeImages($con, $dekade) {
-        $query = "SELECT * FROM gallery WHERE dekade = ? AND active = 1;";
+        $query = "SELECT * FROM gallery WHERE dekade = ? AND active = 1 ORDER BY created DESC;";
         $stmt = mysqli_stmt_init($con);
         
         if(!mysqli_stmt_prepare($stmt,$query)) {
@@ -431,5 +431,25 @@ session_start();
 
         mysqli_stmt_close($stmt);
 
+    }
+
+    /**
+     * Gets last 10 created active images  from gallery
+     */
+    function getLastImages($con) {
+        $query = "SELECT * FROM gallery WHERE active = 1 ORDER BY created DESC LIMIT 10;";
+        $stmt = mysqli_stmt_init($con);
+        
+        if(!mysqli_stmt_prepare($stmt,$query)) {
+            header("location: gallery.php?error=getLastActiveImagesFailed");
+        }
+
+        mysqli_stmt_bind_param($stmt, "s", $dekade);
+        mysqli_stmt_execute($stmt);
+
+        $res = mysqli_stmt_get_result($stmt);
+        return $res;
+
+        mysqli_stmt_close($stmt);
     }
       
