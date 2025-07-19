@@ -1,0 +1,8 @@
+<svg id="menu-icon" xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 45 45">
+  <rect id="bg-frame" width="45" height="45" fill="#fff" opacity="0"/>
+  <g id="icon" transform="translate(-698 75)">
+    <rect id="Rechteck_36" data-name="Rechteck 36" width="33" height="4" rx="2" transform="translate(704 -63)" fill="#030303"/>
+    <rect id="Rechteck_37" data-name="Rechteck 37" width="21" height="4" rx="2" transform="translate(704 -54)" fill="#030303"/>
+    <rect id="Rechteck_38" data-name="Rechteck 38" width="33" height="4" rx="2" transform="translate(704 -45)" fill="#030303"/>
+  </g>
+</svg>

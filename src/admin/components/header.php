@@ -24,7 +24,7 @@
                             <a class="navbar-brand" href="#">TTC RAMSHARDE</a>
                             
                             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="navbar-toggler-icon"></span>
+                                <span class="navbar-toggler-icon"><img src="../img/menu-icon.svg" width="45" height="45" alt=""></span>
                             </button>
                             <div class="collapse navbar-collapse justify-content-md-end" id="navbarNav">
                                 
@@ -32,7 +32,7 @@
                                     <li class="nav-item">
                                         <?php echo "Hallo " .  $_SESSION["useruid"] ?>!
                                     </li>
-                                    <li class='nav-item'>Welcher admin ist online</li>
+                                    <!--li class='nav-item'>Welcher admin ist online</li-->
                                 </ul> 
                                 
                             <ul class="nav">

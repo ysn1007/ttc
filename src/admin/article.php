@@ -23,77 +23,76 @@ if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION["
                 <div class="accordion-body">
                     
                     <form action="editArticle.php" method="post" enctype="multipart/form-data">
-                        <!--div class="add-article add-item">
-                            <a class="btn btn-primary" href="addArticle.php">Artikel hinzufügen</a>
-                        </div-->
-                        <table class="tbl table table-light table-striped"> 
-                            <thead>
-                                <tr>
-                                    <th scope="col">Nr.</th>
-                                    <th scope="col">Überschrift</th>
-                                    <th scope="col">Text</th>
-                                    <th scope="col">News</th>
-                                    <th scope="col">Meldungen</th>
-                                    <th scope="col">Neuzugang</th>
-                                    <th scope="col">Social Media</th>
-                                    <!--th scope="col">Bildname</th-->
-                                    <!--th scope="col">Bildpfad</th-->
-                                    <th scope="col">Bild</th>
-                                    <th scope="col">Status</th>';
-                                    if(isset($_SESSION["admin"])) {
-                                        $content .= '<th>Aktion</th>';
-                                    }
-                                    $content .= '
-                                </tr>
-                            </thead>
-                            
-                            
-                            <tbody>';
-                            
-                            $result = getArticle($con);
-                            while($article = mysqli_fetch_assoc($result)) {
-                                //var_dump($article); exit;
-                                if ($article["active"] == 1) {
-                                    $status = "online";
-                                } else {
-                                    $status = "offline";
-                                }
-
-                                $content .= '
-                                <tr>
-                                    <th scope="row">'. $article["id"] .'</th>
-                                    <td><input type="text" name="" value="'. $article["headline"] .'" ></td>
-                                    <td><input type="text" name="" title="'. $article["copytext"] .'" value="'. $article["copytext"] .'"></td>
-                                    <td><input type="text" name="" title="'. $article["tagNews"] .'" value="'. $article["tagNews"] .'"></td>
-                                    <td><input type="text" name="" title="'. $article["tagReviews"] .'" value="'. $article["tagReviews"] .'"></td>
-                                    <td><input type="text" name="" title="'. $article["tagPlayer"] .'" value="'. $article["tagPlayer"] .'"></td>
-                                    <td><input type="text" name="" title="'. $article["tagSocial"] .'" value="'. $article["tagSocial"] .'"></td>
-                                    <!--td><input type="text" name="" value="'. $article["imgName"] .'"></td-->
-                                    <!--td><input type="text" name="" value="'. $article["imgPath"] .'"></td-->';
-                                    if($article["imgPath"] != "") {
+                        <div class="table-responsive">
+                            <table class="tbl table table-light table-striped"> 
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Nr.</th>
+                                        <th scope="col">Überschrift</th>
+                                        <th scope="col">Text</th>
+                                        <th scope="col">News</th>
+                                        <th scope="col">Meldungen</th>
+                                        <th scope="col">Neuzugang</th>
+                                        <th scope="col">Social Media</th>
+                                        <!--th scope="col">Bildname</th-->
+                                        <!--th scope="col">Bildpfad</th-->
+                                        <th scope="col">Bild</th>
+                                        <th scope="col">Status</th>';
+                                        if(isset($_SESSION["admin"])) {
+                                            $content .= '<th>Aktion</th>';
+                                        }
                                         $content .= '
-                                        <td>
-                                            <img src="../img/article/'.$article["imgPath"].'" width="50" height="50"/>
-                                        </td>';
-                                        
+                                    </tr>
+                                </thead>
+                                
+                                
+                                <tbody>';
+                                
+                                $result = getArticle($con);
+                                while($article = mysqli_fetch_assoc($result)) {
+                                    //var_dump($article); exit;
+                                    if ($article["active"] == 1) {
+                                        $status = "online";
                                     } else {
-                                        $content .= '
-                                        <td>
-                                            <img src="../img/tt-icon.svg" width="50" height="50"/>
-                                        </td>';
-                                    } 
-                                    
-                                    $content .= '
-                                    <td><input type="text" name="" value="'. $status .'"></td>';
-                                    if(isset($_SESSION["admin"])) {
-                                        $content .= '<td><a class="btn btn-success" href="editArticle.php?id='. $article["id"] .'">Bearbeiten</a> ';
+                                        $status = "offline";
                                     }
+
                                     $content .= '
-                                </tr>';
-                            }
-                            $content .= '
-                            </tbody>
-                        </table>
+                                    <tr>
+                                        <th scope="row">'. $article["id"] .'</th>
+                                        <td><input type="text" name="" value="'. $article["headline"] .'" ></td>
+                                        <td><input type="text" name="" title="'. $article["copytext"] .'" value="'. $article["copytext"] .'"></td>
+                                        <td><input type="text" name="" title="'. $article["tagNews"] .'" value="'. $article["tagNews"] .'"></td>
+                                        <td><input type="text" name="" title="'. $article["tagReviews"] .'" value="'. $article["tagReviews"] .'"></td>
+                                        <td><input type="text" name="" title="'. $article["tagPlayer"] .'" value="'. $article["tagPlayer"] .'"></td>
+                                        <td><input type="text" name="" title="'. $article["tagSocial"] .'" value="'. $article["tagSocial"] .'"></td>
+                                        <!--td><input type="text" name="" value="'. $article["imgName"] .'"></td-->
+                                        <!--td><input type="text" name="" value="'. $article["imgPath"] .'"></td-->';
+                                        if($article["imgPath"] != "") {
+                                            $content .= '
+                                            <td>
+                                                <img src="../img/article/'.$article["imgPath"].'" width="50" height="50"/>
+                                            </td>';
+                                            
+                                        } else {
+                                            $content .= '
+                                            <td>
+                                                <img src="../img/tt-icon.svg" width="50" height="50"/>
+                                            </td>';
+                                        } 
+                                        
+                                        $content .= '
+                                        <td><input type="text" name="" value="'. $status .'"></td>';
+                                        if(isset($_SESSION["admin"])) {
+                                            $content .= '<td><a class="btn btn-success" href="editArticle.php?id='. $article["id"] .'">Bearbeiten</a> ';
+                                        }
+                                        $content .= '
+                                    </tr>';
+                                }
+                                $content .= '
+                                </tbody>
+                            </table>
+                        </div>
                     </form>
                 </div>
             </div>
