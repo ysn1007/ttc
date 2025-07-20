@@ -46,7 +46,7 @@ $content .= '
                                 $playerData = getPlayers($con);
                                 while($players = mysqli_fetch_assoc($playerData)) {
                                     $content .= '
-                                        <tr>
+                                        <tr id="'. $players["id"] .'">
                                             <th scope="row">'. $players["id"].'</th>
                                             <td><input type="text" name="name" value="'. $players["Vorname"] .", ". $players["Nachname"] .'"></td>
                                             <td><input type="text" name="livepz" value="'. $players["livePZ"] .'"></td>

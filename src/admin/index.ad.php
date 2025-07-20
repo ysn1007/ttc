@@ -20,12 +20,17 @@ if(!isset($_SESSION["useruid"])) {
 
                             <div class="card-body">
                                 <ul class="list-group list-group-flush">';
-                                $playerData = getPlayers($con);
-                                while($players = mysqli_fetch_assoc($playerData)) {
-                                    $content .= '
-                                    <a href="#" class="list-group-item">
-                                        '.$players['Nachname'] .' '. $players['Vorname'] .'
-                                    </a>';
+                                $allPlayerData = getAllPlayers($con);
+
+                                if ($allPlayerData) { //Überprüfen ob Daten vorhanden sind
+                                    foreach ($allPlayerData as $player) {
+                                        $content .= '
+                                        <a href="player.php?#' . $player["id"] . '" class="list-group-item">
+                                            ' . $player['Nachname'] . ' ' . $player['Vorname'] . '
+                                        </a>';
+                                    }
+                                } else {
+                                    $content = "<p>Fehler beim Laden der Spielerdaten.</p>"; //Fehlermeldung anzeigen
                                 }
 
                             $content .= '

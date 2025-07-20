@@ -53,38 +53,63 @@ session_start();
         mysqli_stmt_close($stmt);
     }
     
+    function getAllPlayers($con): ?array {
+    
+        /**
+         * Prepared statement
+        */
+        $sql = "SELECT * FROM player ORDER BY Nachname ASC";
+        $stmt = $con->prepare($sql); // Direkt über die Verbindungsobjekt-Methode aufrufen
+
+        /**
+         * prüft Variablen verbindung
+        */
+        if (!$stmt) {
+            error_log("SQL-Fehler: " . $con->error); // Fehler protokollieren statt Redirect
+            return null; // anstatt header redirect
+        }
+    
+        /**
+         * Führt Abfrage aus
+         * 
+        */
+        $stmt->execute();
+
+        /**
+         * Gibt das SQL resultat zurück.
+        */
+        $result = $stmt->get_result();
+        $players = $result->fetch_all(MYSQLI_ASSOC); // Hole alle Spieler als assoziatives Array
+        $stmt->close(); // stmt close hier platziert
+
+        return $players;
+    }
+    
     /**
      * get player of id
      */
     function getPlayersId($con, $id) {
     
-        /**
-         * Prepared statement
-        */
-        $sql = "SELECT * FROM player WHERE id = ?;";
-        $stmt = mysqli_stmt_init($con);
-        
-        /**
-         * prüft Variablen verbindung
-        */
-        if(!mysqli_stmt_prepare($stmt,$sql)) {
-            header("location: player.php?error=loadingPlayersFailed");
+        $sql = "SELECT * FROM player WHERE id = ?";
+
+        $stmt = $con->prepare($sql);
+        if (!$stmt) {
+            error_log("SQL-Fehler: " . $con->error);
+            return null;
         }
-    
-        /**
-         * Fügt prepared statement mit der richtigen anzahl ein und übergibt es es der DB.
-         * 
-        */
-        mysqli_stmt_bind_param($stmt, "i", $id);
-        mysqli_stmt_execute($stmt);
-    
-        /**
-         * Gibt das SQL resultat zurück.
-        */
-        $resultData = mysqli_stmt_get_result($stmt);
-        return $resultData;
-        
-        mysqli_stmt_close($stmt);
+
+        $stmt->bind_param("i", $id); //bind_param direkt auf dem statement Objekt
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if($result){
+            $player = $result->fetch_assoc(); //Hole nur einen Spieler
+            $stmt->close();
+            return $player ? [$player] : []; //Gib ein Array zurück, auch wenn nur ein Spieler gefunden wurde.
+        } else {
+            $stmt->close();
+            return []; //Leeres Array zurückgeben, wenn kein Spieler gefunden wurde
+        }
     }
 
 

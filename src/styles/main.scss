@@ -464,38 +464,7 @@ body {
         header {
             height: 70px;
             margin-bottom: 30px;
-
-            .navbar-collapse {
-                position: absolute;
-                top: 70px;
-                left: 0;
-                background: $white;
-                width: 100%;
-                z-index: 100;
-
-                ul:nth-child(2) {
-                    flex-direction: column;
-                    justify-content: start;
-                    align-content: flex-start;
-                    .nav-item {
-                        width: 100%;
-                        align-self: flex-start;
-                         
-                        &.dropdown {
-                            .dropdown-menu {
-                                &.show {
-                                    position: relative;
-                                    border: none;
-                                }
-                            }
-                        }
-                        
-                    }
-                    .nav-link.dropdown-toggle {
-                        align-self: flex-start;
-                    }
-                }
-            }
+            
         }
 
         .navbar {
@@ -525,7 +494,10 @@ body {
             max-width: 1600px;
 
             table {
-                tr td { pointer-events: none;}
+                tbody {
+                    th:first-child { font-weight: 400;}
+                    tr td input { pointer-events: none;}
+                }
             }
             .img-group-header {
                 background: $white;
@@ -634,6 +606,42 @@ body {
         footer {
             background: $white;
             padding: 15px 30px;
+        }
+
+        @media (max-width: 991px){
+            header {
+                .navbar-collapse {
+                    position: absolute;
+                    top: 70px;
+                    left: 0;
+                    background: $white;
+                    width: 100%;
+                    z-index: 100;
+
+                    ul:nth-child(2) {
+                        flex-direction: column;
+                        justify-content: start;
+                        align-content: flex-start;
+                        .nav-item {
+                            width: 100%;
+                            align-self: flex-start;
+                            
+                            &.dropdown {
+                                .dropdown-menu {
+                                    &.show {
+                                        position: relative;
+                                        border: none;
+                                    }
+                                }
+                            }
+                            
+                        }
+                        .nav-link.dropdown-toggle {
+                            align-self: flex-start;
+                        }
+                    }
+                }
+            }
         }
     }
 

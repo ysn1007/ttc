@@ -43,22 +43,22 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if(isset($_POST["deletePlayer"])) {
-        //var_dump("delete: init" . $_POST);exit;
         $pid = $_POST['player_id'];
-        //var_dump($pid);exit;
-        // if($_POST['active'] == "on") {
-        //     $active = 1;
-        // }   
-
         deletePlayer($con, $pid );
-
     }
 }
 
 include('./components/header.php');
 
 if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) ){
+    $playerId = isset($_GET['id']) ? (int)$_GET['id'] : 0; 
 
+    if($playerId <= 0){
+        die("Ungültige Spieler ID"); //Fehlerbehandlung bei ungültiger ID
+    }
+
+    $playerData = getPlayersId($con, $playerId);
+    $player = $playerData; // Zugriff auf das erste (und einzige) Element des Arrays
     
     $content .= '
     <div class="col edit-player-section">
@@ -66,142 +66,136 @@ if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) ){
             <div class="card-header">
                 <h4>Spieler bearbeiten <a href="javascript:history.go(-1)" class="btn btn-danger float-end">Zurück</a></h4>
             </div>';
-            if(isset($_GET["id"])) {
-                
-               $result = getPlayersId($con, $_GET["id"]);
-               while($player = mysqli_fetch_assoc($result)){
-                
-                if($player["aktiv"] == 1) {
-                    $active = "checked";
-                } else {
-                    $active = " ";
-                }
-                
-                if($player["spv"] == 1) {
-                    $spv = "Sperrvermerk";
-                } else {
-                    $spv = "";
-                }
-                
-                if($player["sbem"] == 1) {
-                    $sbem = "aktiv";
-                } else {
-                    $sbem = "";
-                }
-                
-                $content .= '
-                <div class="card-body">
-                    <form action="'.basename($_SERVER['PHP_SELF']).'" method="post" enctype="multipart/form-data">
-                        <input type="hidden" name="player_id" value="'.$_GET["id"].'" >
-                         
-                        
-                        <div class="col-12 mb-3">
-                            <div class="row">
-                                <div class="col-4">
-                                    <label>Name</label><br>
-                                    <input class="form-control" type="text" name="name" placeholder="Vorname" value="'.$player["Vorname"].'">
-                                </div>
-
-                                <div class="col-4">
-                                    <label>Name</label><br>
-                                    <input class="form-control" type="text" name="lastname" placeholder="Nachname" value="'.$player["Nachname"].'">
-                                </div>
-                                
-                                <div class="col-4">
-                                    <label>LivePZ</label><br>
-                                    <input class="form-control" type="text" name="livePZ" placeholder=" TT live Punkte" value="'.$player["livePZ"].'">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-12 mb-3">
-                            <div class="row">
-                                <div class="col-4">
-                                    <label>Team</label><br>
-                                    <input class="form-control" type="text" name="team" placeholder="Mannschaft" value="'.$player["team"].'">
-                                </div>
-                                <div class="col-4">
-                                    <label>Position</label><br>
-                                    <input class="form-control" type="text" name="position" placeholder="Position" value="'.$player["position"].'">
-                                </div>
-                                
-                                
-                            </div>
-                        </div>
-
-                        <div class="col-12 mb-3">
-                            <div class="row">
-                                <div class="col-12">
-                                    <label>Status</label><br>    
-                                    <div>Spieler ist '.$active.'</div><br>    
-                                </div>
-                            </div>
-                        </div>
-                            
-                        <div class="col-12 mb-3">
-                            <div class="row">';
-                                if($player["aktiv"] == 1) {
-                                    $content .= '
-                                    <div class="col-2">
-                                        <input type="checkbox" name="active" '. $active .' >
-                                        <label class="mr-1" for="publish">Inaktiv setzen</label>
-                                    </div>';
-                                } else {
-                                    $content .= '
-                                    <div class="col-2">
-                                        <input type="checkbox" name="active" '. $active .'>
-                                        <label class="mr-1" for="publish">Spieler aktiv setzen</label>
-                                    </div>';
-                                }
-
-                                if($player["spv"] == 1) {
-                                    $content .='
-                                    <div class="col-2">
-                                        <input type="checkbox" name="spv" checked '. $spv .'>
-                                        <label for="publish">SPV aktiv</label>
-                                    </div>';
-                                } else {
-                                    $content .='
-                                    <div class="col-2">
-                                        <input type="checkbox" name="spv" '. $spv .'>
-                                        <label for="publish">SPV setzen</label>
-                                    </div>';
-                                }
-
-                                if($player["sbem"] == 1) {
-                                    $content .= '
-                                    <div class="col-2">
-                                        <input type="checkbox" name="sbem" checked '. $sbem .'>
-                                        <label for="publish">SBEM gesetzt </label>
-                                    </div>';
-                                } else {
-                                    $content .= '
-                                    <div class="col-2">
-                                        <input type="checkbox" name="sbem" '. $sbem .'>
-                                        <label for="publish">SBEM setzen </label>
-                                    </div>';
-                                }
-
-                            $content .= '
-                            </div>
-                        </div>
-
-
-                        <div class="col-12 edit-actions">
-                            <div class="row">
-                                <div class="col">
-                                    <button class="btn btn-primary" type="updatePlayer" name="updatePlayer">Aktualisieren</button>    
-                                </div>
-                                <div class="col">
-                                    <button class="btn btn-danger" type="deletePlayer" name="deletePlayer">Spieler löschen </button>
-                                </div>
-                            </ div>
-                        </div>
-                    </form> 
-                </div>';
-               }
-
+           
+            if($player[0]["aktiv"] == 1) {
+                $active = "checked";
+            } else {
+                $active = " ";
             }
+            
+            if($player[0]["spv"] == 1) {
+                $spv = "Sperrvermerk";
+            } else {
+                $spv = "";
+            }
+            
+            if($player[0]["sbem"] == 1) {
+                $sbem = "aktiv";
+            } else {
+                $sbem = "";
+            }
+            
+            $content .= '
+            <div class="card-body">
+                <form action="'.basename($_SERVER['PHP_SELF']).'" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="player_id" value="'.$playerId.'" >
+                    
+                    
+                    <div class="col-12 mb-3">
+                        <div class="row">
+                            <div class="col-4">
+                                <label>Name</label><br>
+                                <input class="form-control" type="text" name="name" placeholder="Vorname" value="'.$player[0]["Vorname"].'">
+                            </div>
+
+                            <div class="col-4">
+                                <label>Name</label><br>
+                                <input class="form-control" type="text" name="lastname" placeholder="Nachname" value="'.$player[0]["Nachname"].'">
+                            </div>
+                            
+                            <div class="col-4">
+                                <label>LivePZ</label><br>
+                                <input class="form-control" type="text" name="livePZ" placeholder=" TT live Punkte" value="'.$player[0]["livePZ"].'">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 mb-3">
+                        <div class="row">
+                            <div class="col-4">
+                                <label>Team</label><br>
+                                <input class="form-control" type="text" name="team" placeholder="Mannschaft" value="'.$player[0]["team"].'">
+                            </div>
+                            <div class="col-4">
+                                <label>Position</label><br>
+                                <input class="form-control" type="text" name="position" placeholder="Position" value="'.$player[0]["position"].'">
+                            </div>
+                            
+                            
+                        </div>
+                    </div>
+
+                    <div class="col-12 mb-3">
+                        <div class="row">
+                            <div class="col-12">
+                                <label>Status</label><br>    
+                                <div>Spieler ist '.$active.'</div><br>    
+                            </div>
+                        </div>
+                    </div>
+                        
+                    <div class="col-12 mb-3">
+                        <div class="row">';
+                            if($player[0]["aktiv"] == 1) {
+                                $content .= '
+                                <div class="col-2">
+                                    <input type="checkbox" name="active" '. $active .' >
+                                    <label class="mr-1" for="publish">Inaktiv setzen</label>
+                                </div>';
+                            } else {
+                                $content .= '
+                                <div class="col-2">
+                                    <input type="checkbox" name="active" '. $active .'>
+                                    <label class="mr-1" for="publish">Spieler aktiv setzen</label>
+                                </div>';
+                            }
+
+                            if($player[0]["spv"] == 1) {
+                                $content .='
+                                <div class="col-2">
+                                    <input type="checkbox" name="spv" checked '. $spv .'>
+                                    <label for="publish">SPV aktiv</label>
+                                </div>';
+                            } else {
+                                $content .='
+                                <div class="col-2">
+                                    <input type="checkbox" name="spv" '. $spv .'>
+                                    <label for="publish">SPV setzen</label>
+                                </div>';
+                            }
+
+                            if($player[0]["sbem"] == 1) {
+                                $content .= '
+                                <div class="col-2">
+                                    <input type="checkbox" name="sbem" checked '. $sbem .'>
+                                    <label for="publish">SBEM gesetzt </label>
+                                </div>';
+                            } else {
+                                $content .= '
+                                <div class="col-2">
+                                    <input type="checkbox" name="sbem" '. $sbem .'>
+                                    <label for="publish">SBEM setzen </label>
+                                </div>';
+                            }
+
+                        $content .= '
+                        </div>
+                    </div>
+
+
+                    <div class="col-12 edit-actions">
+                        <div class="row">
+                            <div class="col">
+                                <button class="btn btn-primary" type="updatePlayer" name="updatePlayer">Aktualisieren</button>    
+                            </div>
+                            <div class="col">
+                                <button class="btn btn-danger" type="deletePlayer" name="deletePlayer">Spieler löschen </button>
+                            </div>
+                        </ div>
+                    </div>
+                </form> 
+            </div>';
+            
         $content .= '
         </div>
     </div>';
