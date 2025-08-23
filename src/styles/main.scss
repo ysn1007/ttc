@@ -933,7 +933,6 @@ body {
                             object-fit: cover;
                             object-position: 50%;
                             pointer-events: none;
-                            
                         }
                     }
 
@@ -943,7 +942,9 @@ body {
                         padding: 7.5px;
                     }
 
-                    
+                    .btn {
+                        width: 100%;
+                    }
                 }
 
                 @media (max-width:430px) {

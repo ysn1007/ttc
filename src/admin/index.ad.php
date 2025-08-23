@@ -51,13 +51,12 @@ if(!isset($_SESSION["useruid"])) {
                             <div class="card-body">
                                 <ul class="list-group list-group-flush">';
                                     $result = getArticle($con);
-                                    while($article = mysqli_fetch_assoc($result)) {
+                                    foreach($result as $article){
                                         $content .= '
-                                        <a href="#" class="list-group-item">
-                                            <!--img src="../img/article/'.$article["imgPath"].'" width="50" height="50"/--> 
-                                            <span>'. $article["headline"] .'</span> 
-                                        </a>';
-
+                                         <a href="#" class="list-group-item">
+                                             <!--img src="../img/article/'.$article["imgPath"].'" width="50" height="50"/--> 
+                                             <span>'. $article["headline"] .'</span> 
+                                         </a>';
                                     }
                                 $content .= '
                                 </ul>
@@ -75,7 +74,8 @@ if(!isset($_SESSION["useruid"])) {
                             <div class="card-body">
                                 <ul class="list-group list-group-flush">';
                                     $res = getLastImages($con);
-                                    while($row = $res->fetch_assoc()){
+                                    //while($row = $res->fetch_assoc()){
+                                    foreach($res as $row) {
                                         $content .='
                                         <a href="#" class="list-group-item">
                                             <img src="'.$row['imagePath'].' " width="50px">

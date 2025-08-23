@@ -2,7 +2,7 @@
 require_once 'dbh.inc.php';
 include('./components/header.php');
 
-$content .= '';
+$allArticles = getArticle($con);
 
 if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION["author"]) ) {
     $content .= '
@@ -16,7 +16,7 @@ if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION["
         <div class="accordion-item">
             <h2 class="accordion-header">
             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-                Artikel 
+                Alle Artikel 
             </button>
             </h2>
             <div id="collapseThree" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
@@ -45,49 +45,47 @@ if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION["
                                     </tr>
                                 </thead>
                                 
-                                
                                 <tbody>';
-                                
-                                $result = getArticle($con);
-                                while($article = mysqli_fetch_assoc($result)) {
-                                    //var_dump($article); exit;
-                                    if ($article["active"] == 1) {
-                                        $status = "online";
-                                    } else {
-                                        $status = "offline";
-                                    }
-
-                                    $content .= '
-                                    <tr>
-                                        <th scope="row">'. $article["id"] .'</th>
-                                        <td><input type="text" name="" value="'. $article["headline"] .'" ></td>
-                                        <td><input type="text" name="" title="'. $article["copytext"] .'" value="'. $article["copytext"] .'"></td>
-                                        <td><input type="text" name="" title="'. $article["tagNews"] .'" value="'. $article["tagNews"] .'"></td>
-                                        <td><input type="text" name="" title="'. $article["tagReviews"] .'" value="'. $article["tagReviews"] .'"></td>
-                                        <td><input type="text" name="" title="'. $article["tagPlayer"] .'" value="'. $article["tagPlayer"] .'"></td>
-                                        <td><input type="text" name="" title="'. $article["tagSocial"] .'" value="'. $article["tagSocial"] .'"></td>
-                                        <!--td><input type="text" name="" value="'. $article["imgName"] .'"></td-->
-                                        <!--td><input type="text" name="" value="'. $article["imgPath"] .'"></td-->';
-                                        if($article["imgPath"] != "") {
-                                            $content .= '
-                                            <td>
-                                                <img src="../img/article/'.$article["imgPath"].'" width="50" height="50"/>
-                                            </td>';
-                                            
+                                if($allArticles) {
+                                    foreach($allArticles as $article) {
+                                        if ($article["active"] == 1) {
+                                            $status = "online";
                                         } else {
-                                            $content .= '
-                                            <td>
-                                                <img src="../img/tt-icon.svg" width="50" height="50"/>
-                                            </td>';
-                                        } 
-                                        
-                                        $content .= '
-                                        <td><input type="text" name="" value="'. $status .'"></td>';
-                                        if(isset($_SESSION["admin"])) {
-                                            $content .= '<td><a class="btn btn-success" href="editArticle.php?id='. $article["id"] .'">Bearbeiten</a> ';
+                                            $status = "offline";
                                         }
+
                                         $content .= '
-                                    </tr>';
+                                        <tr>
+                                            <th scope="row">'. $article["id"] .'</th>
+                                            <td><input type="text" name="" value="'. $article["headline"] .'" ></td>
+                                            <td><input type="text" name="" title="'. $article["copytext"] .'" value="'. $article["copytext"] .'"></td>
+                                            <td><input type="text" name="" title="'. $article["tagNews"] .'" value="'. $article["tagNews"] .'"></td>
+                                            <td><input type="text" name="" title="'. $article["tagReviews"] .'" value="'. $article["tagReviews"] .'"></td>
+                                            <td><input type="text" name="" title="'. $article["tagPlayer"] .'" value="'. $article["tagPlayer"] .'"></td>
+                                            <td><input type="text" name="" title="'. $article["tagSocial"] .'" value="'. $article["tagSocial"] .'"></td>
+                                            <!--td><input type="text" name="" value="'. $article["imgName"] .'"></td-->
+                                            <!--td><input type="text" name="" value="'. $article["imgPath"] .'"></td-->';
+                                            if($article["imgPath"] != "") {
+                                                $content .= '
+                                                <td>
+                                                    <img src="../img/article/'.$article["imgPath"].'" width="50" height="50"/>
+                                                </td>';
+                                                
+                                            } else {
+                                                $content .= '
+                                                <td>
+                                                    <img src="../img/tt-icon.svg" width="50" height="50"/>
+                                                </td>';
+                                            } 
+                                            
+                                            $content .= '
+                                            <td><input type="text" name="" value="'. $status .'"></td>';
+                                            if(isset($_SESSION["admin"])) {
+                                                $content .= '<td><a class="btn btn-success" href="editArticle.php?id='. $article["id"] .'">Bearbeiten</a> ';
+                                            }
+                                            $content .= '
+                                        </tr>';
+                                    }
                                 }
                                 $content .= '
                                 </tbody>

@@ -6,9 +6,7 @@ include('./components/header.php');
 $dekade = $_GET['dekade'];
 $res = getDekadeImages($con, $dekade);
 $count = mysqli_num_rows($res);
-// echo "<pre>";
-// var_dump($res); 
-// var_dump($count);exit;
+
 $content .= '';
 
 $content .= '
@@ -23,7 +21,7 @@ $content .= '
     <div class="accordion-item">
         <h2 class="accordion-header">
         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-            Galerie
+            Alle Bilder dieses Jahrzehnt
         </button>
         </h2>
         <div id="collapseOne" class="accordion-collapse collase show" data-bs-parent="#accordionExample">
@@ -33,7 +31,6 @@ $content .= '
         <div class="table-responsive">
             
             <table class="table table-light"> 
-                    
                     <thead>
                         <tr>
                             <th class="col-1">Bildnr.</th>
@@ -49,7 +46,6 @@ $content .= '
                             $content .= '
                         </tr>
                     </thead>
-
                 <tbody>';
                 
                 
