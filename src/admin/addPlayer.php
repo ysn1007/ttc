@@ -17,25 +17,26 @@ if(isset($_POST["submit"])) {
 
     
     if($_POST["active"] == "on") {
-        $active = "1";
+        $active = 1;
     } else {
-        $active = "0";
+        $active = 0;
     }
     
-    if($_POST["spv"] == "on") {
-        $spv = "1";
-    } else {
-        $spv = "0";
-    }
+    // if($_POST["spv"] == "on") {
+    //     $spv = "1";
+    // } else {
+    //     $spv = "0";
+    // }
     
-    if($_POST["sbem"] == "on") {
-        $sbem ="1";
-    } else {
-        $sbem = "0";
-    }
+    // if($_POST["sbem"] == "on") {
+    //     $sbem ="1";
+    // } else {
+    //     $sbem = "0";
+    // }
     
     
-    addPlayer($con, $name, $lastname, $livePZ, $team, $position, $active, $spv, $sbem);
+    
+    addPlayer($con, $name, $lastname, $livePZ, $team, $position, $active);
     
 }
 

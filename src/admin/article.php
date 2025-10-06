@@ -3,7 +3,7 @@ require_once 'dbh.inc.php';
 include('./components/header.php');
 
 $allArticles = getArticle($con);
-
+$content = "";
 if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION["author"]) ) {
     $content .= '
     <div class="accordion" id="accordionExample-3">
@@ -31,7 +31,7 @@ if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION["
                                         <th scope="col">Überschrift</th>
                                         <th scope="col">Text</th>
                                         <th scope="col">News</th>
-                                        <th scope="col">Meldungen</th>
+                                        <th scope="col">Spielbericht</th>
                                         <th scope="col">Neuzugang</th>
                                         <th scope="col">Social Media</th>
                                         <!--th scope="col">Bildname</th-->

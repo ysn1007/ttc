@@ -5,7 +5,7 @@ include('./components/header.php');
 
 $allPlayerData = getPlayers($con);
 $anzahl = count($allPlayerData) +1;
-
+$content = "";
 if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) ) {
 $content .= '
 <div class="accordion" id="accordionExample-2">

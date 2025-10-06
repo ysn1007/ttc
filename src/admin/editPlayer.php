@@ -1,43 +1,25 @@
 <?php
-
+ob_start(); // Am Anfang deiner Datei
 require_once 'dbh.inc.php';
-session_start();
+//session_start();
 $content = '';
 
 if($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    //var_dump($_POST);exit();
-
     if(isset($_POST["updatePlayer"])) {
         
-        $playerId = $_POST["player_id"];
+        $playerId = intval($_POST["player_id"]);
         $name = $_POST["name"];
         $lastname = $_POST["lastname"];
-        $livePZ = $_POST["livePZ"];
-        $team = $_POST["team"];
-        $position = $_POST["position"];
-
+        $livePZ = intval($_POST["livePZ"]);
+        $team = intval($_POST["team"]);
+        $position = intval($_POST["position"]);
 
         if($_POST['active'] == "on") {
             $active = 1;
         } else {
             $active = 0;
         }
-        
-        if($_POST['spv'] = "on") {
-            $spv = 1;
-        } else {
-            $spv = 0;
-        }
-        
-        if($_POST['sbem'] = "on") {
-            $sbem = 1;
-        } else {
-            $sbem = 0;
-        }
-
-        //var_dump($spv, $sbem);exit;
-
 
         updatePlayer($con, $playerId, $name, $lastname, $livePZ, $team, $position, $active, $spv, $sbem );
     }
@@ -59,7 +41,7 @@ if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) ){
 
     $playerData = getPlayersId($con, $playerId);
     $player = $playerData; // Zugriff auf das erste (und einzige) Element des Arrays
-    
+
     $content .= '
     <div class="col edit-player-section">
         <div class="card">
@@ -71,18 +53,6 @@ if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) ){
                 $active = "checked";
             } else {
                 $active = " ";
-            }
-            
-            if($player[0]["spv"] == 1) {
-                $spv = "Sperrvermerk";
-            } else {
-                $spv = "";
-            }
-            
-            if($player[0]["sbem"] == 1) {
-                $sbem = "aktiv";
-            } else {
-                $sbem = "";
             }
             
             $content .= '
@@ -129,59 +99,19 @@ if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) ){
                         <div class="row">
                             <div class="col-12">
                                 <label>Status</label><br>    
-                                <div>Spieler ist '.$active.'</div><br>    
+                                <div>Spieler ist '.(($active == "checked")? "Aktiv":"inaktiv").'</div><br>    
                             </div>
                         </div>
                     </div>
                         
                     <div class="col-12 mb-3">
-                        <div class="row">';
-                            if($player[0]["aktiv"] == 1) {
-                                $content .= '
-                                <div class="col-2">
-                                    <input type="checkbox" name="active" '. $active .' >
-                                    <label class="mr-1" for="publish">Inaktiv setzen</label>
-                                </div>';
-                            } else {
-                                $content .= '
-                                <div class="col-2">
-                                    <input type="checkbox" name="active" '. $active .'>
-                                    <label class="mr-1" for="publish">Spieler aktiv setzen</label>
-                                </div>';
-                            }
-
-                            if($player[0]["spv"] == 1) {
-                                $content .='
-                                <div class="col-2">
-                                    <input type="checkbox" name="spv" checked '. $spv .'>
-                                    <label for="publish">SPV aktiv</label>
-                                </div>';
-                            } else {
-                                $content .='
-                                <div class="col-2">
-                                    <input type="checkbox" name="spv" '. $spv .'>
-                                    <label for="publish">SPV setzen</label>
-                                </div>';
-                            }
-
-                            if($player[0]["sbem"] == 1) {
-                                $content .= '
-                                <div class="col-2">
-                                    <input type="checkbox" name="sbem" checked '. $sbem .'>
-                                    <label for="publish">SBEM gesetzt </label>
-                                </div>';
-                            } else {
-                                $content .= '
-                                <div class="col-2">
-                                    <input type="checkbox" name="sbem" '. $sbem .'>
-                                    <label for="publish">SBEM setzen </label>
-                                </div>';
-                            }
-
-                        $content .= '
+                        <div class="row">
+                            <div class="col-2">
+                                <input type="checkbox" name="active" '. $active .' >
+                                <label class="mr-1" for="publish">'.(($active == "checked")? "Inaktiv setzen" : "Aktiv setzen").'</label>
+                            </div>
                         </div>
                     </div>
-
 
                     <div class="col-12 edit-actions">
                         <div class="row">

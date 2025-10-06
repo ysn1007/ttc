@@ -1,4 +1,6 @@
-
+<?php
+ob_start(); // Am Anfang deiner Datei
+?>
 <!DOCTYPE html>
     <html lang="de">
         <head>
@@ -30,16 +32,16 @@
                                 
                                 <ul class='nav'>
                                     <li class="nav-item">
-                                        <?php echo "Hallo " .  $_SESSION["useruid"] ?>!
+                                        <!--?php echo "Hallo " .$_SESSION["useruid"] ?-->
                                     </li>
                                     <!--li class='nav-item'>Welcher admin ist online</li-->
                                 </ul> 
                                 
                             <ul class="nav">
-                                <li class="nav-item <?php ((basename($_SERVER['PHP_SELF']) == "index.ad.php") ? "active" : "") ?>">
+                                <li class="nav-item ">
                                     <a href="index.ad.php" class="nav-link">Start</a>
                                 </li>
-                                <li class="nav-item <?php ((basename($_SERVER['PHP_SELF']) == "gallery.php") ? "active" : "") ?> dropdown">
+                                <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="gallery.php" role="button" aria-expanded="false">Galerie</a>
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" href="gallery.php?dekade=2020-2029">2020 - 2029</a></li>
@@ -52,10 +54,10 @@
                                         <li><a class="dropdown-item" href="gallery.php?dekade=1950-1959">1950 - 1959</a></li>
                                     </ul>
                                 </li>
-                                <li class="nav-item <?php ((basename($_SERVER['PHP_SELF']) == "player.php") ? "active" : "") ?>">
+                                <li class="nav-item ">
                                     <a href="player.php" class="nav-link">Spieler</a>
                                 </li>
-                                <li class="nav-item <?php ((basename($_SERVER['PHP_SELF']) == "article.php") ? "active" : "") ?>">
+                                <li class="nav-item ">
                                     <a href="article.php" class="nav-link">Artikel</a>
                                 </li>
                                 <li class="nav-item">
