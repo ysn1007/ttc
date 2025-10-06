@@ -156,22 +156,23 @@ function updatePlayer($con, $playerId, $name, $lastname, $livePZ, $team, $positi
     // SQL-Statement vorbereiten
     if(!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: player.php?error=addPlayerFailed");
-        exit();
+        exit;
     }
     
     // Daten einbinden
     if(!mysqli_stmt_bind_param($stmt, "ssiiiii", $name, $lastname, $livePZ, $team, $position, $active, $playerId)) {
         echo "Fehler stmt-Bind: " . mysqli_stmt_error($stmt);
-        exit();
+        exit;
     }
    
     // Statement ausführen
     if (!mysqli_stmt_execute($stmt)) {
-        die("Fehler SQL-Statements: " . mysqli_stmt_error($stmt));
+        die("Fehler SQL-Statements: " . mysqli_stmt_error($stmt)); 
+        exit;
     }
 
     header("location: player.php?success=updatePlayer");
-    exit();
+    exit;
 }
 
 /**
@@ -315,7 +316,7 @@ function updateArticle($con, $articleId, $headline, $articleText, $tagNews, $tag
     
     if(!mysqli_stmt_execute($stmt)) {
         header("location: article.php?error=updateArticleFailed");
-        exit();
+        exit;
     }
     
     header("location: article.php?success=updateArticle");
@@ -370,6 +371,48 @@ function deleteArticle($con, $articleId) {
     // Weiterleitung nach erfolgreichem Löschen
     header("Location: article.php?success=deleteArticle");
     exit();
+}
+
+/**
+ * Aktualisiert Artikelbild
+ */
+function updateArticleImage($con, $articleId, $file, $fileName, $fileActExt, $fileTempName, $imgName) {
+    // Sicherheitsprüfung: ID muss numerisch sein
+    if (!is_numeric($articleId)) {
+        header("Location: article.php?error=invalidId");
+        exit;
+    }
+
+    // Neuen Dateinamen generieren
+    $imgNewName = $imgName . "." . uniqid("", true) . "." . $fileActExt;
+    $uploadPath = "../img/article/" . $imgNewName;
+
+
+    // Datei verschieben
+    if (!move_uploaded_file($fileTempName, $uploadPath)) {
+        header("Location: article.php?error=uploadFailed");
+        exit;
+    }
+
+    $stmt = mysqli_stmt_init($con);
+    $sql = "UPDATE article SET imgName=?, imgPath=? WHERE id=?";
+    
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("Location: article.php?error=prepareFailed");
+        exit;
+    }
+
+    // Hier binden wir den Dateinamen und Pfad korrekt
+    $imgPath = $imgNewName;
+    mysqli_stmt_bind_param($stmt, "ssi", $fileName, $imgPath, $articleId);
+
+    if (!mysqli_stmt_execute($stmt)) {
+        header("Location: article.php?error=updateFailed");
+        exit;
+    }
+
+    header("Location: article.php?updateImage=success");
+    exit;
 }
 
 /**
