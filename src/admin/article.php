@@ -4,7 +4,10 @@ include('./components/header.php');
 
 $allArticles = getArticle($con);
 $content = "";
+ //var_dump($_SESSION);exit;
 if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION["author"]) ) {
+
+   
     $content .= '
     <div class="accordion" id="accordionExample-3">
         <section class="img-group-header d-flex justify-content-between align-items-center mb-3 p-4">
@@ -30,12 +33,7 @@ if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION["
                                         <th scope="col">Nr.</th>
                                         <th scope="col">Überschrift</th>
                                         <th scope="col">Text</th>
-                                        <th scope="col">News</th>
-                                        <th scope="col">Spielbericht</th>
-                                        <th scope="col">Neuzugang</th>
-                                        <th scope="col">Social Media</th>
-                                        <!--th scope="col">Bildname</th-->
-                                        <!--th scope="col">Bildpfad</th-->
+                                        <th scope="col">Artikelart</th>
                                         <th scope="col">Bild</th>
                                         <th scope="col">Status</th>';
                                         if(isset($_SESSION["admin"])) {
@@ -53,34 +51,35 @@ if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION["
                                         } else {
                                             $status = "offline";
                                         }
+                                       
+                                        $tagMap = [
+                                            'tagNews'   => 'Neuigkeiten',
+                                            'tagReviews'=> 'Spielberichte',
+                                            'tagPlayer' => 'Neuzugang',
+                                            'tagSocial' => 'Soziale Medien'
+                                        ];
+
+                                        $articleTypes = [];
+
+                                        foreach ($tagMap as $tag => $label) {
+                                            if (!empty($article[$tag])) {
+                                                $articleTypes[] = $label;
+                                            }
+                                        }
+
+                                        $articleTypeString = implode(', ', $articleTypes);
+
+                                        
 
                                         $content .= '
                                         <tr>
                                             <th scope="row">'. $article["id"] .'</th>
                                             <td><input type="text" name="" value="'. $article["headline"] .'" ></td>
-                                            <td><input type="text" name="" title="'. $article["copytext"] .'" value="'. $article["copytext"] .'"></td>
-                                            <td><input type="text" name="" title="'. $article["tagNews"] .'" value="'. $article["tagNews"] .'"></td>
-                                            <td><input type="text" name="" title="'. $article["tagReviews"] .'" value="'. $article["tagReviews"] .'"></td>
-                                            <td><input type="text" name="" title="'. $article["tagPlayer"] .'" value="'. $article["tagPlayer"] .'"></td>
-                                            <td><input type="text" name="" title="'. $article["tagSocial"] .'" value="'. $article["tagSocial"] .'"></td>
-                                            <!--td><input type="text" name="" value="'. $article["imgName"] .'"></td-->
-                                            <!--td><input type="text" name="" value="'. $article["imgPath"] .'"></td-->';
-                                            if($article["imgPath"] != "") {
-                                                $content .= '
-                                                <td>
-                                                    <img src="../img/article/'.$article["imgPath"].'" width="50" height="50"/>
-                                                </td>';
-                                                
-                                            } else {
-                                                $content .= '
-                                                <td>
-                                                    <img src="../img/tt-icon.svg" width="50" height="50"/>
-                                                </td>';
-                                            } 
-                                            
-                                            $content .= '
-                                            <td><input type="text" name="" value="'. $status .'"></td>';
-                                            if(isset($_SESSION["admin"])) {
+                                            <td style="width:20%"><input type="text" name="" title="'. $article["copytext"] .'" value="'. $article["copytext"] .'"></td>
+                                            <td><input type="text" name="" title="Artikelart" value="'. htmlspecialchars($articleTypeString) .'"></td>
+                                            <td><img src="../img/article/'.$article["imgPath"].'" width="50" height="50"/></td>
+                                            <td style="width:5%"><input type="text" name="" value="'. $status .'"></td>';
+                                            if($_SESSION["admin"] == 1 || $_SESSION["manager"] == 1 || $_SESSION["author"] == 1) {
                                                 $content .= '<td><a class="btn btn-success" href="editArticle.php?id='. $article["id"] .'">Bearbeiten</a> ';
                                             }
                                             $content .= '

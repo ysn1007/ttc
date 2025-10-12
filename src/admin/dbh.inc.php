@@ -37,7 +37,7 @@ function getPlayers($con) {
      * prüft Variablen verbindung und Fehler protokollieren
     */
     if (!$stmt) {
-        error_log("SQL-Fehler: " . $con->error); 
+        header("Location: article.php?error=keineDatenbankVerbindung"); 
         return null;
     }
 
@@ -69,7 +69,7 @@ function getPlayersId($con, $id) {
 
     $stmt = $con->prepare($sql);
     if (!$stmt) {
-        error_log("SQL-Fehler: " . $con->error);
+        header("Location: article.php?error=keineDatenbankVerbindung"); 
         return null;
     }
 
@@ -207,7 +207,7 @@ function getArticle($con) {
      * prüft Variablen verbindung und protokollieren Fehler
     */
     if (!$stmt) {
-        error_log("SQL-Fehler: " . $con->error); 
+        header("Location: article.php?error=keineDatenbankVerbindung"); 
         return null; 
     }
 
@@ -299,21 +299,48 @@ function addArticle($con, $headline, $articleText, $fileName, $imgNewName, $acti
 /**
  * Bearbeitet ausgewählte Artikel in der Datenbank 
  */
-function updateArticle($con, $articleId, $headline, $articleText, $tagNews, $tagReviews, $tagPlayer, $tagSocial, $publish ) {
-    //var_dump("news : " . $tagNews, "Reviews : " . $tagReviews, "Player : ". $tagPlayer, "Social : ". $tagSocial, "publish : ". $publish);exit;
-
+function updateArticle($con, $articleId, $headline, $articleText, $tagNews, $tagReviews, $tagPlayer, $tagSocial, $file, $fileName, $fileActExt, $fileTempName, $imgName, $publish, $imgPath ) {
+    
     // Sicherheitscheck: ID muss numerisch sein
     if (!is_numeric($articleId)) {
         header("Location: article.php?error=invalidId");
         exit();
     }
 
-    $stmt = mysqli_stmt_init($con);
-    $query = "UPDATE article SET headline=?, copytext=?, tagNews=?, tagReviews=?, tagPlayer=?, tagSocial=?, active=? WHERE id=?";
+    $tagNews = intval($tagNews);
+    $tagReviews = intval($tagReviews);
+    $tagPlayer = intval($tagPlayer);
+    $tagSocial = intval($tagSocial);
+    $articleId = intval($articleId);
+    $publish = intval($publish);
 
-    mysqli_stmt_prepare($stmt,$query);
-    mysqli_stmt_bind_param($stmt, "ssiiiiii", $headline, $articleText, $tagNews, $tagReviews, $tagPlayer, $tagSocial, $publish, $articleId);
+    /**
+     * Datenbankverbindung herstellen
+     */
+    $stmt = mysqli_stmt_init($con);
+
+    /** 
+     * Prüfe, ob ein neues Bild übergeben wurde (also $fileActExt vorhanden) 
+     * 
+    */
+    $hasNewImage = !empty($fileActExt) && !empty($imgPath);
+
+
+    if ($hasNewImage) {
+        // Update mit Bild
+        $query = "UPDATE article  SET headline=?, copytext=?, tagNews=?, tagReviews=?, tagPlayer=?, tagSocial=?, imgName=?, imgPath=?, active=? WHERE id=?";
+        mysqli_stmt_prepare($stmt, $query);
+        mysqli_stmt_bind_param( $stmt, "ssiiiissii", $headline, $articleText, $tagNews, $tagReviews, $tagPlayer, $tagSocial, $fileName, $imgPath, $publish, $articleId );
+    } else {
+        // Update ohne Bild (Bildfelder bleiben wie sie sind)
+        $query = "UPDATE article SET headline=?, copytext=?, tagNews=?, tagReviews=?, tagPlayer=?, tagSocial=?, active=? WHERE id=?";
+        mysqli_stmt_prepare($stmt, $query);
+        mysqli_stmt_bind_param( $stmt, "ssiiiiii", $headline, $articleText, $tagNews, $tagReviews, $tagPlayer, $tagSocial, $publish, $articleId );
+    }
     
+    /**
+     * Ausführung
+     */
     if(!mysqli_stmt_execute($stmt)) {
         header("location: article.php?error=updateArticleFailed");
         exit;

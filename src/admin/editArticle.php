@@ -8,137 +8,91 @@ $content = '';
 
 if($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    if(isset($_POST["updateArticle"])) {
-        //var_dump($_POST);exit();
+    if (isset($_POST["updateArticle"])) {
         $articleId = $_POST["article_id"];
         $headline = $_POST["headline"];
         $articleText = $_POST["text"];
         
-        if(isset($_POST["tagNews"]) ) {
-            $tagNews = 1;
-        } else {
-            $tagNews = 0;
-        }
-        if(isset($_POST["tagReviews"]) ) {
-            $tagReviews = 1;
-        } else {
-            $tagReviews = 0;
-        }
-        if(isset($_POST["tagPlayer"]) ) {
-            $tagPlayer = 1;
-        } else {
-            $tagPlayer = 0;
-        }
-        if(isset($_POST["tagSocial"]) ) {
-            $tagSocial = 1;
-        } else {
-            $tagSocial = 0;
-        }
-        if(isset($_POST["publish"]) ) {
-            $publish = 1;
-        } else {
-            $pulish = 0;
-        }
-        
-        //var_dump($articleId );exit;
-        //var_dump("News : ".$tagNews, "Reviews : ".$tagReviews, "Player : ".  $tagPlayer, "Aktiv : ". $tagPublish );exit;
+        $tagNews = isset($_POST["tagNews"]) ? 1 : 0;
+        $tagReviews = isset($_POST["tagReviews"]) ? 1 : 0;
+        $tagPlayer = isset($_POST["tagPlayer"]) ? 1 : 0;
+        $tagSocial = isset($_POST["tagSocial"]) ? 1 : 0;
+        $publish = isset($_POST["publish"]) ? 1 : 0;
 
-        //var_dump("news : " . $_POST["tagNews"], "Reviews : " . $_POST["tagReviews"], "Player : ". $_POST["tagPlayer"], "Social : ".$_POST["tagSocial"], "publish : ". $_POST["publish"]);exit;
-        
-        /**
-         * Wird ausgeführt wenn ein das Artikelbild aktualisiert wird
-         */
-        if(isset($_FILES)) {
-            //var_dump($_FILES);exit;
-            // variablen definition für die geladene Datei
+        $imgName = "artImg";
+        $hasNewImage = isset($_FILES["fileName"]) && $_FILES["fileName"]["error"] === 0;
+
+        // Initialisiere Standardwerte
+        $file = null;
+        $fileName = $_POST["imgName"] ?? '';
+        $fileActExt = '';
+        $fileTempName = '';
+        $imgPath = $_POST["imgPath"] ?? '';
+
+        if ($hasNewImage) {
             $file = $_FILES["fileName"];
             $fileName = $_FILES["fileName"]["name"];
             $fileTempName = $_FILES["fileName"]["tmp_name"];
             $fileError = $_FILES["fileName"]["error"];
             $fileSize = $_FILES["fileName"]["size"];
-            $imgName = "artImg";
 
-            //var_dump("prüfung: variables");exit;
-            
-            /**
-             * Gibt Fehler aus, wenn Bild zu groß
-             * 
-             * fileSize prüft größer als 2MB
-            **/
-            if($fileName['error'] === 1){
-                echo "Datei zu groß. Bitte die Datei komprimieren.";
+            // Dateigröße prüfen
+            if ($fileError === 1 || $fileSize > 2000000) {
                 header('Location: editArticle.php?uploadImg=tooBig');
                 exit;
             }
-            //var_dump("prüfung: fileName");exit;
-            /**
-             * fileSize prüft größer als 2MB 
-             * 
-            **/
-            if($fileSize > 2000000) {
-                var_dump("Prüfung dateigröße");
-                echo "Das Bild darf nicht größer als 2MB sein.";
-                header('Location: editArticle.php?uploadImg=toBig');
-                exit;
-            }
-            //var_dump("prüfung: fileSize");exit;
-                
-            /**
-             * Prüft ob Bild im Zwischenspeicher vorhanden
-             * 
-            **/
-            if(!$fileTempName) {
-                echo "Kein Bild im Zwischenspeicher.";
-                header("Location:  editArticle.php?uploadImg=Failed");
-                exit;
-            }
 
-            //var_dump("prüfung: fileTempName");exit;
-
-            /**
-             * Prüft ob Bildendung korrekt ist
-             * 
-            **/
+            // Gültige Endung prüfen
             $fileExt = explode(".", $fileName);
             $fileActExt = strtolower(end($fileExt));
-            $allowed = array("jpg", "jpeg", "png");
-            
-            // prüft den Dateityp korrekt ist.
-            if(!in_array($fileActExt, $allowed)) {
-                var_dump("Prüfung dateityp");
-                //echo "Dateityp des Bildes Prüfen. Es sind nur .jpg, .jpeg und .png erlaubt.";
-                header('Location: editArticle.php?uploadImgType=notRight');exit;
+            $allowed = ["jpg", "jpeg", "png"];
+
+            if (!in_array($fileActExt, $allowed)) {
+                header("Location: article.php?error=invalidFileType");
+                exit;
             }
-            //var_dump("prüfung: fileType");exit;
 
-            /**
-             * Löschen des vorhandenen Bildes
-             * 
-            **/
-            $image = $_POST["imgPath"];
-            // prüft ob Artikel schon bild gespeichert hat
-            if(file_exists("../img/article/".$image)) {
-
-                // Löschen des aktuellen Bildes
-                $dir = getcwd();
-                chdir("../img/article/");
-                unlink($image);
-                chdir($dir);
+            if (!getimagesize($fileTempName)) {
+                header("Location: article.php?error=notAnImage");
+                exit;
             }
-            //var_dump("prüfung: Bild gelöscht");exit;
 
-            /**
-             * Speichern und aktualisiern des neuen Bildes 
-             * 
-            **/ 
-            //var_dump($file, $filename, $fileTempName, $fileError); exit;
-            updateArticleImage($con, $articleId, $file, $fileName, $fileActExt, $fileTempName, $imgName);
-                
-                
+            // Altes Bild löschen
+            $oldImage = $_POST["imgPath"] ?? '';
+            if (!empty($oldImage) && file_exists("../img/article/" . $oldImage)) {
+                unlink("../img/article/" . $oldImage);
+            }
+
+            // Neues Bild speichern
+            $imgNewName = $imgName . "." . uniqid("", true) . "." . $fileActExt;
+            $uploadPath = "../img/article/" . $imgNewName;
+
+            if (!move_uploaded_file($fileTempName, $uploadPath)) {
+                header("Location: article.php?error=uploadFailed");
+                exit;
+            }
+
+            $imgPath = $imgNewName;
         }
 
-
-        updateArticle($con, $articleId, $headline, $articleText, $tagNews, $tagReviews, $tagPlayer, $tagSocial, $publish );
+        // Aufruf der Update-Funktion
+        updateArticle(
+            $con,
+            $articleId,
+            $headline,
+            $articleText,
+            $tagNews,
+            $tagReviews,
+            $tagPlayer,
+            $tagSocial,
+            $file,
+            $fileName,
+            $fileActExt,
+            $fileTempName,
+            $imgName,
+            $publish,
+            $imgPath // optional, je nachdem wie deine Funktion es erwartet
+        );
     }
 
     
@@ -166,13 +120,12 @@ if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION["
 
                $result = getArticleId($con, $_GET["id"]);
                while($article = mysqli_fetch_assoc($result)){
-                //var_dump($article);exit;
                 
                 $content .= '
                 <div class="card-body">
                     <form action="'.basename($_SERVER['PHP_SELF']).'" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="article_id" value="'.$_GET["id"].'" >
-                         
+                        <input type="hidden" name="imgPath" value="'. $article["imgPath"] .'"> 
                         <div class="col-6 mb-3">';
                             if($article["imgPath"] != "") {
                                 $content .= '
