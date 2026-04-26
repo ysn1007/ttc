@@ -11,8 +11,49 @@ include('./includes/header.php'); ?>
                 <h2>Ostercup 2026</h2>
             </div>
 
-            <div class="row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3">
+            <div class="cup-section">
+                <div class="oc-img-carousel" id="oc-img-carousel">
+                    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="4" aria-label="Slide 5"></button>
+                            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="5" aria-label="Slide 6"></button>
+                        </div>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="img/ostercup/2026/oc-img-1-2026.jpg" class="d-block w-100">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="img/ostercup/2026/oc-img-2-2026.jpg" class="d-block w-100">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="img/ostercup/2026/oc-img-3-2026.jpg" class="d-block w-100">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="img/ostercup/2026/oc-img-4-2026.jpg" class="d-block w-100">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="img/ostercup/2026/oc-img-5-2026.jpg" class="d-block w-100">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="img/ostercup/2026/oc-img-6-2026.jpg" class="d-block w-100">
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
                 <div class="ergebnisliste">
+                    <h5>Alle Ergebnisse</h5>
                     <ul id="list" class="list-group">
                         <li class="list-item">
                             <a href="PDFs/ergebnisse_gesamt_2026.pdf" class="list-link" target="_blank" rel="noopener noreferrer"></a> Ergebnisse Gesamt 2026</a>

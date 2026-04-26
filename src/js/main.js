@@ -16,6 +16,14 @@ $(function() {
         margin:10,
         autoplay: true,
     });
+
+    $("#ostercup .oc-img-carousel").owlCarousel({
+        items:1,
+        loop:true,
+        center:true,
+        margin:10,
+        autoplay: true,
+    });
    
 
    

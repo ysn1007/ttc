@@ -1091,7 +1091,12 @@ body {
     }
 
     &#ostercup {
-        
+        #oc-img-carousel {
+            .carousel-inner {
+                height: 700px;
+                overflow-y: hidden;
+            }    
+        }
         .ostercup-group {
            
             .ergebnisliste {
