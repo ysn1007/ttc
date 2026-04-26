@@ -44,7 +44,6 @@ function uidExists($con, $username) {
  * überprüft ob die Felder gefüllt sind
  */
 function emptyInputLogin($username, $pwd) {
-    $result;
 
     if(empty($username) || empty($pwd) ) {
         $result = true;
