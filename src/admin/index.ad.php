@@ -10,6 +10,7 @@ if(!isset($_SESSION["useruid"])) {
     include('./components/header.php');
         if(isset($_SESSION["admin"])) {
             $content .= '
+            <div class="index-header"><h4>Deine Überblick</h4></div>
             <div class="col-12" id="individual-cards">
                 <div class="row">
                     <div class="col col-sm-12 col-md-6 col-lg-4" id="player-panel">
