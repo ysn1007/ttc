@@ -99,10 +99,6 @@ body {
                             color: $black;
                             padding: 8px 16px;
                         }
-
-                        // .nav-link {
-                        //     border-radius: 8px;
-                        // }
                     }
                     .nav-item.active {
                         a {
@@ -125,7 +121,7 @@ body {
                 margin: 10px 0; 
 
                 .header-brand {
-                    width:80%;
+                    width:30%;
                     padding: 0 30px;
                 }
             }
@@ -1092,6 +1088,32 @@ body {
         }
 
 
+    }
+
+    &#ostercup {
+        
+        .ostercup-group {
+           
+            .ergebnisliste {
+                position: relative;
+                width: 100%;
+                padding: 24px;
+                background: #fff;
+
+                ul.list-group {
+                    li.list-item {
+                        padding: 8px 0;
+                        list-style: none;
+                        
+                        a {
+                            width: 95%;
+                            position: absolute;
+                            padding: 11px 0px;
+                        }
+                    }
+                }
+            }
+        }    
     }
 
     &#kontakt {
