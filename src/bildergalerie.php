@@ -3,10 +3,8 @@ require_once 'admin/dbh.inc.php';
 include('./includes/header.php');
 
 $dekade = $_GET['dekade'];
-//var_dump($dekade);
-$content = '';
-
 $res = getDekadeImages($con, $dekade);
+$content = '';
 
 $content .= '
 <div class="site-wrap">
@@ -23,7 +21,6 @@ $content .= '
                 if(!$row['num_rows'] = 0) {
                     
                     while($row = mysqli_fetch_assoc($res)){
-                        //var_dump($row);exit;
                         if($dekade === $row['dekade']) {
                             $content .= '
                             <div class="col-xs-12 col-md-6 col-lg-4 gal-img-item" id="gal-img-item-'.$row['id'].'">

@@ -77,6 +77,8 @@ function loginUser($con, $username, $pwd) {
         session_start();
         $_SESSION["userid"] = $uidExists["id"];
         $_SESSION["admin"] = $uidExists["admin"];
+        $_SESSION["manager"] = $uidExists["manager"];
+        $_SESSION["author"] = $uidExists["author"];
         $_SESSION["useruid"] = $uidExists["uid"];
 
         header("location: index.ad.php");

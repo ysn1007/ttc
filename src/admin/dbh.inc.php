@@ -1,437 +1,644 @@
 <?php
+ob_start(); // Am Anfang deiner Datei
 define('__ROOT__', dirname(dirname(__FILE__)));
 require_once(__ROOT__.'/admin/config.ad.php');
-session_start();
-    $user = $cfg["database"]["user"];
-    $psw = $cfg["database"]["psw"];
-    $host = $cfg["database"]["host"];
-    $dbName = $cfg["database"]["dbName"];
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+$user = $cfg["database"]["user"];
+$psw = $cfg["database"]["psw"];
+$host = $cfg["database"]["host"];
+$dbName = $cfg["database"]["dbName"];
+
+
+// connect to database
+$con = mysqli_connect($host, $user, $psw, $dbName);
+
+if($con->connect_error) { 
+    echo ('DB connection error: ' . $con->connect_error . "// FehlerNr: " . $con->connect_errno);
+    exit();
+} 
+return $con;
+$con->close();
+
+
+/**
+ * Holt alle Spieler aus der Datenbank
+ */
+function getPlayers($con) {
+
+    /**
+     * Prepared statement
+    */
+    $sql = "SELECT * FROM player ORDER BY team ASC, position;";
+    $stmt = $con->prepare($sql);
     
-    
-    // connect to database
-    $con = mysqli_connect($host, $user, $psw, $dbName);
-    
-    if($con->connect_error) { 
-        echo ('DB connection error: ' . $con->connect_error . "// FehlerNr: " . $con->connect_errno);
+    /**
+     * prüft Variablen verbindung und Fehler protokollieren
+    */
+    if (!$stmt) {
+        header("Location: article.php?error=keineDatenbankVerbindung"); 
+        return null;
+    }
+
+    /**
+     * Führt Abfrage aus
+     * 
+    */
+    $stmt->execute();
+
+    /**
+     * Gibt das SQL resultat als assoziatives Array zurück und schließt statement.
+    */
+    $result = $stmt->get_result();
+    $allPlayers = $result->fetch_all(MYSQLI_ASSOC);
+    $stmt->close(); 
+
+    /*
+        * Gibt allPlayers zurück
+    */
+    return $allPlayers;
+}
+
+/**
+ * get player of id
+ */
+function getPlayersId($con, $id) {
+
+    $sql = "SELECT * FROM player WHERE id = ?";
+
+    $stmt = $con->prepare($sql);
+    if (!$stmt) {
+        header("Location: article.php?error=keineDatenbankVerbindung"); 
+        return null;
+    }
+
+    $stmt->bind_param("i", $id); //bind_param direkt auf dem statement Objekt
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if($result){
+        $player = $result->fetch_assoc(); //Hole nur einen Spieler
+        $stmt->close();
+        return $player ? [$player] : []; //Gib ein Array zurück, auch wenn nur ein Spieler gefunden wurde.
+    } else {
+        $stmt->close();
+        return []; //Leeres Array zurückgeben, wenn kein Spieler gefunden wurde
+    }
+}
+
+function getActivePlayersOfTeam($con, $teamNr) {
+    /**
+     * Prepared statement
+    */
+    $sql = "SELECT * FROM player WHERE team = ? AND aktiv = 1 ORDER BY position ASC;";
+    $stmt = mysqli_stmt_init($con);
+
+    /**
+     * prüft Variablen verbindung
+    */
+    if(!mysqli_stmt_prepare($stmt,$sql)) {
+        header("location: player.php?error=loadingTeamFailed");
         exit();
-    } 
-    return $con;
-    $con->close();
-
-
-    /**
-     * Holt alle Spieler aus der Datenbank
-     */
-    function getPlayers($con) {
-    
-        /**
-         * Prepared statement
-        */
-        $sql = "SELECT * FROM player ORDER BY team ASC, position;";
-        $stmt = mysqli_stmt_init($con);
-        
-        /**
-         * prüft Variablen verbindung
-        */
-        if(!mysqli_stmt_prepare($stmt,$sql)) {
-            header("location: login.php?error=loadingPlayersFailed");
-        }
-    
-        /**
-         * Fügt prepared statement mit der richtigen anzahl ein un d übergibt es es der DB.
-         * 
-        */
-        //mysqli_stmt_bind_param($stmt);
-        mysqli_stmt_execute($stmt);
-    
-        /**
-         * Gibt das SQL resultat zurück.
-        */
-        $resultData = mysqli_stmt_get_result($stmt);
-        return $resultData;
-        
-        mysqli_stmt_close($stmt);
-    }
-    
-    /**
-     * get player of id
-     */
-    function getPlayersId($con, $id) {
-    
-        /**
-         * Prepared statement
-        */
-        $sql = "SELECT * FROM player WHERE id = ?;";
-        $stmt = mysqli_stmt_init($con);
-        
-        /**
-         * prüft Variablen verbindung
-        */
-        if(!mysqli_stmt_prepare($stmt,$sql)) {
-            header("location: login.php?error=loadingPlayersFailed");
-        }
-    
-        /**
-         * Fügt prepared statement mit der richtigen anzahl ein und übergibt es es der DB.
-         * 
-        */
-        mysqli_stmt_bind_param($stmt, "i", $id);
-        mysqli_stmt_execute($stmt);
-    
-        /**
-         * Gibt das SQL resultat zurück.
-        */
-        $resultData = mysqli_stmt_get_result($stmt);
-        return $resultData;
-        
-        mysqli_stmt_close($stmt);
     }
 
     /**
-     * Gets Player who are set active
-     */
-    function getActivePlayersOfTeam($con, $teamNr) {
-        /**
-         * Prepared statement
-        */
-        $sql = "SELECT * FROM player WHERE team = ? AND aktiv = 1 ORDER BY position ASC;";
-        $stmt = mysqli_stmt_init($con);
+     * Fügt prepared statement mit der richtigen anzahl ein und übergibt es es der DB.
+     * 
+    */
+    mysqli_stmt_bind_param($stmt, "i", $teamNr);
+    mysqli_stmt_execute($stmt);
 
-        /**
-         * prüft Variablen verbindung
-        */
-        if(!mysqli_stmt_prepare($stmt,$sql)) {
-            header("location: login.php?error=loadingTeamFailed");
-        }
+    /**
+     * Gibt das SQL resultat zurück.
+    */
+    $resultData = mysqli_stmt_get_result($stmt);
+    return $resultData;
+    
+    mysqli_stmt_close($stmt);
+}
 
-        /**
-         * Fügt prepared statement mit der richtigen anzahl ein und übergibt es es der DB.
-         * 
-        */
-        mysqli_stmt_bind_param($stmt, "i", $teamNr);
-        mysqli_stmt_execute($stmt);
+/**
+ * Adds player to data base
+ */
+function addPlayer($con, $name, $lastname, $livePZ, $team, $position, $active ) {
+    $stmt = mysqli_stmt_init($con);
+    $sql = "INSERT INTO player (Vorname, Nachname, livePZ, team, position, aktiv) VALUES (?, ?, ?, ?, ?, ?)";
+    
+    // SQL-Statement vorbereiten
+    if(!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: player.php?error=addPlayerFailed");
+        exit();
+    }
+    
+    // DAten einbinden
+    if(!mysqli_stmt_bind_param($stmt,"ssiiii", $name, $lastname, $livePZ, $team, $position, $active)) {
+        echo "Fehler stmt-Bind: " . mysqli_stmt_error($stmt);
+        exit();
+    }
+     // Statement ausführen
+    if (!mysqli_stmt_execute($stmt)) {
+        die("Fehler SQL-Statements: " . mysqli_stmt_error($stmt));
+    }
+    
+    header("location: player.php?addPlayer=success");
+    exit();
+}
 
-        /**
-         * Gibt das SQL resultat zurück.
-        */
-        $resultData = mysqli_stmt_get_result($stmt);
-        return $resultData;
-        
-        mysqli_stmt_close($stmt);
+/**
+ * updates player data
+ */
+function updatePlayer($con, $playerId, $name, $lastname, $livePZ, $team, $position, $active ) {
+
+    $stmt = mysqli_stmt_init($con);
+    $sql = "UPDATE player SET Vorname=?, Nachname=?, livePZ=?, team=?, position=?, aktiv=?  WHERE id=?";
+    
+    // SQL-Statement vorbereiten
+    if(!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: player.php?error=addPlayerFailed");
+        exit;
+    }
+    
+    // Daten einbinden
+    if(!mysqli_stmt_bind_param($stmt, "ssiiiii", $name, $lastname, $livePZ, $team, $position, $active, $playerId)) {
+        echo "Fehler stmt-Bind: " . mysqli_stmt_error($stmt);
+        exit;
+    }
+   
+    // Statement ausführen
+    if (!mysqli_stmt_execute($stmt)) {
+        die("Fehler SQL-Statements: " . mysqli_stmt_error($stmt)); 
+        exit;
+    }
+
+    header("location: player.php?success=updatePlayer");
+    exit;
+}
+
+/**
+ * deletes player
+ */
+function deletePlayer($con, $pid) {
+    
+    $stmt = mysqli_stmt_init($con);
+    $query = "DELETE FROM player WHERE id = ?";
+
+    mysqli_stmt_prepare($stmt, $query);
+    mysqli_stmt_bind_param($stmt, "i", $pid);
+
+    if(!mysqli_stmt_execute($stmt)) {
+        header("location: player.php?error=deletePlayerFailed");
+    } else {
+        header("location: player.php?success=deletePlayer");
+    }
+
+}
+
+/**
+ * Holt Artikelinhalt aus der Datenbank 
+ */
+function getArticle($con) {
+
+    $sql = "SELECT * FROM article";
+    //$stmt = mysqli_stmt_init($con);
+    $stmt = $con->prepare($sql);
+    
+    /**
+     * prüft Variablen verbindung und protokollieren Fehler
+    */
+    if (!$stmt) {
+        header("Location: article.php?error=keineDatenbankVerbindung"); 
+        return null; 
     }
 
     /**
-     * Adds player to data base
-     */
-    function addPlayer($con, $name, $lastname, $livePZ, $team, $position, $active, $spv, $sbem ) {
-        $stmt = mysqli_stmt_init($con);
-        $sql = "INSERT INTO player (Vorname, Nachname, livePZ, team, position, aktiv, spv, sbem) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-       
-        if(!mysqli_stmt_prepare($stmt, $sql)) {
-            header("location: index.ad.php?error=addPlayerFailed");
-        }
-
-        mysqli_stmt_bind_param($stmt,"ssiiisss", $name, $lastname, $livePZ, $team, $position, $active, $spv, $sbem);
-        mysqli_stmt_execute($stmt);
-
-        header("location: index.ad.php?addPlayer=success");
-    }
+     * Führt Abfrage aus
+     * 
+    */
+    $stmt->execute();
 
     /**
-     * updates player data
-     */
-    function updatePlayer($con, $playerId, $name, $lastname, $livePZ, $team, $position, $active, $spv, $sbem ) {
-        
-        $stmt = mysqli_stmt_init($con);
-        $query = "UPDATE player SET Vorname=?, Nachname=?, livePZ=?, team=?, position=?, aktiv=?, spv=?, sbem=?  WHERE id=?";
+     * Gibt das SQL resultat als assoziatives Array zurück und schließt statement.
+     * 
+    */
+    $result = $stmt->get_result();
+    $allArticles = $result->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
 
+    /**
+     * Gibt Articles zurück
+     * 
+    */
+    return $allArticles;
+
+}
+
+/**
+ * Holt Artikelinhalt aus der Datenbank wenn diese Aktiv sind
+ */
+function getActiveArticle($con) {
+    $sql = "SELECT * FROM article WHERE active = 1";
+    $stmt = mysqli_stmt_init($con);
+    
+    if(!mysqli_stmt_prepare($stmt,$sql)) {
+        header("location: article.php?error=loadingArticleFailed");
+    }
+
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    return $result;
+    
+    mysqli_stmt_close($stmt);
+}
+
+/**
+ * Get all article with id
+ */
+function getArticleId($con, $id) {
+    $sql = "SELECT * FROM article WHERE id= ?; ";
+    $stmt = mysqli_stmt_init($con);
+
+    if(!mysqli_stmt_prepare($stmt,$sql)) {
+        header("location: article.php?error=loadingArticleWithIdFailed");
+    }
+
+    mysqli_stmt_bind_param($stmt, "i", $id);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    return $result;
+
+    mysqli_stmt_close($stmt);
+}
+
+/**
+ * Fügt Artikel zur Datenbank
+ */
+function addArticle($con, $headline, $articleText, $fileName, $imgNewName, $active, $tagNews, $tagPlayer, $tagReview, $tagSocial, $fileTempName, $fileDestination) {
+    $stmt = mysqli_stmt_init($con);
+    $sql = "INSERT INTO article (headline, copytext, tagNews, tagPlayer, tagReviews, tagSocial, imgName, imgPath, active) VALUES(?,?,?,?,?,?,?,?,?)";
+    
+    if(!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: article.php?error=addArticleFailed");
+    }
+    
+    if($fileName == ""){
+        $fileName =   "Kein Bild";
+        $imgNewName = "";
+        mysqli_stmt_bind_param($stmt, "ssiiiisss", $headline, $articleText, $tagNews, $tagPlayer, $tagReview, $tagSocial, $fileName, $imgNewName, $active);
+        mysqli_stmt_execute($stmt);
+        header("location: article.php?upload=success");
+    } else {
+        mysqli_stmt_bind_param($stmt, "ssiiiisss", $headline, $articleText, $tagNews, $tagPlayer, $tagReview, $tagSocial, $fileName, $imgNewName, $active);
+        mysqli_stmt_execute($stmt);   
+        move_uploaded_file($fileTempName, $fileDestination);
+        header("location: article.php?upload=success");
+    }
+    
+}
+
+/**
+ * Bearbeitet ausgewählte Artikel in der Datenbank 
+ */
+function updateArticle($con, $articleId, $headline, $articleText, $tagNews, $tagReviews, $tagPlayer, $tagSocial, $file, $fileName, $fileActExt, $fileTempName, $imgName, $publish, $imgPath ) {
+    
+    // Sicherheitscheck: ID muss numerisch sein
+    if (!is_numeric($articleId)) {
+        header("Location: article.php?error=invalidId");
+        exit();
+    }
+
+    $tagNews = intval($tagNews);
+    $tagReviews = intval($tagReviews);
+    $tagPlayer = intval($tagPlayer);
+    $tagSocial = intval($tagSocial);
+    $articleId = intval($articleId);
+    $publish = intval($publish);
+
+    /**
+     * Datenbankverbindung herstellen
+     */
+    $stmt = mysqli_stmt_init($con);
+
+    /** 
+     * Prüfe, ob ein neues Bild übergeben wurde (also $fileActExt vorhanden) 
+     * 
+    */
+    $hasNewImage = !empty($fileActExt) && !empty($imgPath);
+
+
+    if ($hasNewImage) {
+        // Update mit Bild
+        $query = "UPDATE article  SET headline=?, copytext=?, tagNews=?, tagReviews=?, tagPlayer=?, tagSocial=?, imgName=?, imgPath=?, active=? WHERE id=?";
         mysqli_stmt_prepare($stmt, $query);
-        mysqli_stmt_bind_param($stmt, "ssssssssi", $name, $lastname, $livePZ, $team, $position, $active, $spv, $sbem, $playerId);
-        
-        if(mysqli_stmt_execute($stmt)) {
-            header("location: index.ad.php?success=updatePlayer");
-        } else {
-            header("location: index.ad.php?error=updatePlayerFailed");  
-        }
-    }
-
-
-    /**
-     * deletes player
-     */
-    function deletePlayer($con, $pid) {
-        
-        $stmt = mysqli_stmt_init($con);
-        $query = "DELETE FROM player WHERE id = ?";
-
+        mysqli_stmt_bind_param( $stmt, "ssiiiissii", $headline, $articleText, $tagNews, $tagReviews, $tagPlayer, $tagSocial, $fileName, $imgPath, $publish, $articleId );
+    } else {
+        // Update ohne Bild (Bildfelder bleiben wie sie sind)
+        $query = "UPDATE article SET headline=?, copytext=?, tagNews=?, tagReviews=?, tagPlayer=?, tagSocial=?, active=? WHERE id=?";
         mysqli_stmt_prepare($stmt, $query);
-        mysqli_stmt_bind_param($stmt, "i", $pid);
-
-        if(!mysqli_stmt_execute($stmt)) {
-            header("location: index.ad.php?error=deletePlayerFailed");
-        } else {
-            header("location: index.ad.php?success=deletePlayer");
-        }
-
-    }
-
-    /**
-     * Holt Artikelinhalt aus der Datenbank 
-     */
-    function getArticle($con) {
-    
-        $sql = "SELECT * FROM article";
-        $stmt = mysqli_stmt_init($con);
-        
-        if(!mysqli_stmt_prepare($stmt,$sql)) {
-            header("location: index.ad.php?error=loadingArticleFailed");
-        }
-    
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
-        return $result;
-        
-        mysqli_stmt_close($stmt);
-    }
-
-    /**
-     * Holt Artikelinhalt aus der Datenbank wenn diese Aktiv sind
-     */
-    function getActiveArticle($con) {
-
-        $sql = "SELECT * FROM article WHERE active = 1";
-        $stmt = mysqli_stmt_init($con);
-        
-        if(!mysqli_stmt_prepare($stmt,$sql)) {
-            header("location: index.ad.php?error=loadingArticleFailed");
-        }
-    
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
-        return $result;
-        
-        mysqli_stmt_close($stmt);
-    }
-
-    /**
-     * Get all article with id
-     */
-    function getArticleId($con, $id) {
-        $sql = "SELECT * FROM article WHERE id= ?; ";
-        $stmt = mysqli_stmt_init($con);
-
-        if(!mysqli_stmt_prepare($stmt,$sql)) {
-            header("location: index.ad.php?error=loadingArticleWithIdFailed");
-        }
-
-        mysqli_stmt_bind_param($stmt, "i", $id);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
-        return $result;
-
-        mysqli_stmt_close($stmt);
-    }
-
-    /**
-     * Fügt Artikel zur Datenbank
-     */
-    function addArticle($con, $headline, $articleText, $fileName, $imgNewName, $active, $tagNews, $tagPlayer, $tagReview, $tagSocial, $fileTempName, $fileDestination) {
-
-        $stmt = mysqli_stmt_init($con);
-        $sql = "INSERT INTO article (headline, copytext, tagNews, tagPlayer, tagReviews, tagSocial, imgName, imgPath, active) VALUES(?,?,?,?,?,?,?,?,?)";
-        
-        if(!mysqli_stmt_prepare($stmt, $sql)) {
-            header("location: index.ad.php?error=addArticleFailed");
-        }
-        
-        if($fileName == ""){
-            $fileName =   "Kein Bild";
-            $imgNewName = "";
-            mysqli_stmt_bind_param($stmt, "ssiiiisss", $headline, $articleText, $tagNews, $tagPlayer, $tagReview, $tagSocial, $fileName, $imgNewName, $active);
-            mysqli_stmt_execute($stmt);
-            header("location: index.ad.php?upload=success");
-        } else {
-            mysqli_stmt_bind_param($stmt, "ssiiiisss", $headline, $articleText, $tagNews, $tagPlayer, $tagReview, $tagSocial, $fileName, $imgNewName, $active);
-            mysqli_stmt_execute($stmt);   
-            move_uploaded_file($fileTempName, $fileDestination);
-            header("location: index.ad.php?upload=success");
-        }
-       
+        mysqli_stmt_bind_param( $stmt, "ssiiiiii", $headline, $articleText, $tagNews, $tagReviews, $tagPlayer, $tagSocial, $publish, $articleId );
     }
     
     /**
-     * Bearbeitet ausgewählte Artikel in der Datenbank 
+     * Ausführung
      */
-    function updateArticle($con, $articleId, $headline, $articleText, $imgName, $imgPath, $active ) {
-        
-        $stmt = mysqli_stmt_init($con);
-        $query = "UPDATE article SET headline=?, copytext=?, imgName=?, imgPath=?, active=? WHERE id=?";
+    if(!mysqli_stmt_execute($stmt)) {
+        header("location: article.php?error=updateArticleFailed");
+        exit;
+    }
+    
+    header("location: article.php?success=updateArticle");
+    exit();
+    
+}
 
-        mysqli_stmt_prepare($stmt,$query);
-        mysqli_stmt_bind_param($stmt, "ssssss", $headline, $articleText, $imgName, $imgPath, $active, $articleId);
-        
-        if(!mysqli_stmt_execute($stmt)) {
-            header("location: index.ad.php?error=updateArticleFailed");
-        }else {
-            header("location: index.ad.php?success=updateArticle");
+/**
+ * Löscht Artikel von der Datenbank
+ */
+function deleteArticle($con, $articleId) {
+
+    // Sicherheitscheck: ID muss numerisch sein
+    if (!is_numeric($articleId)) {
+        header("Location: article.php?error=invalidId");
+        exit();
+    }
+
+    // Bildpfad sicher auslesen
+    $stmt = mysqli_stmt_init($con);
+    $query = "SELECT imgPath FROM article WHERE id = ?";
+    mysqli_stmt_prepare($stmt, $query);
+    mysqli_stmt_bind_param($stmt, "i", $articleId);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+    if (!$result || mysqli_num_rows($result) === 0) {
+        header("Location: article.php?error=articleNotFound");
+        exit();
+    }
+
+    $row = mysqli_fetch_assoc($result);
+    $image = $row["imgPath"];
+
+    // Artikel löschen
+    //$stmt = mysqli_stmt_init($con);
+    $query = "DELETE FROM article WHERE id = ?";
+    mysqli_stmt_prepare($stmt, $query);
+    mysqli_stmt_bind_param($stmt, "i", $articleId);
+
+    if (!mysqli_stmt_execute($stmt)) {
+        header("Location: article.php?error=deleteArticleFailed");
+        exit();
+    }
+
+    // Bild löschen
+    $imagePath = "../img/article/" . $image;
+    if (!empty($image) && file_exists($imagePath)) {
+        unlink($imagePath);
+    }
+
+    // Weiterleitung nach erfolgreichem Löschen
+    header("Location: article.php?success=deleteArticle");
+    exit();
+}
+
+/**
+ * Aktualisiert Artikelbild
+ */
+function updateArticleImage($con, $articleId, $file, $fileName, $fileActExt, $fileTempName, $imgName) {
+    // Sicherheitsprüfung: ID muss numerisch sein
+    if (!is_numeric($articleId)) {
+        header("Location: article.php?error=invalidId");
+        exit;
+    }
+
+    // Neuen Dateinamen generieren
+    $imgNewName = $imgName . "." . uniqid("", true) . "." . $fileActExt;
+    $uploadPath = "../img/article/" . $imgNewName;
+
+
+    // Datei verschieben
+    if (!move_uploaded_file($fileTempName, $uploadPath)) {
+        header("Location: article.php?error=uploadFailed");
+        exit;
+    }
+
+    $stmt = mysqli_stmt_init($con);
+    $sql = "UPDATE article SET imgName=?, imgPath=? WHERE id=?";
+    
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("Location: article.php?error=prepareFailed");
+        exit;
+    }
+
+    // Hier binden wir den Dateinamen und Pfad korrekt
+    $imgPath = $imgNewName;
+    mysqli_stmt_bind_param($stmt, "ssi", $fileName, $imgPath, $articleId);
+
+    if (!mysqli_stmt_execute($stmt)) {
+        header("Location: article.php?error=updateFailed");
+        exit;
+    }
+
+    header("Location: article.php?updateImage=success");
+    exit;
+}
+
+/**
+ * Gallerie
+ * Bilder in der Galerie verarbeiten
+ */
+
+// Bild hochladen und abspeichern
+function addImage($con, $headline, $imgText, $year, $dekade, $fileName, $imgNewName, $active, $fileTempName, $fileDestination) {
+    $tags = "kein Tag";
+    $jetzt = time();
+    $datum = date("Y.m.d H:i:s", $jetzt);
+
+    /*variante1 - über oop*/
+    $stmt2 = $con->stmt_init();
+    $stmt2->prepare("INSERT INTO gallery (title, descript, imageYear, dekade, imageName, newImageName, imagePath, tags, active, created, modified) VALUES(?,?,?,?,?,?,?,?,?,?,?)"); 
+    $stmt2->bind_param("sssssssssss", $headline, $imgText, $year, $dekade, $fileName, $imgNewName, $fileDestination, $tags, $active, $datum, $datum);
+    $stmt2->execute();
+
+    header("location: index.ad.php");
+
+}
+
+/**
+ * Get connection to gallery database
+ */
+function getGalleryImgData($con) {
+    
+    $sql = "SELECT * FROM gallery;";
+    $stmt = mysqli_stmt_init($con);
+    
+    if(!mysqli_stmt_prepare($stmt,$sql)) {
+        header("location: gallery.php?error=loadingGalleryImagesFailed");
+    }
+
+    mysqli_stmt_execute($stmt);
+    return mysqli_stmt_get_result($stmt);
+
+    mysqli_stmt_close($stmt);
+    
+}
+
+/**
+ * Get image of an id 
+ */
+function getImageId($con, $imgId) {
+    $sql = "SELECT * FROM gallery WHERE id = ?; ";
+    $stmt = mysqli_stmt_init($con);
+
+    if(!mysqli_stmt_prepare($stmt,$sql)) {
+        header("location: gallery.php?error=loadingGalleryImageWithIdFailed");
+    }
+
+    mysqli_stmt_bind_param($stmt, "i", $imgId);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    return $result;
+
+    mysqli_stmt_close($stmt);
+}
+
+/**
+ * Updates image data
+ */
+function updateImage($con, $imageId, $title, $descript, $year, $dekade, $active ) {
+    $stmt = mysqli_stmt_init($con);
+    $query = "UPDATE gallery SET title=?, descript=?, imageYear=?, dekade=?, active=? WHERE id=?";
+
+    mysqli_stmt_prepare($stmt,$query);
+    mysqli_stmt_bind_param($stmt, "ssssss", $title, $descript, $year, $dekade, $active, $imageId);
+    
+    if(!mysqli_stmt_execute($stmt)) {
+        header("location: gallery.php?error=updateImageFailed");
+    }else {
+        header("location: gallery.php?dekade=".$dekade." ");
+    }
+}
+
+/**
+ * Deletes image of parameter id
+ */
+function deleteImage($con, $imageId) {
+    $imgData = "SELECT * FROM gallery WHERE id = $imageId";
+    $res = mysqli_query($con, $imgData);
+    $resData = mysqli_fetch_array($res);
+    $imgPath = $resData['imagePath'];
+    
+    $stmt = mysqli_stmt_init($con);
+    $query = "DELETE FROM gallery WHERE id = ?";
+
+    mysqli_stmt_prepare($stmt, $query);
+    mysqli_stmt_bind_param($stmt, "s", $imageId);
+
+    if(!mysqli_stmt_execute($stmt)) {
+        header("location: gallery.php?error=deleteGalleryImageFailed");
+    }else {
+
+        if(file_exists($imgPath)) {
+            unlink($imgPath);
         }
-        
+
+        header("location: gallery.php?dekade=".$resData['dekade']."");
+    }
+
+}
+
+/**
+ * Gets Images from specific dekade and if they are active to be published
+ */
+function getDekadeImages($con, $dekade) {
+    $query = "SELECT * FROM gallery WHERE dekade = ? AND active = 1 ORDER BY created DESC;";
+    $stmt = mysqli_stmt_init($con);
+    
+    if(!mysqli_stmt_prepare($stmt,$query)) {
+        header("location: gallery.php?error=loadingGalleryImageWithIdFailed");
+    }
+
+    mysqli_stmt_bind_param($stmt, "s", $dekade);
+    mysqli_stmt_execute($stmt);
+
+    $res = mysqli_stmt_get_result($stmt);
+    return $res;
+
+    mysqli_stmt_close($stmt);
+
+}
+
+/**
+ * Admin index data
+ * 
+ */
+
+
+/**
+ * Gets last 10 created active images from gallery for admin index
+ */
+function getLastImages($con) {
+    $sql = "SELECT * FROM gallery WHERE active = 1 ORDER BY created DESC LIMIT 10;";
+    $stmt = $con->prepare($sql);
+
+    /**
+     * prüft Variablen verbindung und protokollieren Fehler
+    */
+    if (!$stmt) {
+        error_log("SQL-Fehler: " . $con->error); 
+        return null; 
     }
 
     /**
-     * Löscht Artikel von der Datenbank
-     */
-    function deleteArticle($con, $articleId) {
+     * Führt Abfrage aus
+     * 
+    */
+    $stmt->execute();
 
-        $loadImgPath = "SELECT * FROM article WHERE id=$articleId";
-        $imgRes = mysqli_query($con, $loadImgPath);
-        $resData = mysqli_fetch_array($imgRes);
+    /**
+     * Gibt das SQL resultat als assoziatives Array zurück und schließt statement.
+    */
+    $result = $stmt->get_result();
+    $lastArticles = $result->fetch_all(MYSQLI_ASSOC); 
+    $stmt->close();
 
-        $image = $resData["imgPath"];
-        $stmt = mysqli_stmt_init($con);
-        $query = "DELETE FROM article WHERE id=?";
+    return $lastArticles;
+}
 
-        mysqli_stmt_prepare($stmt,$query);
-        mysqli_stmt_bind_param($stmt, "s", $articleId);
+/**
+ * Gets all players alphabetical order
+ */
+function getAllPlayers($con): ?array {
 
-        if(!mysqli_stmt_execute($stmt)) {
-            header("location: index.ad.php?error=deleteArticleFailed");
-        }else {
-            if(file_exists("../img/article/".$image)) {
-                $dir = getcwd();
-                chdir("../img/article/");
-                unlink($image);
-                chdir($dir);
-            }
+    /**
+     * Prepared statement
+    */
+    $sql = "SELECT * FROM player ORDER BY Nachname ASC";
+    $stmt = $con->prepare($sql);
 
-            header("location: index.ad.php?success=deleteArticle");
-        }
-
+    /**
+     * prüft Variablen verbindung und protokollieren Fehler
+    */
+    if (!$stmt) {
+        error_log("SQL-Fehler: " . $con->error); 
+        return null; 
     }
 
     /**
-     * Gallerie
-     * Bilder in der Gallerie verarbeiten
-     */
-
-     // Bild hochladen und abspeichern
-    function addImage($con, $headline, $imgText, $year, $dekade, $fileName, $imgNewName, $active, $fileTempName, $fileDestination) {
-        $tags = "kein Tag";
-        $jetzt = time();
-        $datum = date("Y.m.d H:i:s", $jetzt);
-
-        /*variante1 - über oop*/
-        $stmt2 = $con->stmt_init();
-        $stmt2->prepare("INSERT INTO gallery (title, descript, imageYear, dekade, imageName, newImageName, imagePath, tags, active, created, modified) VALUES(?,?,?,?,?,?,?,?,?,?,?)"); 
-        $stmt2->bind_param("sssssssssss", $headline, $imgText, $year, $dekade, $fileName, $imgNewName, $fileDestination, $tags, $active, $datum, $datum);
-        $stmt2->execute();
-
-        header("location: index.ad.php?upload=success");
-
-    }
+     * Führt Abfrage aus
+     * 
+    */
+    $stmt->execute();
 
     /**
-     * Get connection to gallery database
-     */
-    function getGalleryImgData($con) {
-       
-        $sql = "SELECT * FROM gallery;";
-        $stmt = mysqli_stmt_init($con);
-       
-        if(!mysqli_stmt_prepare($stmt,$sql)) {
-            header("location: index.ad.php?error=loadingGalleryImagesFailed");
-        }
+     * Gibt das SQL resultat als assoziatives Array zurück und schließt statement.
+    */
+    $result = $stmt->get_result();
+    $players = $result->fetch_all(MYSQLI_ASSOC); 
+    $stmt->close();
 
-        mysqli_stmt_execute($stmt);
-        return mysqli_stmt_get_result($stmt);
-        mysqli_stmt_close($stmt);
-        
-    }
+    /*
+        * Gibt players zurück
+    */
+    return $players;
+}
 
-    /**
-     * Get image of an id 
-     */
-    function getImageId($con, $imgId) {
-        $sql = "SELECT * FROM gallery WHERE id = ?; ";
-        $stmt = mysqli_stmt_init($con);
-
-        if(!mysqli_stmt_prepare($stmt,$sql)) {
-            header("location: index.ad.php?error=loadingGalleryImageWithIdFailed");
-        }
-
-        mysqli_stmt_bind_param($stmt, "i", $imgId);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
-        return $result;
-
-        mysqli_stmt_close($stmt);
-    }
-
-    /**
-     * Updates image data
-     */
-    function updateImage($con, $imageId, $title, $descript, $year, $dekade, $active ) {
-        $stmt = mysqli_stmt_init($con);
-        $query = "UPDATE gallery SET title=?, descript=?, imageYear=?, dekade=?, active=? WHERE id=?";
-
-        mysqli_stmt_prepare($stmt,$query);
-        mysqli_stmt_bind_param($stmt, "ssssss", $title, $descript, $year, $dekade, $active, $imageId);
-        
-        if(!mysqli_stmt_execute($stmt)) {
-            header("location: index.ad.php?error=updateImageFailed");
-        }else {
-            header("location: index.ad.php?success=updateImage");
-        }
-    }
-
-    /**
-     * Deletes image of parameter id
-     */
-    function deleteImage($con, $imageId) {
-        $imgData = "SELECT * FROM gallery WHERE id = $imageId";
-        $res = mysqli_query($con, $imgData);
-        $resData = mysqli_fetch_array($res);
-
-        $imgPath = $resData['imagePath'];
-        
-        $stmt = mysqli_stmt_init($con);
-        $query = "DELETE FROM gallery WHERE id = ?";
-
-        mysqli_stmt_prepare($stmt, $query);
-        mysqli_stmt_bind_param($stmt, "s", $imageId);
-
-        if(!mysqli_stmt_execute($stmt)) {
-            header("location: index.ad.php?error=deleteGalleryImageFailed");
-        }else {
-
-            if(file_exists($imgPath)) {
-                unlink($imgPath);
-            }
-
-            header("location: index.ad.php?success=deleteGalleryImage");
-        }
-
-    }
-
-
-    /**
-     * Gets Images from specific dekade and if they are active to be published
-     */
-    function getDekadeImages($con, $dekade) {
-        $query = "SELECT * FROM gallery WHERE dekade = ? AND active = 1;";
-        $stmt = mysqli_stmt_init($con);
-        
-        if(!mysqli_stmt_prepare($stmt,$query)) {
-            header("location: index.ad.php?error=loadingGalleryImageWithIdFailed");
-        }
-
-        mysqli_stmt_bind_param($stmt, "s", $dekade);
-        mysqli_stmt_execute($stmt);
-
-        $res = mysqli_stmt_get_result($stmt);
-        return $res;
-
-        mysqli_stmt_close($stmt);
-
-    }
-      
