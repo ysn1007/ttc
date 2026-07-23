@@ -1094,6 +1094,15 @@ body {
         #oc-img-carousel {
             .carousel-inner {
                 height: 700px;
+                @media (max-width: 1400px) {
+                    height: 600px;
+                }
+                @media (max-width: 991px) {
+                    height: 400px;
+                }
+                @media (max-width: 768px) {
+                    height: 280px;
+                }
                 overflow-y: hidden;
             }    
         }
