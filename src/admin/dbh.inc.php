@@ -1,90 +1,51 @@
 <?php
-ob_start(); // Am Anfang deiner Datei
-define('__ROOT__', dirname(dirname(__FILE__)));
-require_once(__ROOT__.'/admin/config.ad.php');
+// Startet die Session nur dann, wenn noch keine aktive Session existiert (verhindert PHP-Warnungen)
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-$user = $cfg["database"]["user"];
-$psw = $cfg["database"]["psw"];
-$host = $cfg["database"]["host"];
-$dbName = $cfg["database"]["dbName"];
 
+define('__ROOT__', dirname(dirname(__FILE__)));
+require_once(__ROOT__.'/admin/config.ad.php');
 
-// connect to database
-$con = mysqli_connect($host, $user, $psw, $dbName);
+// Mysqli so einstellen, dass es bei DB-Fehlern Exceptions wirft (Standard ab PHP 8.1+)
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-if($con->connect_error) { 
-    echo ('DB connection error: ' . $con->connect_error . "// FehlerNr: " . $con->connect_errno);
-    exit();
-} 
-return $con;
-$con->close();
+try {
+    $con = new mysqli(
+        $cfg["database"]["host"],
+        $cfg["database"]["user"],
+        $cfg["database"]["psw"],
+        $cfg["database"]["dbName"]
+    );
+    
+    // Setze den Zeichensatz explizit auf UTF-8 (wichtig für Umlaute & Sonderzeichen)
+    $con->set_charset("utf8mb4");
 
+} catch (mysqli_sql_exception $e) {
+    // Fehler ins PHP-Log schreiben, statt Zugangsdaten öffentlich im Browser anzuzeigen
+    error_log("Database Connection Error: " . $e->getMessage());
+    die("Datenbankverbindung fehlgeschlagen. Bitte versuchen Sie es später erneut.");
+}
 
 /**
  * Holt alle Spieler aus der Datenbank
  */
-function getPlayers($con) {
-
-    /**
-     * Prepared statement
-    */
-    $sql = "SELECT * FROM player ORDER BY team ASC, position;";
-    $stmt = $con->prepare($sql);
-    
-    /**
-     * prüft Variablen verbindung und Fehler protokollieren
-    */
-    if (!$stmt) {
-        header("Location: article.php?error=keineDatenbankVerbindung"); 
-        return null;
-    }
-
-    /**
-     * Führt Abfrage aus
-     * 
-    */
-    $stmt->execute();
-
-    /**
-     * Gibt das SQL resultat als assoziatives Array zurück und schließt statement.
-    */
-    $result = $stmt->get_result();
-    $allPlayers = $result->fetch_all(MYSQLI_ASSOC);
-    $stmt->close(); 
-
-    /*
-        * Gibt allPlayers zurück
-    */
-    return $allPlayers;
+function getPlayers(mysqli $con): array {
+    $sql = "SELECT * FROM player ORDER BY nachname ASC";
+    $result = $con->query($sql);
+    return $result->fetch_all(MYSQLI_ASSOC);
 }
 
 /**
- * get player of id
+ * Holt einen einzelnen Spieler nach seiner ID
  */
-function getPlayersId($con, $id) {
-
-    $sql = "SELECT * FROM player WHERE id = ?";
-
-    $stmt = $con->prepare($sql);
-    if (!$stmt) {
-        header("Location: article.php?error=keineDatenbankVerbindung"); 
-        return null;
-    }
-
-    $stmt->bind_param("i", $id); //bind_param direkt auf dem statement Objekt
+function getPlayersId(mysqli $con, int $id): array {
+    $stmt = $con->prepare("SELECT * FROM player WHERE id = ?");
+    $stmt->bind_param("i", $id);
     $stmt->execute();
-    $result = $stmt->get_result();
-
-    if($result){
-        $player = $result->fetch_assoc(); //Hole nur einen Spieler
-        $stmt->close();
-        return $player ? [$player] : []; //Gib ein Array zurück, auch wenn nur ein Spieler gefunden wurde.
-    } else {
-        $stmt->close();
-        return []; //Leeres Array zurückgeben, wenn kein Spieler gefunden wurde
-    }
+    
+    $player = $stmt->get_result()->fetch_assoc();
+    return $player ? [$player] : [];
 }
 
 function getActivePlayersOfTeam($con, $teamNr) {

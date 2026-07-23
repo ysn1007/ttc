@@ -5,8 +5,10 @@ include('./components/header.php');
 
 $allPlayerData = getPlayers($con);
 $anzahl = count($allPlayerData) +1;
+$isAdmin = isset($_SESSION["admin"]);
+$isManager = isset($_SESSION["manager"]);
 $content = "";
-if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) ) {
+if($isAdmin || $isManager ) {
 $content .= '
 <div class="accordion" id="accordionExample-2">
     <section class="img-group-header d-flex justify-content-between align-items-center mb-3 p-4">
@@ -50,11 +52,11 @@ $content .= '
                                         $content .= '
                                         <tr id="'. $players["id"] .'">
                                             <th scope="row">'. $players["id"].'</th>
-                                            <td><input type="text" name="name" value="'. $players["Vorname"] .", ". $players["Nachname"] .'"></td>
+                                            <td><input type="text" name="name" value="'. $players["Nachname"] .", ". $players["Vorname"] .'"></td>
                                             <td><input type="text" name="livepz" value="'. $players["livePZ"] .'"></td>
                                             <td><input type="text" name="team" value="'. $players["team"] .'"></td>
                                             <td><input type="text" name="position" value="'. $players["position"] .'"></td>
-                                            <td><input type="text" name="position" value="'. $players["aktiv"] .'"></td>
+                                            <td><input type="text" name="aktiv" value="'. $players["aktiv"] .'"></td>
                                             <td><input type="text" name="spv" value="'. $players["spv"] .'"></td>
                                             <td><input type="text" name="sbem" value="'. $players["sbem"] .'"></td>';
                                             if(isset($_SESSION["admin"])) {
