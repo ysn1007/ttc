@@ -1,41 +1,37 @@
 <?php 
 require_once 'admin/dbh.inc.php';
 include('./includes/header.php');
-$content = '';
 
-$teamNr = $_REQUEST['id'];
-$men = substr($teamNr, 1,6);
-$teamNr = substr($teamNr, 0,1);
+// URL-Parameter sicher auslesen & parsen
+$paramId = $_GET['id'] ?? '1herren';
+$men = substr($paramId, 1, 6);
+$teamNr = (int) substr($paramId, 0, 1);
 
 $addTeam = $teamNr + 1;
 
-$res = getActivePlayersOfTeam($con, $teamNr);
-$addRes = getActivePlayersOfTeam($con, $addTeam);
+// Spieler-Arrays holen
+$players = getActivePlayersOfTeam($con, $teamNr);
+$addPlayers = getActivePlayersOfTeam($con, $addTeam);
 
 /*
-*   liga
-*/
-$liga = "";
-switch($teamNr) {
-    case 1: $liga = "Verbandsliga";
-    break;
-    case 2: $liga = "1. Bezirksliga";
-    break;
-    case 3: $liga = "1. Bezirksliga";
-    break;
-    case 4: $liga = "2. Bezirksliga Herren B";
-    break;
-    case 5: $liga = "3. Kreisklasse"; 
-}
+ * Liga-Zuordnung
+ */
+$liga = match($teamNr) {
+    1 => "Verbandsliga",
+    2 => "1. Bezirksliga",
+    3 => "1. Bezirksliga",
+    4 => "2. Bezirksliga Gruppe A",
+    5 => "1. Kreisklasse",
+    default => "Unbekannte Liga"
+};
+?>
 
-
-$content .='
 <div class="site-wrap">
     <div class="content-wrap">
         <section class="container team-wrap">
             <div class="galery-header">
                 <img src="img/tt-icon.svg" alt="">
-                <h2>'. $teamNr .'. ' . ucfirst($men) . '</h2>
+                <h2><?= htmlspecialchars($teamNr) ?>. <?= htmlspecialchars(ucfirst($men)) ?> - <?= $liga ?> </h2>
             </div>
 
             <div class="team-section">
@@ -89,86 +85,79 @@ $content .='
                 </div>
 
                 <div class="row justify-content-center">
-                <div class="team-data col-8 col-sm-10 col-md-8">
-                    <div class="team-line-up">
-                        
-                        <div class="tab-header">
-                            <ul class="team-group-header">
-                                <li class="team-header">
-                                    <div class="team-data-header">
-                                        <span class="position">Pos.</span> 
-                                        <span>Name</span>
-                                    </div>
-                                    <div class="team-attr-header">
-                                        <span class="spv">spv</span>
-                                        <span class="sbem">sbem</span>
-                                        <span class="gender">m/w</span>
-                                        <span class="ttrPoints">Punkte</span>
-                                    </div>   
-                                </li>
-                            </ul>
-                        </div>
-                        <ul class="team-group">';
-
-                            while($player = mysqli_fetch_assoc($res)){
-                                if($player['team'] == $teamNr && $player['position'] != 0) {
-                                $content .='
-                                <li class="player-data">
-                                    
-                                    <div class="player">
-                                        <div class="position">
-                                            <div class="pos-nr">'. $player['position'] .'</div>
+                    <div class="team-data col-8 col-sm-10 col-md-8">
+                        <div class="team-line-up">
+                            
+                            <div class="tab-header">
+                                <ul class="team-group-header">
+                                    <li class="team-header">
+                                        <div class="team-data-header">
+                                            <span class="position">Pos.</span> 
+                                            <span>Name</span>
                                         </div>
-                                        <div class="player-name">'. $player['Vorname'] .", ". $player['Nachname'] .'</div>
-                                        <div class="player-attributes-group">
-                                            <span class="player-attributes-item player-info">'. (( $player['spv'] == 1 ) ? "<div class='checked'></div>" : "") .'</span>
-                                            <span class="player-attributes-item player-info">'. (( $player['sbem'] == 1 ) ? "<div class='checked'></div>" : "").'</span>
-                                            <span class="player-attributes-item player-info">'. (( $player['m/w'] == 1 ) ? "<div class='checked'></div>" : "").'</span>
-                                            <span class="player-attributes-item">'. $player['livePZ'] .'</span>
+                                        <div class="team-attr-header">
+                                            <span class="ttrPoints">Punkte</span>
                                         </div>   
-                                    </div>
-                                </li>';
-                                }
-                            }
-                            if(mysqli_num_rows($addRes) > 0) {   
-                            $content .= '
-                            <li class="reserve">Ersatzspieler</li>';
-                            }
-                            while($addPlayer = mysqli_fetch_assoc($addRes)){
-                                $max = 2;
-                                
-                                if ($addPlayer['position'] <= $max && $addPlayer['position'] != 0) {
-                                    $content .='
-                                    <li class="player-data">
-                                        
-                                        <div class="player">
-                                            <div class="position">
-                                                <div class="pos-nr">'. $addPlayer['position'] .'</div>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <ul class="team-group">
+                                <?php foreach ($players as $player) : ?>
+                                    <?php if ($player['position'] != 0) : ?>
+                                        <li class="player-data">
+                                            <div class="player">
+                                                <div class="position">
+                                                    <div class="pos-nr"><?= htmlspecialchars($player['position']) ?></div>
+                                                </div>
+                                                <div class="player-name">
+                                                    <?= htmlspecialchars($player['Nachname']) ?>, <?= htmlspecialchars($player['Vorname']) ?>
+                                                </div>
+                                                <div class="player-attributes-group">
+                                                    
+                                                    <span class="player-attributes-item">
+                                                        <?= htmlspecialchars($player['livePZ']) ?>
+                                                    </span>
+                                                </div>   
                                             </div>
-                                            <div class="player-name">'. $addPlayer['Vorname'] .", ". $addPlayer['Nachname'] .'</div>
-                                            <div class="player-attributes-group">
-                                            <span class="player-attributes-item player-info">'. (( $addPlayer['spv'] == 1 ) ? "<div class='checked'></div>" : "").'</span>
-                                            <span class="player-attributes-item player-info">'. (( $addPlayer['sbem'] == 1 ) ? "<div class='checked'></div>" : "").'</span>
-                                            <span class="player-attributes-item player-info">'. (( $addPlayer['m/w']== 1  ) ? "<div class='checked'></div>" : "").'</span>
-                                            <span class="player-attributes-item">'. $addPlayer['livePZ'] .'</span> 
-                                        </div>
-                                    </li>';
-                                }
-                            }
-                        $content .= '
-                        </ul>
+                                        </li>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+
+                                <?php if (!empty($addPlayers)) : ?> 
+                                    <li class="reserve">Ersatzspieler</li>
+                                    <?php foreach ($addPlayers as $addPlayer) : ?>
+                                        <?php if ($addPlayer['position'] <= 2 && $addPlayer['position'] != 0) : ?>
+                                            <li class="player-data">
+                                                <div class="player">
+                                                    <div class="position">
+                                                        <div class="pos-nr"><?= htmlspecialchars($addPlayer['position']) ?></div>
+                                                    </div>
+                                                    <div class="player-name">
+                                                        <?= htmlspecialchars($addPlayer['Nachname']) ?>, <?= htmlspecialchars($addPlayer['Vorname']) ?>
+                                                    </div>
+                                                    <div class="player-attributes-group">
+                                                        
+                                                        <span class="player-attributes-item">
+                                                            <?= htmlspecialchars($addPlayer['livePZ']) ?>
+                                                        </span> 
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </ul>
+
+                        </div>
                     </div>
-                    
-                    <!--div class="table-line-up col-xs-12 col-md-6">
-                        Hier kommt die Tabelle für die liga.
-                    </div-->
-                </div>
                 </div>
                 
             </div>
         </section>
     </div>
-</div>';
+</div>
 
-echo $content;
- include('./includes/footer.php');
+<?php
+include('./includes/footer.php');
+?>

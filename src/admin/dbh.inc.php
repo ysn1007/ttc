@@ -27,11 +27,12 @@ try {
     die("Datenbankverbindung fehlgeschlagen. Bitte versuchen Sie es später erneut.");
 }
 
+
 /**
  * Holt alle Spieler aus der Datenbank
  */
 function getPlayers(mysqli $con): array {
-    $sql = "SELECT * FROM player ORDER BY nachname ASC";
+    $sql = "SELECT * FROM player ORDER BY aktiv DESC, nachname ASC";
     $result = $con->query($sql);
     return $result->fetch_all(MYSQLI_ASSOC);
 }
@@ -48,111 +49,55 @@ function getPlayersId(mysqli $con, int $id): array {
     return $player ? [$player] : [];
 }
 
-function getActivePlayersOfTeam($con, $teamNr) {
-    /**
-     * Prepared statement
-    */
-    $sql = "SELECT * FROM player WHERE team = ? AND aktiv = 1 ORDER BY position ASC;";
-    $stmt = mysqli_stmt_init($con);
+/**
+ * Holt alle aktiven Spieler eines bestimmten Teams, sortiert nach Position
+ */
+function getActivePlayersOfTeam(mysqli $con, int $teamNr): array {
+    $stmt = $con->prepare("SELECT * FROM player WHERE team = ? AND aktiv = 1 ORDER BY position ASC");
+    $stmt->bind_param("i", $teamNr);
+    $stmt->execute();
 
-    /**
-     * prüft Variablen verbindung
-    */
-    if(!mysqli_stmt_prepare($stmt,$sql)) {
-        header("location: player.php?error=loadingTeamFailed");
-        exit();
-    }
-
-    /**
-     * Fügt prepared statement mit der richtigen anzahl ein und übergibt es es der DB.
-     * 
-    */
-    mysqli_stmt_bind_param($stmt, "i", $teamNr);
-    mysqli_stmt_execute($stmt);
-
-    /**
-     * Gibt das SQL resultat zurück.
-    */
-    $resultData = mysqli_stmt_get_result($stmt);
-    return $resultData;
-    
-    mysqli_stmt_close($stmt);
+    // Holt ALLE passenden Spieler als assoziatives Array:
+    return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 }
 
 /**
  * Adds player to data base
  */
-function addPlayer($con, $name, $lastname, $livePZ, $team, $position, $active ) {
-    $stmt = mysqli_stmt_init($con);
-    $sql = "INSERT INTO player (Vorname, Nachname, livePZ, team, position, aktiv) VALUES (?, ?, ?, ?, ?, ?)";
-    
-    // SQL-Statement vorbereiten
-    if(!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: player.php?error=addPlayerFailed");
-        exit();
+function addPlayer( mysqli $con, string $name, string $lastname, int $livePZ, int $team, int $position, int $active ) : bool {
+        $sql = "INSERT INTO player (Vorname, Nachname, livePZ, team, position, aktiv) VALUES (?, ?, ?, ?, ?, ?)";
+        $stmt = $con->prepare($sql);
+        $stmt->bind_param("ssiiii", $name, $lastname, $livePZ, $team, $position, $active); 
+        return $stmt->execute();
+        
     }
-    
-    // DAten einbinden
-    if(!mysqli_stmt_bind_param($stmt,"ssiiii", $name, $lastname, $livePZ, $team, $position, $active)) {
-        echo "Fehler stmt-Bind: " . mysqli_stmt_error($stmt);
-        exit();
-    }
-     // Statement ausführen
-    if (!mysqli_stmt_execute($stmt)) {
-        die("Fehler SQL-Statements: " . mysqli_stmt_error($stmt));
-    }
-    
-    header("location: player.php?addPlayer=success");
-    exit();
-}
 
 /**
  * updates player data
  */
-function updatePlayer($con, $playerId, $name, $lastname, $livePZ, $team, $position, $active ) {
-
-    $stmt = mysqli_stmt_init($con);
+function updatePlayer( mysqli $con, int $playerId, string $name, string $lastname, int $livePZ, int $team, int $position, int $active) : bool {
     $sql = "UPDATE player SET Vorname=?, Nachname=?, livePZ=?, team=?, position=?, aktiv=?  WHERE id=?";
-    
-    // SQL-Statement vorbereiten
-    if(!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: player.php?error=addPlayerFailed");
-        exit;
-    }
-    
-    // Daten einbinden
-    if(!mysqli_stmt_bind_param($stmt, "ssiiiii", $name, $lastname, $livePZ, $team, $position, $active, $playerId)) {
-        echo "Fehler stmt-Bind: " . mysqli_stmt_error($stmt);
-        exit;
-    }
-   
-    // Statement ausführen
-    if (!mysqli_stmt_execute($stmt)) {
-        die("Fehler SQL-Statements: " . mysqli_stmt_error($stmt)); 
-        exit;
-    }
+    $stmt = $con->prepare($sql);
+    $stmt->bind_param("ssiiiii", $name, $lastname, $livePZ, $team, $position, $active, $playerId);
 
-    header("location: player.php?success=updatePlayer");
-    exit;
+    return $stmt->execute();
 }
 
 /**
  * deletes player
  */
-function deletePlayer($con, $pid) {
+function deletePlayer(mysqli $con, int $pid): bool {
+    $sql = "DELETE FROM player WHERE id = ?";
+    $stmt = $con->prepare($sql);
     
-    $stmt = mysqli_stmt_init($con);
-    $query = "DELETE FROM player WHERE id = ?";
-
-    mysqli_stmt_prepare($stmt, $query);
-    mysqli_stmt_bind_param($stmt, "i", $pid);
-
-    if(!mysqli_stmt_execute($stmt)) {
-        header("location: player.php?error=deletePlayerFailed");
-    } else {
-        header("location: player.php?success=deletePlayer");
+    if (!$stmt) {
+        // Falls die Vorbereitung fehlschlägt
+        return false;
     }
 
+    $stmt->bind_param("i", $pid);
+
+    return $stmt->execute();
 }
 
 /**

@@ -1,11 +1,19 @@
 <?php
 ob_start(); // Am Anfang deiner Datei
 require_once 'dbh.inc.php';
-//session_start();
+
+// ID flexibel abfangen (aus POST beim Speichern ODER aus GET beim Aufrufen)
+$playerId = (int)($_POST['player_id'] ?? $_GET['id'] ?? 0);
+
+if ($playerId <= 0) {
+    die("Ungültige Spieler ID");
+}
+
 $content = '';
 
+// Formular-Verarbeitung (POST)
 if($_SERVER["REQUEST_METHOD"] == "POST") {
-
+    
     if(isset($_POST["updatePlayer"])) {
         
         $playerId = intval($_POST["player_id"]);
@@ -14,31 +22,32 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         $livePZ = intval($_POST["livePZ"]);
         $team = intval($_POST["team"]);
         $position = intval($_POST["position"]);
+        
+        // Prüfen, ob Checkbox angehakt ist
+        $active   = (isset($_POST['active']) && $_POST['active'] === 'on') ? 1 : 0;
+        
+        updatePlayer($con, $playerId, $name, $lastname, $livePZ, $team, $position, $active );
 
-        if($_POST['active'] == "on") {
-            $active = 1;
-        } else {
-            $active = 0;
-        }
-
-        updatePlayer($con, $playerId, $name, $lastname, $livePZ, $team, $position, $active, $spv, $sbem );
+        // Nach Erfolg zurück zur Übersicht weiterleiten
+        header("Location: player.php?update=success");
+        exit();
     }
 
-    if(isset($_POST["deletePlayer"])) {
-        $pid = $_POST['player_id'];
-        deletePlayer($con, $pid );
+    if (isset($_POST["deletePlayer"])) {
+        if (deletePlayer($con, $playerId)) {
+            header("Location: player.php?delete=success");
+            exit();
+        } else {
+            header("Location: player.php?error=deletePlayerFailed");
+            exit();
+        }
     }
 }
 
 include('./components/header.php');
 
 if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) ){
-    $playerId = isset($_GET['id']) ? (int)$_GET['id'] : 0; 
-
-    if($playerId <= 0){
-        die("Ungültige Spieler ID"); //Fehlerbehandlung bei ungültiger ID
-    }
-
+   
     $playerData = getPlayersId($con, $playerId);
     $player = $playerData; // Zugriff auf das erste (und einzige) Element des Arrays
 
@@ -116,10 +125,10 @@ if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) ){
                     <div class="col-12 edit-actions">
                         <div class="row">
                             <div class="col">
-                                <button class="btn btn-primary" type="updatePlayer" name="updatePlayer">Aktualisieren</button>    
+                                <button class="btn btn-primary" type="submit" name="updatePlayer">Aktualisieren</button>    
                             </div>
                             <div class="col">
-                                <button class="btn btn-danger" type="deletePlayer" name="deletePlayer">Spieler löschen </button>
+                                <button class="btn btn-danger" type="submit" name="deletePlayer">Spieler löschen </button>
                             </div>
                         </ div>
                     </div>
