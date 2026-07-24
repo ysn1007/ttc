@@ -14,7 +14,7 @@ $isManager = isset($_SESSION["manager"]);
         <section class="img-group-header d-flex justify-content-between align-items-center mb-3 p-4">
             <div class="dekades"><?= $anzahl ?> Spieler vorhanden</div>
             <div class="add-img add-item">
-                <a class="btn btn-primary" href="addPlayer.php">Spieler hinzufügen</a>
+                <a class="btn btn-primary" href="player-edit.php">Spieler hinzufügen</a>
             </div>
         </section>
 
@@ -61,7 +61,7 @@ $isManager = isset($_SESSION["manager"]);
                                                 
                                                 <?php if ($isAdmin) : ?>
                                                     <td>
-                                                        <a href="editPlayer.php?id=<?= urlencode($player["id"]) ?>" class="btn btn-success">Bearbeiten</a>
+                                                        <a href="player-edit.php?id=<?= urlencode($player["id"]) ?>" class="btn btn-success">Bearbeiten</a>
                                                     </td>
                                                 <?php endif; ?>
                                             </tr>
