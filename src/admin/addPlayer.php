@@ -1,9 +1,9 @@
 <?php
-ob_start();
+ob_start(); // Füllt Daten vor der Ausgabe im Zwischenspeicher 
 require_once 'dbh.inc.php';
-// session_start(); // Falls Sessions genutzt werden, hier aktivieren
 
-// 1. Formular-Verarbeitung (POST)
+
+// Formular-Verarbeitung
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
 
     // Inputs einlesen & säubern
@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
     }
 }
 
-// 2. HTML-Ausgabe (Erst HIER werden Header & Layout eingebunden)
+// HTML-Ausgabe 
 include('./components/header.php');
 
 if (isset($_SESSION["admin"]) || isset($_SESSION["manager"])) :
@@ -90,9 +90,15 @@ if (isset($_SESSION["admin"]) || isset($_SESSION["manager"])) :
                 <div class="col-12 mb-3">
                     <div class="row">
                         <div class="col-12">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="active" name="active" checked>
-                                <label class="form-check-label" for="active">Spieler ist aktiv</label>
+                            <label class="form-label d-block">Spieler Status</label>
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="">Inaktiv</span>
+                                
+                                <div class="form-check form-switch mb-0 px-0">
+                                    <input class="form-check-input ms-0" type="checkbox" id="active" name="active" role="switch" <?= $checkedAttribute; ?> style="cursor: pointer; width: 2.5em; height: 1.25em; background-color: #9daba9; border-color: #7a8583;">
+                                </div>
+                                
+                                <span class="active">Aktiv</span>
                             </div>
                         </div>
                     </div>
