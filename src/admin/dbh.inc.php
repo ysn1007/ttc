@@ -391,90 +391,59 @@ function getGalleryImgData($con) {
 /**
  * Get image of an id 
  */
-function getImageId($con, $imgId) {
-    $sql = "SELECT * FROM gallery WHERE id = ?; ";
-    $stmt = mysqli_stmt_init($con);
-
-    if(!mysqli_stmt_prepare($stmt,$sql)) {
-        header("location: gallery.php?error=loadingGalleryImageWithIdFailed");
-    }
-
-    mysqli_stmt_bind_param($stmt, "i", $imgId);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-    return $result;
-
-    mysqli_stmt_close($stmt);
+function getImageId(mysqli $con, int $id) {
+    $stmt = $con->prepare("SELECT * FROM gallery WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    return $stmt->get_result();
 }
 
 /**
  * Updates image data
  */
-function updateImage($con, $imageId, $title, $descript, $year, $dekade, $active ) {
-    $stmt = mysqli_stmt_init($con);
-    $query = "UPDATE gallery SET title=?, descript=?, imageYear=?, dekade=?, active=? WHERE id=?";
-
-    mysqli_stmt_prepare($stmt,$query);
-    mysqli_stmt_bind_param($stmt, "ssssss", $title, $descript, $year, $dekade, $active, $imageId);
-    
-    if(!mysqli_stmt_execute($stmt)) {
-        header("location: gallery.php?error=updateImageFailed");
-    }else {
-        header("location: gallery.php?dekade=".$dekade." ");
-    }
+function updateImage(mysqli $con, int $imageId, string $title, string $descript, string $year, string $dekade, int $active) {
+    $stmt = $con->prepare("UPDATE gallery SET title = ?, descript = ?, imageYear = ?, dekade = ?, active = ? WHERE id = ?");
+    $stmt->bind_param("ssssii", $title, $descript, $year, $dekade, $active, $imageId);
+    return $stmt->execute();
 }
 
 /**
  * Deletes image of parameter id
  */
-function deleteImage($con, $imageId) {
-    $imgData = "SELECT * FROM gallery WHERE id = $imageId";
-    $res = mysqli_query($con, $imgData);
-    $resData = mysqli_fetch_array($res);
-    $imgPath = $resData['imagePath'];
-    
-    $stmt = mysqli_stmt_init($con);
-    $query = "DELETE FROM gallery WHERE id = ?";
-
-    mysqli_stmt_prepare($stmt, $query);
-    mysqli_stmt_bind_param($stmt, "s", $imageId);
-
-    if(!mysqli_stmt_execute($stmt)) {
-        header("location: gallery.php?error=deleteGalleryImageFailed");
-    }else {
-
-        if(file_exists($imgPath)) {
-            unlink($imgPath);
+function deleteImage(mysqli $con, int $imageId) {
+    // Zuerst Pfad holen, um die Datei physikalisch zu löschen
+    $res = getImageId($con, $imageId);
+    if ($res && $row = $res->fetch_assoc()) {
+        $filePath = $row['imagePath'];
+        if (!empty($filePath) && file_exists($filePath)) {
+            unlink($filePath);
         }
-
-        header("location: gallery.php?dekade=".$resData['dekade']."");
     }
 
+    // Eintrag aus der Datenbank entfernen
+    $stmt = $con->prepare("DELETE FROM gallery WHERE id = ?");
+    $stmt->bind_param("i", $imageId);
+    return $stmt->execute();
 }
 
 /**
  * Gets Images from specific dekade and if they are active to be published
  */
-function getDekadeImages($con, $dekade) {
-    $query = "SELECT * FROM gallery WHERE dekade = ? AND active = 1 ORDER BY created DESC;";
-    $stmt = mysqli_stmt_init($con);
-    
-    if(!mysqli_stmt_prepare($stmt,$query)) {
-        header("location: gallery.php?error=loadingGalleryImageWithIdFailed");
+function getDekadeImages(mysqli $con, string $dekade) {
+    if (!empty($dekade)) {
+        $stmt = $con->prepare("SELECT * FROM gallery WHERE dekade = ? ORDER BY id DESC");
+        $stmt->bind_param("s", $dekade);
+        $stmt->execute();
+        return $stmt->get_result();
+    } else {
+        // Fallback: Alle Bilder laden
+        return $con->query("SELECT * FROM gallery ORDER BY id DESC");
     }
-
-    mysqli_stmt_bind_param($stmt, "s", $dekade);
-    mysqli_stmt_execute($stmt);
-
-    $res = mysqli_stmt_get_result($stmt);
-    return $res;
-
-    mysqli_stmt_close($stmt);
-
 }
 
 /**
  * Admin index data
+ * Ruft die Daten uaf der Startseite für den Admin auf 
  * 
  */
 
