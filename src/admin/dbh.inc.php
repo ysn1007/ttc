@@ -103,40 +103,26 @@ function deletePlayer(mysqli $con, int $pid): bool {
 /**
  * Holt Artikelinhalt aus der Datenbank 
  */
-function getArticle($con) {
+function getArticle(mysqli $con) {
 
-    $sql = "SELECT * FROM article";
-    //$stmt = mysqli_stmt_init($con);
+    $sql = "SELECT * FROM article ORDER BY id DESC";
     $stmt = $con->prepare($sql);
     
-    /**
-     * prüft Variablen verbindung und protokollieren Fehler
-    */
+    // Prüft Verbindung/Statement und leitet bei Fehler weiter
     if (!$stmt) {
         header("Location: article.php?error=keineDatenbankVerbindung"); 
-        return null; 
+        exit(); 
     }
 
-    /**
-     * Führt Abfrage aus
-     * 
-    */
+    // Führt Abfrage aus
     $stmt->execute();
 
-    /**
-     * Gibt das SQL resultat als assoziatives Array zurück und schließt statement.
-     * 
-    */
+    // Gibt das SQL-Resultat als assoziatives Array zurück und schließt das Statement
     $result = $stmt->get_result();
     $allArticles = $result->fetch_all(MYSQLI_ASSOC);
     $stmt->close();
 
-    /**
-     * Gibt Articles zurück
-     * 
-    */
     return $allArticles;
-
 }
 
 /**
@@ -160,107 +146,133 @@ function getActiveArticle($con) {
 /**
  * Get all article with id
  */
-function getArticleId($con, $id) {
-    $sql = "SELECT * FROM article WHERE id= ?; ";
-    $stmt = mysqli_stmt_init($con);
-
-    if(!mysqli_stmt_prepare($stmt,$sql)) {
-        header("location: article.php?error=loadingArticleWithIdFailed");
+function getArticleId(mysqli $con, $id) {
+    if (!is_numeric($id)) {
+        header("Location: article.php?error=invalidId");
+        exit();
     }
 
-    mysqli_stmt_bind_param($stmt, "i", $id);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-    return $result;
+    $id = (int)$id;
+    $sql = "SELECT * FROM article WHERE id = ?";
+    $stmt = $con->prepare($sql);
 
-    mysqli_stmt_close($stmt);
+    if (!$stmt) {
+        header("Location: article.php?error=loadingArticleWithIdFailed");
+        exit();
+    }
+
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    
+    $result = $stmt->get_result();
+    $article = $result->fetch_assoc(); // Holt die Zeile direkt als assoziatives Array
+    $stmt->close();
+
+    return $article; // Gibt das fertige Array $article zurück (oder null)
 }
 
 /**
  * Fügt Artikel zur Datenbank
  */
-function addArticle($con, $headline, $articleText, $fileName, $imgNewName, $active, $tagNews, $tagPlayer, $tagReview, $tagSocial, $fileTempName, $fileDestination) {
-    $stmt = mysqli_stmt_init($con);
-    $sql = "INSERT INTO article (headline, copytext, tagNews, tagPlayer, tagReviews, tagSocial, imgName, imgPath, active) VALUES(?,?,?,?,?,?,?,?,?)";
+function addArticle(mysqli $con, string $headline, string $articleText, string $fileName, string $imgNewName, int $active, int $tagNews, int $tagPlayer, int $tagReview, int $tagSocial, string $fileTempName = '',  string $fileDestination = '') {
+    $sql = "INSERT INTO article (headline, copytext, tagNews, tagPlayer, tagReviews, tagSocial, imgName, imgPath, active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     
-    if(!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: article.php?error=addArticleFailed");
+    $stmt = $con->prepare($sql);
+    if (!$stmt) {
+        header("Location: article.php?error=addArticleFailed");
+        exit();
     }
-    
-    if($fileName == ""){
-        $fileName =   "Kein Bild";
+
+    // Wenn kein Bild angegeben wurde, Fallback-Werte setzen
+    if (empty($fileName)) {
+        $fileName = "Kein Bild";
         $imgNewName = "";
-        mysqli_stmt_bind_param($stmt, "ssiiiisss", $headline, $articleText, $tagNews, $tagPlayer, $tagReview, $tagSocial, $fileName, $imgNewName, $active);
-        mysqli_stmt_execute($stmt);
-        header("location: article.php?upload=success");
     } else {
-        mysqli_stmt_bind_param($stmt, "ssiiiisss", $headline, $articleText, $tagNews, $tagPlayer, $tagReview, $tagSocial, $fileName, $imgNewName, $active);
-        mysqli_stmt_execute($stmt);   
-        move_uploaded_file($fileTempName, $fileDestination);
-        header("location: article.php?upload=success");
+        // Datei auf den Server verschieben, falls vorhanden
+        if (!empty($fileTempName) && !empty($fileDestination)) {
+            move_uploaded_file($fileTempName, $fileDestination);
+        }
     }
-    
+
+    // Bind-Typen: "ssiiiissi" -> 2x String, 4x Int, 2x String, 1x Int
+    $stmt->bind_param(
+        "ssiiiissi", 
+        $headline, 
+        $articleText, 
+        $tagNews, 
+        $tagPlayer, 
+        $tagReview, 
+        $tagSocial, 
+        $fileName, 
+        $imgNewName, 
+        $active
+    );
+
+    $executed = $stmt->execute();
+
+    if ($executed) {
+        header("Location: article.php?upload=success");
+        exit();
+    } else {
+        header("Location: article.php?error=addArticleFailed");
+        exit();
+    }
 }
 
 /**
  * Bearbeitet ausgewählte Artikel in der Datenbank 
  */
-function updateArticle($con, $articleId, $headline, $articleText, $tagNews, $tagReviews, $tagPlayer, $tagSocial, $file, $fileName, $fileActExt, $fileTempName, $imgName, $publish, $imgPath ) {
-    
+function updateArticle(mysqli $con, $articleId, string $headline, string $articleText, $tagNews, $tagReviews, $tagPlayer, $tagSocial, $file, string $fileName, string $fileActExt, string $fileTempName, string $imgName, $publish, string $imgPath) {
     // Sicherheitscheck: ID muss numerisch sein
     if (!is_numeric($articleId)) {
         header("Location: article.php?error=invalidId");
         exit();
     }
 
-    $tagNews = intval($tagNews);
-    $tagReviews = intval($tagReviews);
-    $tagPlayer = intval($tagPlayer);
-    $tagSocial = intval($tagSocial);
-    $articleId = intval($articleId);
-    $publish = intval($publish);
+    $tagNews   = (int)$tagNews;
+    $tagReviews= (int)$tagReviews;
+    $tagPlayer = (int)$tagPlayer;
+    $tagSocial = (int)$tagSocial;
+    $articleId = (int)$articleId;
+    $publish   = (int)$publish;
 
-    /**
-     * Datenbankverbindung herstellen
-     */
-    $stmt = mysqli_stmt_init($con);
-
-    /** 
-     * Prüfe, ob ein neues Bild übergeben wurde (also $fileActExt vorhanden) 
-     * 
-    */
     $hasNewImage = !empty($fileActExt) && !empty($imgPath);
 
-
     if ($hasNewImage) {
-        // Update mit Bild
-        $query = "UPDATE article  SET headline=?, copytext=?, tagNews=?, tagReviews=?, tagPlayer=?, tagSocial=?, imgName=?, imgPath=?, active=? WHERE id=?";
-        mysqli_stmt_prepare($stmt, $query);
-        mysqli_stmt_bind_param( $stmt, "ssiiiissii", $headline, $articleText, $tagNews, $tagReviews, $tagPlayer, $tagSocial, $fileName, $imgPath, $publish, $articleId );
+        // Update mit neuem Bild
+        $query = "UPDATE article SET headline=?, copytext=?, tagNews=?, tagReviews=?, tagPlayer=?, tagSocial=?, imgName=?, imgPath=?, active=? WHERE id=?";
+        $stmt  = $con->prepare($query);
+        if (!$stmt) {
+            header("Location: article.php?error=updateArticleFailed");
+            exit();
+        }
+        // Typen: "ssiiiissii" (2x String, 4x Int, 2x String, 2x Int)
+        $stmt->bind_param("ssiiiissii", $headline, $articleText, $tagNews, $tagReviews, $tagPlayer, $tagSocial, $fileName, $imgPath, $publish, $articleId);
     } else {
-        // Update ohne Bild (Bildfelder bleiben wie sie sind)
+        // Update ohne Bildänderung
         $query = "UPDATE article SET headline=?, copytext=?, tagNews=?, tagReviews=?, tagPlayer=?, tagSocial=?, active=? WHERE id=?";
-        mysqli_stmt_prepare($stmt, $query);
-        mysqli_stmt_bind_param( $stmt, "ssiiiiii", $headline, $articleText, $tagNews, $tagReviews, $tagPlayer, $tagSocial, $publish, $articleId );
+        $stmt  = $con->prepare($query);
+        if (!$stmt) {
+            header("Location: article.php?error=updateArticleFailed");
+            exit();
+        }
+        // Typen: "ssiiiiii" (2x String, 6x Int)
+        $stmt->bind_param("ssiiiiii", $headline, $articleText, $tagNews, $tagReviews, $tagPlayer, $tagSocial, $publish, $articleId);
     }
-    
-    /**
-     * Ausführung
-     */
-    if(!mysqli_stmt_execute($stmt)) {
-        header("location: article.php?error=updateArticleFailed");
-        exit;
+
+    if (!$stmt->execute()) {
+        header("Location: article.php?error=updateArticleFailed");
+        exit();
     }
-    
-    header("location: article.php?success=updateArticle");
+
+    header("Location: article.php?success=updateArticle");
     exit();
-    
 }
 
 /**
  * Löscht Artikel von der Datenbank
  */
-function deleteArticle($con, $articleId) {
+function deleteArticle(mysqli $con, $articleId) {
 
     // Sicherheitscheck: ID muss numerisch sein
     if (!is_numeric($articleId)) {
@@ -268,85 +280,54 @@ function deleteArticle($con, $articleId) {
         exit();
     }
 
-    // Bildpfad sicher auslesen
-    $stmt = mysqli_stmt_init($con);
-    $query = "SELECT imgPath FROM article WHERE id = ?";
-    mysqli_stmt_prepare($stmt, $query);
-    mysqli_stmt_bind_param($stmt, "i", $articleId);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
+    $articleId = (int)$articleId;
 
-    if (!$result || mysqli_num_rows($result) === 0) {
-        header("Location: article.php?error=articleNotFound");
-        exit();
-    }
-
-    $row = mysqli_fetch_assoc($result);
-    $image = $row["imgPath"];
-
-    // Artikel löschen
-    //$stmt = mysqli_stmt_init($con);
-    $query = "DELETE FROM article WHERE id = ?";
-    mysqli_stmt_prepare($stmt, $query);
-    mysqli_stmt_bind_param($stmt, "i", $articleId);
-
-    if (!mysqli_stmt_execute($stmt)) {
+    // 1. Bildpfad auslesen
+    $stmt = $con->prepare("SELECT imgPath FROM article WHERE id = ?");
+    if (!$stmt) {
         header("Location: article.php?error=deleteArticleFailed");
         exit();
     }
 
-    // Bild löschen
-    $imagePath = "../img/article/" . $image;
-    if (!empty($image) && file_exists($imagePath)) {
-        unlink($imagePath);
+    $stmt->bind_param("i", $articleId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if (!$result || $result->num_rows === 0) {
+        header("Location: article.php?error=articleNotFound");
+        exit();
     }
 
-    // Weiterleitung nach erfolgreichem Löschen
+    $row   = $result->fetch_assoc();
+    $image = $row["imgPath"];
+
+    // 2. Artikel aus DB löschen
+    $stmtDelete = $con->prepare("DELETE FROM article WHERE id = ?");
+    if (!$stmtDelete) {
+        header("Location: article.php?error=deleteArticleFailed");
+        exit();
+    }
+
+    $stmtDelete->bind_param("i", $articleId);
+
+    if (!$stmtDelete->execute()) {
+        header("Location: article.php?error=deleteArticleFailed");
+        exit();
+    }
+
+    // 3. Bilddatei vom Server entfernen
+    if (!empty($image)) {
+        $imagePath = "../img/article/" . $image;
+        if (file_exists($imagePath)) {
+            unlink($imagePath);
+        }
+    }
+
+    // Erfolgreiche Weiterleitung
     header("Location: article.php?success=deleteArticle");
     exit();
 }
 
-/**
- * Aktualisiert Artikelbild
- */
-function updateArticleImage($con, $articleId, $file, $fileName, $fileActExt, $fileTempName, $imgName) {
-    // Sicherheitsprüfung: ID muss numerisch sein
-    if (!is_numeric($articleId)) {
-        header("Location: article.php?error=invalidId");
-        exit;
-    }
-
-    // Neuen Dateinamen generieren
-    $imgNewName = $imgName . "." . uniqid("", true) . "." . $fileActExt;
-    $uploadPath = "../img/article/" . $imgNewName;
-
-
-    // Datei verschieben
-    if (!move_uploaded_file($fileTempName, $uploadPath)) {
-        header("Location: article.php?error=uploadFailed");
-        exit;
-    }
-
-    $stmt = mysqli_stmt_init($con);
-    $sql = "UPDATE article SET imgName=?, imgPath=? WHERE id=?";
-    
-    if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("Location: article.php?error=prepareFailed");
-        exit;
-    }
-
-    // Hier binden wir den Dateinamen und Pfad korrekt
-    $imgPath = $imgNewName;
-    mysqli_stmt_bind_param($stmt, "ssi", $fileName, $imgPath, $articleId);
-
-    if (!mysqli_stmt_execute($stmt)) {
-        header("Location: article.php?error=updateFailed");
-        exit;
-    }
-
-    header("Location: article.php?updateImage=success");
-    exit;
-}
 
 /**
  * Gallerie

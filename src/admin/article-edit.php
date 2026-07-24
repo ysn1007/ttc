@@ -21,11 +21,13 @@ $article = [
 
 // Im EDIT-Modus: Daten aus DB laden
 if ($isEdit) {
-    $result = getArticleId($con, $articleId);
-    if ($result && mysqli_num_rows($result) > 0) {
-        $article = mysqli_fetch_assoc($result);
+    $dbArticle = getArticleId($con, $articleId);
+
+    if ($dbArticle) {
+        $article = $dbArticle; // Überschreibt die Standardwerte mit den DB-Daten
     } else {
-        die("Artikel wurde in der Datenbank nicht gefunden.");
+        header("Location: article.php?error=articleNotFound");
+        exit();
     }
 }
 
@@ -49,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     // B) ARTIKEL SPEICHERN (ERSTELLEN / UPDATEN)
     if (isset($_POST["addArticle"]) || isset($_POST["updateArticle"])) {
-
+        var_dump($_POST);
         $headline    = trim($_POST["headline"] ?? '');
         $articleText = trim($_POST["text"] ?? '');
         $publish     = isset($_POST["publish"]) ? 1 : 0;
