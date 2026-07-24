@@ -13,7 +13,7 @@ if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION["
         <section class="img-group-header d-flex justify-content-between align-items-center mb-3 p-4">
             <div class="dekades">Anzahl Artikel gespeichert</div>
             <div class="add-img add-item">
-                <a class="btn btn-primary" href="addArticle.php">Artikel hinzufügen</a>
+                <a class="btn btn-primary" href="article-edit.php">Artikel hinzufügen</a>
             </div>
         </section>    
         <div class="accordion-item">
@@ -69,18 +69,16 @@ if(isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION["
 
                                         $articleTypeString = implode(', ', $articleTypes);
 
-                                        
-
                                         $content .= '
                                         <tr>
                                             <th scope="row">'. $article["id"] .'</th>
                                             <td><input type="text" name="" value="'. $article["headline"] .'" ></td>
                                             <td style="width:20%"><input type="text" name="" title="'. $article["copytext"] .'" value="'. $article["copytext"] .'"></td>
                                             <td><input type="text" name="" title="Artikelart" value="'. htmlspecialchars($articleTypeString) .'"></td>
-                                            <td><img src="../img/article/'.$article["imgPath"].'" width="50" height="50"/></td>
+                                            <td><img src="../img/article/'.$article["imgPath"].'" width="70" height="70" style="object-fit: contain;"/></td>
                                             <td style="width:5%"><input type="text" name="" value="'. $status .'"></td>';
                                             if($_SESSION["admin"] == 1 || $_SESSION["manager"] == 1 || $_SESSION["author"] == 1) {
-                                                $content .= '<td><a class="btn btn-success" href="editArticle.php?id='. $article["id"] .'">Bearbeiten</a> ';
+                                                $content .= '<td><a class="btn btn-success" href="article-edit.php?id='. $article["id"] .'">Bearbeiten</a> ';
                                             }
                                             $content .= '
                                         </tr>';
