@@ -1,6 +1,7 @@
 <?php 
-require_once 'admin/dbh.inc.php';
-include('./includes/header.php');?>
+require_once 'admin/includes/dbh.inc.php';
+include('./includes/header.php');
+?>
 
 <div class="site-wrap">
     <div class="content-wrap">

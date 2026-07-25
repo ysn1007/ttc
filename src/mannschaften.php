@@ -1,5 +1,5 @@
 <?php 
-require_once 'admin/dbh.inc.php';
+require_once 'admin/includes/dbh.inc.php';
 include('./includes/header.php');
 
 // URL-Parameter sicher auslesen & parsen
@@ -114,7 +114,6 @@ $liga = match($teamNr) {
                                                     <?= htmlspecialchars($player['Nachname']) ?>, <?= htmlspecialchars($player['Vorname']) ?>
                                                 </div>
                                                 <div class="player-attributes-group">
-                                                    
                                                     <span class="player-attributes-item">
                                                         <?= htmlspecialchars($player['livePZ']) ?>
                                                     </span>
@@ -137,7 +136,6 @@ $liga = match($teamNr) {
                                                         <?= htmlspecialchars($addPlayer['Nachname']) ?>, <?= htmlspecialchars($addPlayer['Vorname']) ?>
                                                     </div>
                                                     <div class="player-attributes-group">
-                                                        
                                                         <span class="player-attributes-item">
                                                             <?= htmlspecialchars($addPlayer['livePZ']) ?>
                                                         </span> 

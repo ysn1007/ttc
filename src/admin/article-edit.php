@@ -1,7 +1,7 @@
 <?php
 ob_start();
 session_start();
-require_once 'dbh.inc.php';
+require_once 'includes/dbh.inc.php';
 
 // 1. Modus ermitteln: Ist eine Artikel-ID übergeben worden?
 $articleId = (int)($_POST['article_id'] ?? $_GET['id'] ?? 0);

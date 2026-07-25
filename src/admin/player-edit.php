@@ -1,6 +1,6 @@
 <?php
 ob_start();
-require_once 'dbh.inc.php';
+require_once 'includes/dbh.inc.php';
 
 // 1. Modus ermitteln: Ist eine ID übergeben worden?
 $playerId = (int)($_POST['player_id'] ?? $_GET['id'] ?? 0);

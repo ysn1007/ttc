@@ -1,8 +1,8 @@
 <?php 
-require_once 'admin/dbh.inc.php';
+require_once 'admin/includes/dbh.inc.php';
 include('./includes/header.php');
+?>
 
-$content .='
 <div class="site-wrap" id="galerie">
     <div class="content-wrap">
         <section class="container galery-group" id="galery">
@@ -82,8 +82,8 @@ $content .='
             </div>
         </section>
     </div>
-</div>';
+</div>
 
-echo $content;
-
+<?=
 include('./includes/footer.php');
+?>

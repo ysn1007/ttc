@@ -1,5 +1,5 @@
 <?php
-require_once 'dbh.inc.php';
+require_once 'includes/dbh.inc.php';
 include('./components/header.php');
 
 
@@ -27,7 +27,6 @@ $isManager = isset($_SESSION["manager"]);
 
             <div id="collapseTwo" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                    
                     <?php if (!empty($allPlayerData)) : ?>
                         <form action="editPlayer.php" method="post" enctype="multipart/form-data">
                             <div class="table-responsive">
@@ -50,9 +49,7 @@ $isManager = isset($_SESSION["manager"]);
                                         <?php foreach ($allPlayerData as $player) : ?>
                                             <tr id="<?= htmlspecialchars($player["id"]) ?>">
                                                 <th scope="row"><?= htmlspecialchars($player["id"]) ?></th>
-                                                <td>
-                                                    <input type="text" name="name" value="<?= htmlspecialchars(($player["Nachname"] ?? '') . ', ' . ($player["Vorname"] ?? '')) ?>">
-                                                </td>
+                                                <td><input type="text" name="name" value="<?= htmlspecialchars(($player["Nachname"] ?? '') . ', ' . ($player["Vorname"] ?? '')) ?>"></td>
                                                 <td><input type="text" name="livepz" value="<?= htmlspecialchars($player["livePZ"] ?? '') ?>"></td>
                                                 <td><input type="text" name="team" value="<?= htmlspecialchars($player["team"] ?? '') ?>"></td>
                                                 <td><input type="text" name="position" value="<?= htmlspecialchars($player["position"] ?? '') ?>"></td>
@@ -60,9 +57,7 @@ $isManager = isset($_SESSION["manager"]);
                                                 
                                                 
                                                 <?php if ($isAdmin) : ?>
-                                                    <td>
-                                                        <a href="player-edit.php?id=<?= urlencode($player["id"]) ?>" class="btn btn-success">Bearbeiten</a>
-                                                    </td>
+                                                <td><a href="player-edit.php?id=<?= urlencode($player["id"]) ?>" class="btn btn-success">Bearbeiten</a></td>
                                                 <?php endif; ?>
                                             </tr>
                                         <?php endforeach; ?>

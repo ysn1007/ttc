@@ -14,7 +14,7 @@ function uidExists($con, $username) {
      * prüft SQL verbindung
     */
     if(!mysqli_stmt_prepare($stmt,$sql)) {
-        header("location: login.php?error=stmtfailed");
+        header("location: ../login.php?error=stmtfailed");
     }
 
     /**
@@ -62,7 +62,7 @@ function loginUser($con, $username, $pwd) {
     $uidExists = uidExists($con, $username );
 
     if($uidExists === false) {
-       header("location: login.php?error=wronglogin");
+       header("location: ../login.php?error=wronglogin");
        exit();
     }
 
@@ -70,7 +70,7 @@ function loginUser($con, $username, $pwd) {
     $checkPwd = password_verify($pwd, $pwdHashed);
     
     if($checkPwd == 0) {
-        header("location: login.php?error=wronglogin");
+        header("location: ../login.php?error=wronglogin");
         exit();
     } else if($checkPwd == 1 ) {
         session_start();
@@ -80,7 +80,7 @@ function loginUser($con, $username, $pwd) {
         $_SESSION["author"] = $uidExists["author"];
         $_SESSION["useruid"] = $uidExists["uid"];
 
-        header("location: index.ad.php");
+        header("location: ../index.ad.php");
         exit(); 
     }
 }

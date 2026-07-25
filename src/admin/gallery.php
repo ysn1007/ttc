@@ -1,5 +1,5 @@
 <?php
-require_once 'dbh.inc.php';
+require_once 'includes/dbh.inc.php';
 include('./components/header.php');
 
 $dekade = $_GET['dekade'] ?? '';

@@ -1,5 +1,5 @@
 <?php 
-require_once 'admin/dbh.inc.php';
+require_once 'admin/includes/dbh.inc.php';
 $id =  $_GET['id'];
 
 $content = '';

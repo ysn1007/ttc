@@ -5,7 +5,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 define('__ROOT__', dirname(dirname(__FILE__)));
-require_once(__ROOT__.'/admin/config.ad.php');
+require_once(__ROOT__.'/config.ad.php');
 
 // Mysqli so einstellen, dass es bei DB-Fehlern Exceptions wirft (Standard ab PHP 8.1+)
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);

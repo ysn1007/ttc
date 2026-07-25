@@ -1,5 +1,5 @@
 <?php
-require_once 'dbh.inc.php';
+require_once 'includes/dbh.inc.php';
 
 $content = '';
 //var_dump($_SESSION['useruid']);exit;

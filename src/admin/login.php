@@ -46,7 +46,7 @@
                     <div class="hero col-xs-12 col-md-12 col-lg-12 ">
                         
                         <section class="login-form">
-                            <form action="login.inc.php" method="post">
+                            <form action="includes/login.inc.php" method="post">
                                 <input type="text" name="name" placeholder="Dein Name">
                                 <input type="password" name="pwd" placeholder="Passwort">
                                 <button type="submit" name="submit">Login</button>
