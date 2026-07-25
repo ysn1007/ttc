@@ -31,10 +31,34 @@ try {
 /**
  * Holt alle Spieler aus der Datenbank
  */
-function getPlayers(mysqli $con): array {
-    $sql = "SELECT * FROM player ORDER BY aktiv DESC, nachname ASC";
-    $result = $con->query($sql);
-    return $result->fetch_all(MYSQLI_ASSOC);
+function getPlayers(mysqli $con, ?int $limit = null): array {
+    
+    $sql = "SELECT * FROM player ORDER BY aktiv DESC, Nachname ASC";
+
+    if ($limit !== null) {
+        $sql .= " LIMIT ?";
+    }
+
+    $stmt = $con->prepare($sql);
+    
+    // Prüft Verbindung/Statement und leitet bei Fehler weiter
+    if (!$stmt) {
+        //header("Location: index.ad.php?error=SpielerDataFehler"); 
+        echo $con->error; exit();
+        exit(); 
+    }
+
+    if ($limit != null) {
+       $stmt->bind_param("i", $limit); 
+    }
+    // Führt Abfrage aus
+    $stmt->execute();
+    // Gibt das SQL-Resultat als assoziatives Array zurück und schließt das Statement
+    $result = $stmt->get_result();
+    $getPlayers = $result->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
+
+    return $getPlayers;
 }
 
 /**
@@ -46,6 +70,7 @@ function getPlayersId(mysqli $con, int $id): array {
     $stmt->execute();
     
     $player = $stmt->get_result()->fetch_assoc();
+    // liefert ein Ergebnis in einem Array oder ein leeres Array zurück, da ein Array als Rückgabewert erwartet wird.
     return $player ? [$player] : [];
 }
 
@@ -103,9 +128,15 @@ function deletePlayer(mysqli $con, int $pid): bool {
 /**
  * Holt Artikelinhalt aus der Datenbank 
  */
-function getArticle(mysqli $con) {
+function getArticle(mysqli $con, ?int $limit = null ) :array {
 
     $sql = "SELECT * FROM article ORDER BY id DESC";
+    
+    // Falls ein Limit übergeben wurde, hängen wir LIMIT an
+    if ($limit !== null) {
+        $sql .= " LIMIT ?";
+    }
+
     $stmt = $con->prepare($sql);
     
     // Prüft Verbindung/Statement und leitet bei Fehler weiter
@@ -114,9 +145,13 @@ function getArticle(mysqli $con) {
         exit(); 
     }
 
+    // Falls ein Limit gesetzt ist, binden wir den Parameter als Integer ("i") ein
+    if ($limit !== null) {
+        $stmt->bind_param("i", $limit);
+    }
+
     // Führt Abfrage aus
     $stmt->execute();
-
     // Gibt das SQL-Resultat als assoziatives Array zurück und schließt das Statement
     $result = $stmt->get_result();
     $allArticles = $result->fetch_all(MYSQLI_ASSOC);
@@ -128,19 +163,22 @@ function getArticle(mysqli $con) {
 /**
  * Holt Artikelinhalt aus der Datenbank wenn diese Aktiv sind
  */
-function getActiveArticle($con) {
+function getActiveArticle(mysqli $con) {
     $sql = "SELECT * FROM article WHERE active = 1";
-    $stmt = mysqli_stmt_init($con);
+    $stmt = $con->prepare($sql);
     
-    if(!mysqli_stmt_prepare($stmt,$sql)) {
-        header("location: article.php?error=loadingArticleFailed");
+    if(!$stmt) {
+        header("Location: article.php?error=loadingArticleFailed");
     }
 
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-    return $result;
-    
-    mysqli_stmt_close($stmt);
+    $stmt -> execute();
+    // Gibt das SQL-Resultat als assoziatives Array zurück und schließt das Statement
+    $result = $stmt->get_result();
+    $articles = $result->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
+
+    return $articles;
+
 }
 
 /**
@@ -334,6 +372,42 @@ function deleteArticle(mysqli $con, $articleId) {
  * Bilder in der Galerie verarbeiten
  */
 
+
+function getImages(mysqli $con, ?int $limit = null, bool $lastestFirst = false) :array {
+    $sql = "SELECT * FROM gallery WHERE active = 1 ";
+    
+    if ($lastestFirst) {
+        $sql .=" ORDER BY created DESC"; 
+    } 
+
+    if ($limit !== null ) {
+        $sql .= " LIMIT ?";
+    }
+
+    $stmt = $con->prepare($sql);
+
+    // Prüft Verbindung/Statement und leitet bei Fehler weiter
+    if (!$stmt) {
+        header("Location: index.ad.php?error=keineDatenbankVerbindung"); 
+        exit(); 
+    }
+
+    // Falls ein Limit gesetzt ist, binden wir den Parameter als Integer ("i") ein
+    if ($limit !== null) {
+        $stmt->bind_param("i", $limit);
+    }
+
+    // Führt Abfrage aus
+    $stmt->execute();
+
+    // Gibt das SQL resultat als assoziatives Array zurück und schließt statement.
+    $result = $stmt->get_result();
+    $getImages = $result->fetch_all(MYSQLI_ASSOC); 
+    $stmt->close();
+
+    return $getImages;
+}
+
 // Bild hochladen und abspeichern
 function addImage($con, $headline, $imgText, $year, $dekade, $fileName, $imgNewName, $active, $fileTempName, $fileDestination) {
     $tags = "kein Tag";
@@ -350,24 +424,6 @@ function addImage($con, $headline, $imgText, $year, $dekade, $fileName, $imgNewN
 
 }
 
-/**
- * Get connection to gallery database
- */
-function getGalleryImgData($con) {
-    
-    $sql = "SELECT * FROM gallery;";
-    $stmt = mysqli_stmt_init($con);
-    
-    if(!mysqli_stmt_prepare($stmt,$sql)) {
-        header("location: gallery.php?error=loadingGalleryImagesFailed");
-    }
-
-    mysqli_stmt_execute($stmt);
-    return mysqli_stmt_get_result($stmt);
-
-    mysqli_stmt_close($stmt);
-    
-}
 
 /**
  * Get image of an id 
@@ -422,79 +478,5 @@ function getDekadeImages(mysqli $con, string $dekade) {
     }
 }
 
-/**
- * Admin index data
- * Ruft die Daten uaf der Startseite für den Admin auf 
- * 
- */
 
-
-/**
- * Gets last 10 created active images from gallery for admin index
- */
-function getLastImages($con) {
-    $sql = "SELECT * FROM gallery WHERE active = 1 ORDER BY created DESC LIMIT 10;";
-    $stmt = $con->prepare($sql);
-
-    /**
-     * prüft Variablen verbindung und protokollieren Fehler
-    */
-    if (!$stmt) {
-        error_log("SQL-Fehler: " . $con->error); 
-        return null; 
-    }
-
-    /**
-     * Führt Abfrage aus
-     * 
-    */
-    $stmt->execute();
-
-    /**
-     * Gibt das SQL resultat als assoziatives Array zurück und schließt statement.
-    */
-    $result = $stmt->get_result();
-    $lastArticles = $result->fetch_all(MYSQLI_ASSOC); 
-    $stmt->close();
-
-    return $lastArticles;
-}
-
-/**
- * Gets all players alphabetical order
- */
-function getAllPlayers($con): ?array {
-
-    /**
-     * Prepared statement
-    */
-    $sql = "SELECT * FROM player ORDER BY Nachname ASC";
-    $stmt = $con->prepare($sql);
-
-    /**
-     * prüft Variablen verbindung und protokollieren Fehler
-    */
-    if (!$stmt) {
-        error_log("SQL-Fehler: " . $con->error); 
-        return null; 
-    }
-
-    /**
-     * Führt Abfrage aus
-     * 
-    */
-    $stmt->execute();
-
-    /**
-     * Gibt das SQL resultat als assoziatives Array zurück und schließt statement.
-    */
-    $result = $stmt->get_result();
-    $players = $result->fetch_all(MYSQLI_ASSOC); 
-    $stmt->close();
-
-    /*
-        * Gibt players zurück
-    */
-    return $players;
-}
 
