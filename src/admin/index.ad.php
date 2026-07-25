@@ -30,7 +30,7 @@ include('./components/header.php');
                         <ul class="list-group list-group-flush">
                             <?php 
                             // Wir nutzen getPlayers statt getAllPlayers (mit flexiblem Limit, z. B. 10)
-                            $players = getPlayers($con, 10); 
+                            $players = getPlayers($con); 
                             ?>
                             <?php if (!empty($players)) : ?> 
                                 <?php foreach ($players as $player) : ?>
