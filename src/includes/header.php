@@ -17,7 +17,7 @@ global $cfg;
                 </button>
                 <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
                 <ul class="navbar-nav">
-                    <li class="nav-item navi<?= ((basename($_SERVER['PHP_SELF']) == "index.php" || (basename($_SERVER['PHP_SELF']) == "post.php")) ? " active" : "") ?>" id="Startseite"><a class="nav-link" href="index.php">Startseite<span class="sr-only"></span></a></li>
+                    <li class="nav-item navi<?= ((basename($_SERVER['PHP_SELF']) == "index.php") ? " active" : "") ?>" id="Startseite"><a class="nav-link" href="index.php">Startseite<span class="sr-only"></span></a></li>
                     <li class="nav-item navi dropdown">
                         <a href="#" class="nav-link <?= ((basename($_SERVER['PHP_SELF']) == "mannschaften.php") ? "active" : "") ?> dropdown-toggle" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mannschaften <span class="caret"></span></a>
                         <ul class="dropdown-menu">
