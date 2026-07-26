@@ -361,7 +361,7 @@ body {
     // footer styles
     .footer {
         background: $white;
-        min-height: 100px;
+        min-height: 50px;
         .container {
             width: 100%;
         }
@@ -516,7 +516,7 @@ body {
         }
        
         #content-wrapper { 
-            min-height: calc(100vh - 220px);
+            min-height: calc(100vh - 156px);
             max-width: 1600px;
 
             table {
