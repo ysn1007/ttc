@@ -33,6 +33,7 @@ if (isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION[
                                 <th scope="col">Text</th>
                                 <th scope="col">Artikelart</th>
                                 <th scope="col">Bild</th>
+                                <th scope="col">Erstellungsdatum</th>
                                 <th scope="col">Status</th>
                                 <th scope="col" class="text-end">Aktion</th>
                             </tr>
@@ -45,8 +46,8 @@ if (isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION[
                                         $isOnline = ($article["active"] == 1);
                                         
                                         $tagMap = [
-                                            'tagNews'    => 'Neuigkeiten',
-                                            'tagReviews' => 'Spielberichte',
+                                            'tagNews'    => 'Neues',
+                                            'tagReviews' => 'Bericht',
                                             'tagPlayer'  => 'Neuzugang',
                                             'tagSocial'  => 'Soziale Medien'
                                         ];
@@ -72,6 +73,9 @@ if (isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION[
                                             <?php else: ?>
                                                 <span class="text-muted fs-7">Kein Bild</span>
                                             <?php endif; ?>
+                                        </td>
+                                        <td>
+                                            Datum
                                         </td>
                                         <td style="width: 10%;">
                                             <span class="badge <?= $isOnline ? 'bg-success' : 'bg-secondary'; ?>">
