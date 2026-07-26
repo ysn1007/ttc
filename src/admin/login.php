@@ -47,8 +47,11 @@
                         
                         <section class="login-form">
                             <form action="includes/login.inc.php" method="post">
-                                <input type="text" name="name" placeholder="Dein Name">
-                                <input type="password" name="pwd" placeholder="Passwort">
+                                <h4 style="margin-bottom: 30px;">Anmelden</h4>
+                                <div class="login-data-panel">
+                                    <input type="text" name="name" placeholder="Dein Name">
+                                    <input type="password" name="pwd" placeholder="Passwort">
+                                </div>
                                 <button type="submit" name="submit">Login</button>
                             </form>
 
