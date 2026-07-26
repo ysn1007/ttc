@@ -47,10 +47,10 @@ if (isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION[
                                         $isOnline = ($article["active"] == 1);
                                         
                                         $tagMap = [
-                                            'tagNews'    => 'Neues',
-                                            'tagReviews' => 'Bericht',
-                                            'tagPlayer'  => 'Neuzugang',
-                                            'tagSocial'  => 'Soziale Medien'
+                                            'tagNews'    => 'Neu',
+                                            'tagReviews' => 'Be',
+                                            'tagPlayer'  => 'NeuSp',
+                                            'tagSocial'  => 'SoMe'
                                         ];
 
                                         $articleTypes = [];
