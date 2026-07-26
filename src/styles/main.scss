@@ -420,6 +420,11 @@ body {
 
     /** Styles for login in section **/
     &#login {
+        #header {
+            .header-brand {
+                width: initial;
+            }
+        }
         #content-wrapper {
             min-height: calc(100vh - 120px);
 
