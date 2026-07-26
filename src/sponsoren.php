@@ -1,6 +1,7 @@
 <?php 
 require_once 'admin/includes/dbh.inc.php';
-include('./includes/header.php'); ?>
+include('./includes/header.php'); 
+?>
 
 
 <div class="site-wrap">
@@ -8,7 +9,7 @@ include('./includes/header.php'); ?>
         <section class="container sponsoring-group">
             <div class="galery-header">
                 <img src="img/tt-icon.svg" alt="">
-                <h2>Sponsoren</h2>
+                <h1>Sponsoren</h1>
             </div>
 
             <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3">

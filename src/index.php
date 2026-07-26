@@ -10,7 +10,7 @@ include('./includes/header.php');
             <section class="article-wrap container" id="article-wrap">
                 <div class="section-header">
                     <img src="img/tt-icon.svg" alt="">
-                    <h2>Unsere Neuigkeiten</h2>
+                    <h1>Unsere Neuigkeiten</h1>
                 </div>
                 <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3">
                     <?php    

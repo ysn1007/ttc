@@ -9,7 +9,7 @@ include('./includes/header.php');
             <div class="row">
                 <div class="galery-header">
                     <img src="img/tt-icon.svg" alt="">
-                    <h2>Bildergallarie</h2>
+                    <h1>Bildergallarie</h1>
                 </div>
                 
                 <div class="gal-content">

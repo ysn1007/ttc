@@ -73,7 +73,7 @@ if(isset($_POST['submit'])) {
             <div class="row">
                 <div class="galery-header">
                     <img src="img/tt-icon.svg" alt="">
-                    <h2>Kontaktformular</h2>
+                    <h1>Kontaktformular</h1>
                 </div>
 
                 <?php echo $mail ?>

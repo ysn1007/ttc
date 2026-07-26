@@ -3,7 +3,7 @@
     <div class="content-wrap col-xs-12 col-md-12">
         <div class="galery-header">
             <img src="img/tt-icon.svg" alt="">
-            <h2>Tuniere</h2>
+            <h1>Tuniere</h1>
         </div>
     </div>
 </div>

@@ -181,6 +181,19 @@ body {
 
     #content-wrapper {
         min-height: calc(100vh - 110px);
+        
+        h1 {
+            padding: 5px 0;
+            margin: 0;
+            font-family: "geist-bold";
+            color: $black;
+            font-size: 1.5rem;
+
+            @media (max-width: 430px) {
+                font-size: 1.6rem;
+            }
+
+        }
 
         // startseite
         .content-wrap {
@@ -195,18 +208,7 @@ body {
                 padding: 7.5px 0;
                 align-items: center;
 
-                h2 {
-                    padding: 5px 0;
-                    margin: 0;
-                    font-family: "geist-bold";
-                    color: $black;
-                    font-size: 2.2rem;
-
-                    @media (max-width: 430px) {
-                        font-size: 1.6rem;
-                    }
-
-                }
+                
             }
 
             // article
@@ -1175,7 +1177,7 @@ body {
         }
     }
     
-    &#post {
+    /* &#post {
         .post-group {
             background: #fff;
 
@@ -1192,7 +1194,7 @@ body {
 
         }
         
-    }
+    } */
 
     &#impressum {
        

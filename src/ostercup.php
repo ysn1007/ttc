@@ -1,6 +1,7 @@
 <?php 
 require_once 'admin/includes/dbh.inc.php';
-include('./includes/header.php'); ?>
+include('./includes/header.php'); 
+?>
 
 
 <div class="site-wrap">
@@ -8,7 +9,7 @@ include('./includes/header.php'); ?>
         <section class="container ostercup-group">
             <div class="galery-header">
                 <img src="img/tt-icon.svg" alt="">
-                <h2>Ostercup 2026</h2>
+                <h1>Ostercup 2026</h1>
             </div>
 
             <div class="cup-section">

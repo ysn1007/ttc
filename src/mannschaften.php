@@ -11,6 +11,7 @@ $addTeam = $teamNr + 1;
 
 // Spieler-Arrays holen
 $players = getActivePlayersOfTeam($con, $teamNr);
+// Spieler, die vorangig als Ersatz vorgesehen sind
 $addPlayers = getActivePlayersOfTeam($con, $addTeam);
 
 /*
@@ -31,7 +32,7 @@ $liga = match($teamNr) {
         <section class="container team-wrap">
             <div class="galery-header">
                 <img src="img/tt-icon.svg" alt="">
-                <h2><?= htmlspecialchars($teamNr) ?>. <?= htmlspecialchars(ucfirst($men)) ?> - <?= $liga ?> </h2>
+                <h1><?= htmlspecialchars($teamNr) ?>. <?= htmlspecialchars(ucfirst($men)) ?> - <?= $liga ?> </h1>
             </div>
 
             <div class="team-section">
