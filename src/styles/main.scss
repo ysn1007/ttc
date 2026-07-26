@@ -445,7 +445,18 @@ body {
                     }
                 }
             }
-            .footer { height: 30px;}
+            
+        }
+        .footer { 
+            min-height: 50px;
+            .row {
+                display: flex;
+                height: 50px;
+
+                .copyright {
+                    align-self: center;
+                }
+            }
         }
     }
 

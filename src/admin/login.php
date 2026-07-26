@@ -67,9 +67,9 @@
             </div>
         </row>
         <footer class="col-xs-12 col-md-12 footer">
-            <div class="col-xs-12 col-md-12 footer-links">
+            <div class="col-xs-12 col-md-12">
                 <div class="row">
-                    <div class="pull-right copyright">
+                    <div class="copyright">
                         <span>TTC RAMSHARDE © 2021</span>
                     </div>
                 </div>
