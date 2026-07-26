@@ -426,15 +426,25 @@ body {
             .login-form {
                 width: 50%;
                 transform: translateX(50%);
+                background: #fff;
+                padding: 30px;
+                margin: 60px;
+                border-radius: 4px;
 
                 form {
                     display: flex;
                     flex-direction: column;
-                    margin-top: 30px;
+                    //margin-top: 30px;
+                    .login-data-panel {
+                        margin-bottom: 45px;
+                    }
+
                     input { 
                         margin-bottom: 20px;
-                        border: 0;
+                        border: solid #ddd 1px;
                         padding: 7.5px;
+                        border-radius: 4px;
+                        width: 100%;
                     }
 
                     button {
