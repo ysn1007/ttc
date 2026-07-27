@@ -1,3 +1,15 @@
-/node_module
+# Datenbank-Backups & Dumps ignorieren
+/backups/
+*.dump
+*.sql.gz
+*.sql.zip
+
+# IDE / Editor
+/.idea/
+/.vscode/
+
+# Node Modules
+/node_modules/
+
+# Destination ordner gerade (entfernt)
 / dest
-node_modules
