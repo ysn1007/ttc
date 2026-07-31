@@ -36,7 +36,7 @@ $pageTitle = $isEdit ? "Artikel bearbeiten" : "Artikel hinzufügen";
 // 2. Formular-Verarbeitung (POST)
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    // A) ARTIKEL LÖSCHEN
+    // ARTIKEL LÖSCHEN
     if (isset($_POST["deleteArticle"]) && $isEdit) {
         // Altes Bild löschen
         $oldImage = $_POST["imgPath"] ?? '';
@@ -49,9 +49,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit();
     }
 
-    // B) ARTIKEL SPEICHERN (ERSTELLEN / UPDATEN)
+    // ARTIKEL SPEICHERN (ERSTELLEN / UPDATEN)
     if (isset($_POST["addArticle"]) || isset($_POST["updateArticle"])) {
-        var_dump($_POST);
         $headline    = trim($_POST["headline"] ?? '');
         $articleText = trim($_POST["text"] ?? '');
         $publish     = isset($_POST["publish"]) ? 1 : 0;
@@ -110,7 +109,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $imgPath = $imgNewName;
         }
 
-        // --- EXECUTE ADD OR UPDATE ---
+        // 1. ZUERST HAUPTARTIKEL SPEICHERN ODER UPDATEN
         if ($isEdit) {
             updateArticle(
                 $con,
@@ -129,8 +128,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $publish,
                 $imgPath
             );
-            header("Location: article.php?update=success");
-            exit();
         } else {
             if (empty($headline) || empty($articleText)) {
                 header("Location: article-edit.php?error=emptyfields");
@@ -139,14 +136,63 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             $fileDestination = !empty($imgPath) ? "../img/article/" . $imgPath : "";
             
-            addArticle($con, $headline, $articleText, $fileName, $imgPath, $publish, $tagNews, $tagPlayer, $tagReviews, $tagSocial, $fileTempName, $fileDestination);
-            header("Location: article.php?addArticle=success");
-            exit();
+            $articleDate = $_POST['article_date'] ?? date('Y-m-d H:i:s');
+            $articleId = addArticle($con, $headline, $articleText, $fileName, $imgPath, $publish, $tagNews, $tagPlayer, $tagReviews, $tagSocial, $articleDate, $fileTempName, $fileDestination);
         }
+
+        // 2. SOCIAL MEDIA LINKS SPEICHERN (Nur wenn eine gültige $articleId existiert)
+        if (!empty($articleId) && $articleId > 0) {
+
+            // Bei Bearbeiten (Edit): Alte Verknüpfungen vorher bereinigen
+            if ($isEdit) {
+                $stmtDel = $con->prepare("DELETE FROM article_social_media WHERE article_id = ?");
+                if ($stmtDel) {
+                    $stmtDel->bind_param("i", $articleId);
+                    $stmtDel->execute();
+                    $stmtDel->close();
+                }
+            }
+
+            // Neue Links einfügen
+            if (isset($_POST['social_platform']) && isset($_POST['social_url']) && is_array($_POST['social_platform'])) {
+                $platforms = $_POST['social_platform'];
+                $urls      = $_POST['social_url'];
+
+                $sqlSocial  = "INSERT INTO article_social_media (article_id, platform, url) VALUES (?, ?, ?)";
+                $stmtSocial = $con->prepare($sqlSocial);
+
+                if ($stmtSocial) {
+                    $p = '';
+                    $u = '';
+                    // Bind-Param einmalig definieren
+                    $stmtSocial->bind_param("iss", $articleId, $p, $u);
+
+                    for ($i = 0; $i < count($platforms); $i++) {
+                        $p = trim($platforms[$i]);
+                        $u = trim($urls[$i]);
+
+                        if (!empty($p) && !empty($u)) {
+                            $stmtSocial->execute();
+                        }
+                    }
+                    $stmtSocial->close();
+                }
+            }
+        }
+        
+
+        // 3. WEITERLEITUNG NACH ERFOLG
+        if ($isEdit) {
+            header("Location: article.php?update=success");
+        } else {
+            header("Location: article.php?addArticle=success");
+        }
+        exit();
+        
     }
 }
 
-// 3. HTML-Ausgabe
+// HTML-Ausgabe
 include('./components/header.php');
 
 if (isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION["author"])) :
@@ -182,7 +228,7 @@ if (isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION[
 
                 <!-- Bild Vorschau & Upload -->
                 <div class="col-6 mb-3">
-                    <label class="form-label d-block">Artikelbild</label>
+                    <label class="form-label d-block fw-bold">Artikelbild</label>
                     <?php if ($isEdit && !empty($article["imgPath"]) && file_exists("../img/article/" . $article["imgPath"])): ?>
                         <div class="article-bg-img mb-3" style="width: 270px; height: 180px; background-image: url('../img/article/<?= htmlspecialchars($article["imgPath"]); ?>'); background-size: cover; background-position: center; border-radius: 6px;"></div>
                     <?php endif; ?>
@@ -191,19 +237,19 @@ if (isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION[
 
                 <!-- Überschrift -->
                 <div class="col-12 mb-3">
-                    <label for="headline" class="form-label">Überschrift</label>
+                    <label for="headline" class="form-label fw-bold">Überschrift</label>
                     <input class="form-control" type="text" id="headline" name="headline" placeholder="Überschrift" value="<?= htmlspecialchars($article["headline"]); ?>" required>
                 </div>
 
                 <!-- Text -->
                 <div class="col-12 mb-3">
-                    <label for="text" class="form-label">Artikeltext</label>
+                    <label for="text" class="form-label fw-bold">Artikeltext</label>
                     <textarea class="form-control" id="text" name="text" rows="10" placeholder="Artikeltext..." required><?= htmlspecialchars($article["copytext"]); ?></textarea>
                 </div>
 
                 <!-- Tags -->
                 <div class="col-12 mb-3">
-                    <label class="form-label d-block">Tags</label>
+                    <label class="form-label d-block fw-bold">Tags</label>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="checkbox" name="tagNews" id="tagNews" <?= ($article["tagNews"] == 1) ? "checked" : ""; ?>>
                         <label class="form-check-label" for="tagNews">Meldung / Neuigkeiten</label>
@@ -222,9 +268,41 @@ if (isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION[
                     </div>
                 </div>
 
+                <div class="social-media-container mb-4">
+                    <label class="form-label fw-bold">Social Media Links</label>
+                    
+                    <!-- Die Eingabe-Zeile mit Dropdown, Input & dynamic Button -->
+                    <div class="d-flex align-items-center gap-2">
+                        <!-- Dropdown für Netzwerke (ENUM: FB, INS, TT, YT) -->
+                        <select id="social-platform" class="form-select style-select">
+                            <option value="FB">Facebook</option>
+                            <option value="INS">Instagram</option>
+                            <option value="TT">TikTok</option>
+                            <option value="YT">YouTube</option>
+                        </select>
+                        
+                        <input 
+                            type="url" 
+                            id="social-url" 
+                            class="form-control style-input" 
+                            placeholder="Social-Media Link eingeben"
+                            autocomplete="off"
+                        />
+                        
+                        <button type="button" id="social-action-btn" class="btn d-none" aria-label="Aktion ausführen">
+                            <span id="btn-icon">+</span>
+                        </button>
+                    </div>
+
+                    <div id="social-tags-container" class="d-flex flex-wrap gap-2 mt-2"></div>
+
+                    <!-- 5. Versteckte Inputs für das Formular-Posting an PHP -->
+                    <div id="social-hidden-inputs"></div>
+                </div>
+
                 <!-- Status Switcher -->
                 <div class="col-12 mb-4">
-                    <label class="form-label d-block">Artikel Status</label>
+                    <label class="form-label d-block fw-bold">Artikel Status</label>
                     <div class="d-flex align-items-center gap-2">
                         <span class="notActive">Offline</span>
                         

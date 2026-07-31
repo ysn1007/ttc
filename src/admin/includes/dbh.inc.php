@@ -1,4 +1,6 @@
 <?php
+
+use Vtiful\Kernel\Format;
 // Startet die Session nur dann, wenn noch keine aktive Session existiert (verhindert PHP-Warnungen)
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -212,29 +214,44 @@ function getArticleId(mysqli $con, $id) {
 /**
  * Fügt Artikel zur Datenbank
  */
-function addArticle(mysqli $con, string $headline, string $articleText, string $fileName, string $imgNewName, int $active, int $tagNews, int $tagPlayer, int $tagReview, int $tagSocial, string $fileTempName = '',  string $fileDestination = '') {
-    $sql = "INSERT INTO article (headline, copytext, tagNews, tagPlayer, tagReviews, tagSocial, imgName, imgPath, active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+function addArticle(
+    mysqli $con, 
+    string $headline, 
+    string $articleText, 
+    string $fileName, 
+    string $imgNewName, 
+    int $active, 
+    int $tagNews, 
+    int $tagPlayer, 
+    int $tagReview, 
+    int $tagSocial, 
+    string $article_date,
+    string $fileTempName = '', 
+    string $fileDestination = ''
+) {
+    // Spalten-Reihenfolge passend zu bind_param:
+    // headline(s), copytext(s), tagNews(i), tagPlayer(i), tagReviews(i), tagSocial(i), imgName(s), imgPath(s), active(i), article_date(s)
+    $sql = "INSERT INTO article (headline, copytext, tagNews, tagPlayer, tagReviews, tagSocial, imgName, imgPath, active, article_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     
     $stmt = $con->prepare($sql);
     if (!$stmt) {
-        header("Location: article.php?error=addArticleFailed");
-        exit();
+        return false;
     }
 
-    // Wenn kein Bild angegeben wurde, Fallback-Werte setzen
+    // Bild-Handling
     if (empty($fileName)) {
         $fileName = "Kein Bild";
         $imgNewName = "";
     } else {
-        // Datei auf den Server verschieben, falls vorhanden
         if (!empty($fileTempName) && !empty($fileDestination)) {
             move_uploaded_file($fileTempName, $fileDestination);
         }
     }
 
-    // Bind-Typen: "ssiiiissi" -> 2x String, 4x Int, 2x String, 1x Int
+    // Bind-Typen exakt synchron zum SQL-String:
+    // s (headline), s (articleText), i (tagNews), i (tagPlayer), i (tagReview), i (tagSocial), s (fileName), s (imgNewName), i (active), s (article_date)
     $stmt->bind_param(
-        "ssiiiissi", 
+        "ssiiiissis", 
         $headline, 
         $articleText, 
         $tagNews, 
@@ -243,17 +260,19 @@ function addArticle(mysqli $con, string $headline, string $articleText, string $
         $tagSocial, 
         $fileName, 
         $imgNewName, 
-        $active
+        $active,
+        $article_date
     );
 
     $executed = $stmt->execute();
 
     if ($executed) {
-        header("Location: article.php?upload=success");
-        exit();
+        $newId = $stmt->insert_id; 
+        $stmt->close();
+        return $newId; 
     } else {
-        header("Location: article.php?error=addArticleFailed");
-        exit();
+        $stmt->close();
+        return false;
     }
 }
 

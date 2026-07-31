@@ -627,6 +627,46 @@ body {
                 }
             }
 
+            /* Social Media Links section Styling */
+            #social-platform {
+                max-width: 200px;
+            }
+
+            #social-url {
+                width: 50%;
+            }
+
+            .btn-action-box {
+                width: 42px;
+                height: 38px;
+                border: 1px solid #ced4da;
+                background-color: #f8f9fa;
+                color: #333;
+                font-weight: bold;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 4px;
+                transition: all 0.2s ease-in-out;
+            }
+
+            .btn-action-box.btn-delete {
+                color: #dc3545; /* Rotes X */
+                border-color: #dc3545;
+                background-color: #fdf2f2;
+            }
+
+            /* Grünes Badge darunter */
+            .social-badge {
+                background-color: #e6f4ea;
+                color: #1e7e34;
+                border: 1px solid #28a745;
+                padding: 4px 10px;
+                border-radius: 6px;
+                font-size: 0.85rem;
+                font-weight: 600;
+            }
+
         }
 
         footer {
@@ -1204,25 +1244,6 @@ body {
             }
         }
     }
-    
-    /* &#post {
-        .post-group {
-            background: #fff;
-
-            .section-header {
-                margin-bottom: 15px;
-    
-                a {
-                    text-decoration: none;
-                    font-size: 16px;
-                    font-weight: 600;
-                    color: $black !important;
-                }
-            }
-
-        }
-        
-    } */
 
     &#impressum {
        
