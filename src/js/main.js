@@ -28,97 +28,138 @@ $(function() {
         });
     }
 
-    // Social Media Links Section
-    const platformSelect = document.getElementById('social-platform');
-    const urlInput = document.getElementById('social-url');
-    const actionBtn = document.getElementById('social-action-btn');
-    const btnIcon = document.getElementById('btn-icon');
-    const tagsContainer = document.getElementById('social-tags-container');
-    const hiddenInputsContainer = document.getElementById('social-hidden-inputs');
+    /***
+     * Admin: Social Media Manager (Create & Edit Mode)
+     * Verwendung bei der Erstellung/Bearbeitung von Artikel mit Social Media Beiträgen
+     *  
+    */
+    
+    function initSocialMediaLogic() {
+        const wrapper       = document.getElementById('social-wrapper');
+        const select        = document.getElementById('social-platform');
+        const input         = document.getElementById('social-url');
+        const actionBtn     = document.getElementById('social-action-btn');
+        const btnIcon       = document.getElementById('btn-icon');
+        const tagsContainer = document.getElementById('social-tags-container');
 
-    // Key-Value Speicher für die Links: { 'FB': 'http...', 'INS': 'http...' }
-    let savedLinks = {};
-    // Prüfen, ob die Elemente auf der aktuellen Seite überhaupt existieren (Schutz vor Null-Fehlern)
-    if (platformSelect && urlInput && actionBtn) {
+        // 1. Daten initial auslesen (Data-Attribute oder Hidden-Inputs)
+        try {
+            const parsed = JSON.parse(wrapper.dataset.social || '{}');
+
+            const getVal = (id) => {
+                const el = document.getElementById(id);
+                return el ? el.value : '';
+            };
+
+            savedLinks = {
+                FB:  parsed.FB  || getVal('hidden-FB'),
+                INS: parsed.INS || getVal('hidden-INS'),
+                TT:  parsed.TT  || getVal('hidden-TT'),
+                YT:  parsed.YT  || getVal('hidden-YT')
+            };
+            console.log(savedLinks);
+        } catch(e) {
+            console.error("Fehler beim Laden der Social-Media-Daten:", e);
+        }
         
-        // 1. Reagieren auf Eingaben im Textfeld & Plattformwechsel
-        urlInput.addEventListener('input', updateUIState);
-        platformSelect.addEventListener('change', loadPlatformState);
-        actionBtn.addEventListener('click', handleButtonClick);
+        // Entwurfs-Puffer für flüssiges Hin- und Herschalten im Select
+        const draftInputs = { ...savedLinks };
 
-        function updateUIState() {
-            console.log("updateUIState");
-            const currentPlatform = platformSelect.value;
-            const currentUrl = urlInput.value.trim();
-            const isSaved = savedLinks.hasOwnProperty(currentPlatform);
+        // 2. UI Status des Buttons aktualisieren (Zustände: Neu/Geändert -> '+', Gespeichert -> '✕', Leer -> ausblenden)
+        function updateButtonState() {
+            const currentPlatform = select.value;
+            const typedValue = input.value.trim();
+            const storedValue = (savedLinks[currentPlatform] || '').trim();
 
-            if (isSaved) {
-                // Zustand 3: Bereits gespeichert -> Rotes X / Löschen-Button anzeigen
-                actionBtn.className = 'btn btn-danger'; // Entfernt d-none vollständig!
-                btnIcon.textContent = '✕';
-            } else if (currentUrl.length > 0) {
-                // Zustand 2: Text eingegeben -> Plus (+) Button zum Speichern anzeigen
-                actionBtn.className = 'btn btn-primary'; // Zeigt den sichtbaren Plus-Button!
-                btnIcon.textContent = '+';
+            if (storedValue !== '' && typedValue === storedValue) {
+                // Zustand: Exakt so gespeichert -> Rotes X (Löschen anbieten)
+                actionBtn.className = 'btn btn-danger';
+                if (btnIcon) btnIcon.textContent = '✕';
+            } else if (typedValue !== '') {
+                // Zustand: Neu eingegeben oder verändert -> Blauer Plus-Button (Speichern anbieten)
+                actionBtn.className = 'btn btn-primary';
+                if (btnIcon) btnIcon.textContent = '+';
             } else {
-                // Zustand 1: Feld ist leer -> Button komplett ausblenden
+                // Zustand: Feld leer und nix gespeichert -> Ausblenden
                 actionBtn.className = 'btn d-none';
             }
         }
 
-        function loadPlatformState() {
-            const selectedPlatform = platformSelect.value;
-            
-            if (savedLinks.hasOwnProperty(selectedPlatform)) {
-                // Wenn für diese Plattform bereits ein Link existiert -> laden
-                urlInput.value = savedLinks[selectedPlatform];
-            } else {
-                // Sonst -> Feld leeren (Zustand 1)
-                urlInput.value = '';
-            }
-            updateUIState();
+        // 3. Feldinhalt beim Plattformwechsel rendern
+        function renderField() {
+            const currentPlatform = select.value;
+            input.value = draftInputs[currentPlatform] || '';
+            updateButtonState();
         }
 
-        function handleButtonClick(e) {
-            // Verhindert ungewolltes Submit des Hauptformulars!
-            e.preventDefault(); 
+        // 4. Badges rendern & Hidden-Inputs synchronisieren
+        function renderBadgesAndHiddenInputs() {
+            if (tagsContainer) tagsContainer.innerHTML = '';
 
-            const currentPlatform = platformSelect.value;
-            const currentUrl = urlInput.value.trim();
+            Object.keys(savedLinks).forEach(p => {
+                const val = savedLinks[p] ? savedLinks[p].trim() : '';
 
-            if (savedLinks.hasOwnProperty(currentPlatform)) {
-                // Wenn bereits gespeichert war -> LÖSCHEN
-                delete savedLinks[currentPlatform];
-                urlInput.value = '';
-            } else if (currentUrl.length > 0) {
-                // Wenn neu eingegeben -> SPEICHERN
-                savedLinks[currentPlatform] = currentUrl;
+                // Hidden Input für PHP POST synchronisieren
+                const hiddenInput = document.getElementById('hidden-' + p);
+                if (hiddenInput) {
+                    hiddenInput.value = val;
+                }
+
+                // Badge zeichnen, wenn ein Link vorhanden ist
+                if (val !== '' && tagsContainer) {
+                    const tag = document.createElement('span');
+                    tag.className = 'badge social-tag-item p-2';
+                    tag.innerHTML = `<span>${p}</span>`;
+                    tagsContainer.appendChild(tag);
+                }
+            });
+        }
+
+        // --- EVENT LISTENERS ---
+
+        // Plattformwechsel im Dropdown
+        select.addEventListener('change', () => {
+            renderField();
+        });
+
+        // Tippen im Input-Feld
+        input.addEventListener('input', () => {
+            const currentPlatform = select.value;
+            draftInputs[currentPlatform] = input.value;
+            updateButtonState();
+        });
+
+        // Klick auf den Action-Button (+ / ✕)
+        actionBtn.addEventListener('click', (e) => {
+            e.preventDefault(); // Verhindert ungewolltes Formular-Submit!
+
+            const currentPlatform = select.value;
+            const typedValue = input.value.trim();
+            const storedValue = (savedLinks[currentPlatform] || '').trim();
+
+            if (storedValue !== '' && typedValue === storedValue) {
+                // Löschen-Aktion (wenn rotes X geklickt wird)
+                savedLinks[currentPlatform] = '';
+                draftInputs[currentPlatform] = '';
+                input.value = '';
+            } else if (typedValue !== '') {
+                // Speichern/Update-Aktion (wenn Plus geklickt wird)
+                savedLinks[currentPlatform] = typedValue;
+                draftInputs[currentPlatform] = typedValue;
             }
 
             renderBadgesAndHiddenInputs();
-            updateUIState();
-        }
+            updateButtonState();
+        });
 
-        function renderBadgesAndHiddenInputs() {
-            tagsContainer.innerHTML = '';
-            hiddenInputsContainer.innerHTML = '';
-
-            Object.keys(savedLinks).forEach((platform) => {
-                const url = savedLinks[platform];
-
-                // Badge rendern (unter dem Formular)
-                const badge = document.createElement('span');
-                badge.className = 'social-badge';
-                badge.textContent = platform;
-                tagsContainer.appendChild(badge);
-
-                // Versteckte Input-Felder für PHP erzeugen
-                hiddenInputsContainer.innerHTML += `
-                    <input type="hidden" name="social_platform[]" value="${platform}">
-                    <input type="hidden" name="social_url[]" value="${url}">
-                `;
-            });
-        }
+        // Initiales Setzen beim Aufruf der Seite
+        renderBadgesAndHiddenInputs();
+        renderField();
     }
+
+    // Ausführen mit 100ms Delay (schützt vor Überschreiben durch main.min.js)
+   
+      setTimeout(initSocialMediaLogic, 100);
+   
    
 });

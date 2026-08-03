@@ -193,53 +193,89 @@ function getArticleId(mysqli $con, $id) {
     }
 
     $id = (int)$id;
-    $sql = "SELECT * FROM article WHERE id = ?";
-    $stmt = $con->prepare($sql);
 
-    if (!$stmt) {
+    // Hauptartikel abfragen
+    $sql = "SELECT * FROM article WHERE id = ?";
+    $stmtArticle = $con->prepare($sql);
+
+    if (!$stmtArticle) {
         header("Location: article.php?error=loadingArticleWithIdFailed");
         exit();
     }
 
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    
-    $result = $stmt->get_result();
+    $stmtArticle->bind_param("i", $id);
+    $stmtArticle->execute();
+    $result = $stmtArticle->get_result();
     $article = $result->fetch_assoc(); // Holt die Zeile direkt als assoziatives Array
-    $stmt->close();
+    $stmtArticle->close();
 
-    return $article; // Gibt das fertige Array $article zurück (oder null)
+
+    // Falls kein Artikel gefunden wurde
+    /* if (!$article) {
+        return false;
+    } */
+
+    // Standardstruktur für Social-Media-Links anlegen
+    $article['social'] = [
+        'FB'  => '',
+        'INS' => '',
+        'TT'  => '',
+        'YT'  => ''
+    ];
+
+    // 2. Social-Media-Links aus der Datenbank laden
+    $sqlSocial = "SELECT platform, url FROM article_social_media WHERE article_id = ?";
+    $stmtSocial = $con->prepare($sqlSocial);
+
+    if ($stmtSocial) {
+        $stmtSocial->bind_param("i", $id);
+        $stmtSocial->execute();
+        $resultSocial = $stmtSocial->get_result();
+
+        while ($row = $resultSocial->fetch_assoc()) {
+            $platform = $row['platform'];
+            if (array_key_exists($platform, $article['social'])) {
+                $article['social'][$platform] = $row['url'];
+            }
+        }
+        $stmtSocial->close();
+    }
+
+    return $article; 
 }
 
 /**
  * Fügt Artikel zur Datenbank
  */
-function addArticle(
-    mysqli $con, 
-    string $headline, 
-    string $articleText, 
-    string $fileName, 
-    string $imgNewName, 
-    int $active, 
-    int $tagNews, 
-    int $tagPlayer, 
-    int $tagReview, 
-    int $tagSocial, 
-    string $article_date,
-    string $fileTempName = '', 
-    string $fileDestination = ''
-) {
+function addArticle( mysqli $con, array $articleData, string $fileDestination) {
+
+    
     // Spalten-Reihenfolge passend zu bind_param:
     // headline(s), copytext(s), tagNews(i), tagPlayer(i), tagReviews(i), tagSocial(i), imgName(s), imgPath(s), active(i), article_date(s)
-    $sql = "INSERT INTO article (headline, copytext, tagNews, tagPlayer, tagReviews, tagSocial, imgName, imgPath, active, article_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO article (headline, copytext, tagNews, tagReviews, tagPlayer, tagSocial, imgName, imgPath, active, article_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     
     $stmt = $con->prepare($sql);
     if (!$stmt) {
         return false;
     }
 
+    //var_dump($articleData);exit;
+    $article_id     = $articleData['aritcle_id'] ?? '';     
+    $headline       = $articleData['headline'] ?? '';
+    $copyText    = $articleData['copytext'] ?? '';
+    $tagNews        = (int)($articleData['tagNews'] ?? 0);
+    $tagPlayer      = (int)($articleData['tagPlayer'] ?? 0);
+    $tagReviews     = (int)($articleData['tagReviews'] ?? 0);
+    $tagSocial      = (int)($articleData['tagSocial'] ?? 0);
+    $imgName        = $articleData['fileName'] ?? '';
+    $imgPath        = $articleData['imgPath'] ?? '';
+    $active         = (int)($articleData['publish'] ?? 0);
+    $article_date   = $articleData['articleDate'] ?? date('Y-m-d H:i:s');
+    $fileTempName   = $articleData['fileTempName'] ?? '';
+
+    //var_dump($imgPath);exit;
     // Bild-Handling
-    if (empty($fileName)) {
+    if (empty($imgPath)) {
         $fileName = "Kein Bild";
         $imgNewName = "";
     } else {
@@ -249,17 +285,17 @@ function addArticle(
     }
 
     // Bind-Typen exakt synchron zum SQL-String:
-    // s (headline), s (articleText), i (tagNews), i (tagPlayer), i (tagReview), i (tagSocial), s (fileName), s (imgNewName), i (active), s (article_date)
+    // s (headline), s (articleText), i (tagNews), i (tagPlayer), i (tagReview), i (tagSocial), s (imgName), s (imgPath), i (active), s (article_date)
     $stmt->bind_param(
         "ssiiiissis", 
         $headline, 
-        $articleText, 
+        $copyText, 
         $tagNews, 
+        $tagReviews, 
         $tagPlayer, 
-        $tagReview, 
         $tagSocial, 
-        $fileName, 
-        $imgNewName, 
+        $imgName, 
+        $imgPath, 
         $active,
         $article_date
     );
@@ -279,13 +315,34 @@ function addArticle(
 /**
  * Bearbeitet ausgewählte Artikel in der Datenbank 
  */
-function updateArticle(mysqli $con, $articleId, string $headline, string $articleText, $tagNews, $tagReviews, $tagPlayer, $tagSocial, $file, string $fileName, string $fileActExt, string $fileTempName, string $imgName, $publish, string $imgPath) {
+//function updateArticle(mysqli $con, $articleId, $headline, $articleText, $tagNews, $tagReviews, $tagPlayer, $tagSocial, $file, $fileName, $fileActExt, $fileTempName, $imgName, $publish, $imgPath) {
+function updateArticle(mysqli $con, array $articleData) {
+    $articleId      = $articleData['article_id'] ?? null;
+    $headline       = $articleData['headline'] ?? '';
+    $articleText    = $articleData['copytext'] ?? '';
+    $tagNews        = (int)($articleData['tagNews'] ?? 0);
+    $tagPlayer      = (int)($articleData['tagPlayer'] ?? 0);
+    $tagReviews     = (int)($articleData['tagReviews'] ?? 0);
+    $tagSocial      = (int)($articleData['tagSocial'] ?? 0);
+    $publish        = $articleData['publish'];
+    $fileName       = $articleData['imgName'] ?? '';
+    $imgPath        = $articleData['imgPath'] ?? '';
+    $fileActExt     = $articleData['fileActExt'] ?? ''; 
+
+    $article_date   = $articleData['articleDate'] ?? date('Y-m-d H:i:s');
+    
+
     // Sicherheitscheck: ID muss numerisch sein
     if (!is_numeric($articleId)) {
         header("Location: article.php?error=invalidId");
         exit();
     }
 
+    $articleId = (int)$articleId;
+
+    // ----------------------------------------------------
+    // Hauptartikel aktualisieren
+    // ----------------------------------------------------
     $tagNews   = (int)$tagNews;
     $tagReviews= (int)$tagReviews;
     $tagPlayer = (int)$tagPlayer;
@@ -315,6 +372,42 @@ function updateArticle(mysqli $con, $articleId, string $headline, string $articl
         }
         // Typen: "ssiiiiii" (2x String, 6x Int)
         $stmt->bind_param("ssiiiiii", $headline, $articleText, $tagNews, $tagReviews, $tagPlayer, $tagSocial, $publish, $articleId);
+    }
+
+    // ----------------------------------------------------
+    // Social-Media aktualisieren
+    // ----------------------------------------------------
+
+    $smPlatforms = $articleData['smPlatforms'] ?? [];
+    $smURLs      = $articleData['smURL'] ?? [];
+
+    if (is_array($smPlatforms) && is_array($smURLs)) {
+
+        // Step A: Bisherige Eintrags-Zeilen für diesen Artikel bereinigen
+        $deleteQuery = "DELETE FROM article_social_media WHERE article_id = ?";
+        $stmtDelete  = $con->prepare($deleteQuery);
+        if ($stmtDelete) {
+            $stmtDelete->bind_param("i", $articleId);
+            $stmtDelete->execute();
+            $stmtDelete->close();
+        }
+
+        // Step B: Nur die Plattformen mit tatsächlich vorhandener URL neu einfügen
+        $insertQuery = "INSERT INTO article_social_media (article_id, platform, url) VALUES (?, ?, ?)";
+        $stmtInsert  = $con->prepare($insertQuery);
+
+        if ($stmtInsert) {
+            foreach ($smPlatforms as $index => $platform) {
+                $url = trim($smURLs[$index] ?? '');
+
+                // Leere Felder überspringen
+                if ($url !== '') {
+                    $stmtInsert->bind_param("iss", $articleId, $platform, $url);
+                    $stmtInsert->execute();
+                }
+            }
+            $stmtInsert->close();
+        }
     }
 
     if (!$stmt->execute()) {

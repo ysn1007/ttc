@@ -9,8 +9,9 @@ const sass = require('gulp-sass'); // Kompatibel mit neuem gulp-sass
 const sourcemaps = require('gulp-sourcemaps');
 
 // JavaScript
-const browserify = require('gulp-browserify');
-const uglify = require('gulp-uglify');
+//const browserify = require('gulp-browserify');
+//const uglify = require('gulp-uglify');
+const terser = require('gulp-terser');
 
 const src = './src';
 const dest = './dest';
@@ -67,10 +68,7 @@ const script = () => {
         .pipe(plumber((error) => {
             console.error('JS Error:', error.message);
         }))
-        .pipe(browserify({
-            insertGlobals: true
-        }))
-        .pipe(uglify()) 
+        .pipe(terser()) 
         .pipe(rename({ suffix: ".min" })) 
         .pipe(gulp.dest(`${src}/js`)) 
         .pipe(browserSync.stream());
@@ -111,10 +109,7 @@ const buildScript = () => {
             console.error('JS Build Error:', error.message);
         }))
         .pipe(sourcemaps.init())
-        .pipe(browserify({
-            insertGlobals: true
-        }))
-        .pipe(uglify())
+        .pipe(terser())
         .pipe(rename({ suffix: ".min" }))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(`${dest}/js`));

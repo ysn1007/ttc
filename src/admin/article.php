@@ -32,9 +32,9 @@ if (isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION[
                                 <th scope="col">Überschrift</th>
                                 <th scope="col">Text</th>
                                 <th scope="col">Artikelart</th>
-                                <th scope="col">Bild</th>
-                                <th scope="col">Erstellungsdatum</th>
                                 <th scope="col">Social Media</th>
+                                <th scope="col">Bild</th>
+                                <th scope="col">Datum</th>
                                 <th scope="col">Status</th>
                                 <th scope="col" class="text-end">Aktion</th>
                             </tr>
@@ -69,6 +69,9 @@ if (isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION[
                                         </td>
                                         <td><?= htmlspecialchars($articleTypeString); ?></td>
                                         <td>
+                                            Social Media Tags
+                                        </td>
+                                        <td>
                                             <?php if (!empty($article["imgPath"]) && file_exists("../img/article/" . $article["imgPath"])): ?>
                                                 <img src="../img/article/<?= htmlspecialchars($article["imgPath"]); ?>" alt="Artikelbild" width="60" height="60" style="object-fit: cover; border-radius: 4px;" />
                                             <?php else: ?>
@@ -76,11 +79,9 @@ if (isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION[
                                             <?php endif; ?>
                                         </td>
                                         <td>
-                                            Datum
+                                            <?php echo (!$article['article_date'] ) ? "Kein Datum" : $article['article_date'] ?>
                                         </td>
-                                        <td>
-                                            Social Media Tags
-                                        </td>
+                                        
                                         <td style="width: 10%;">
                                             <span class="badge <?= $isOnline ? 'bg-success' : 'bg-secondary'; ?>">
                                                 <?= $isOnline ? 'Online' : 'Offline'; ?>

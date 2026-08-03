@@ -6,6 +6,7 @@ require_once 'includes/dbh.inc.php';
 // 1. Modus ermitteln: Ist eine Artikel-ID übergeben worden?
 $articleId = (int)($_POST['article_id'] ?? $_GET['id'] ?? 0);
 $isEdit    = ($articleId > 0);
+$editableData = [];
 
 // Standardwerte für "Neuen Artikel anlegen"
 $article = [
@@ -22,7 +23,7 @@ $article = [
 // Im EDIT-Modus: Daten aus DB laden
 if ($isEdit) {
     $dbArticle = getArticleId($con, $articleId);
-
+   
     if ($dbArticle) {
         $article = $dbArticle; // Überschreibt die Standardwerte mit den DB-Daten
     } else {
@@ -51,6 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     // ARTIKEL SPEICHERN (ERSTELLEN / UPDATEN)
     if (isset($_POST["addArticle"]) || isset($_POST["updateArticle"])) {
+        //var_dump($_POST);exit;
         $headline    = trim($_POST["headline"] ?? '');
         $articleText = trim($_POST["text"] ?? '');
         $publish     = isset($_POST["publish"]) ? 1 : 0;
@@ -60,14 +62,26 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $tagReviews = isset($_POST["tagReviews"]) ? 1 : 0;
         $tagSocial  = isset($_POST["tagSocial"]) ? 1 : 0;
 
+
+        // social Media data
+        $socialMediaPlatform = $_POST["social_platform"] ?? [];
+        $socialMediaURL = $_POST["social_url"] ?? [];
+
+        // Pflichtfeld-Prüfung beim Erstellen
+        if (empty($headline) || empty($articleText)) {
+            header("Location: article-edit.php?error=emptyfields");
+            exit();
+        }
+
         $imgName     = "artImg";
         $hasNewImage = isset($_FILES["fileName"]) && $_FILES["fileName"]["error"] === 0;
 
-        $file         = null;
+        //$file         = null;
         $fileName     = $_FILES["fileName"]["name"] ?? ($_POST["imgName"] ?? '');
-        $fileActExt   = '';
         $fileTempName = $_FILES["fileName"]["tmp_name"] ?? '';
         $imgPath      = $_POST["imgPath"] ?? '';
+        $fileActExt   = '';
+        $articleDate = $_POST['article_date'] ?? date('Y-m-d H:i:s');
 
         // BILD-UPLOAD LOGIK
         if ($hasNewImage) {
@@ -95,49 +109,47 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 unlink("../img/article/" . $imgPath);
             }
 
-            // Neues Bild speichern
+           // Neues Bild hochladen & Zielpfad festlegen (Sowohl bei Edit als auch bei Neu)
             $imgNewName      = $imgName . "." . uniqid("", true) . "." . $fileActExt;
             $fileDestination = "../img/article/" . $imgNewName;
 
-            if ($isEdit) {
-                if (!move_uploaded_file($fileTempName, $fileDestination)) {
-                    header("Location: article-edit.php?id=" . $articleId . "&error=uploadFailed");
-                    exit();
-                }
-            }
-
-            $imgPath = $imgNewName;
-        }
-
-        // 1. ZUERST HAUPTARTIKEL SPEICHERN ODER UPDATEN
-        if ($isEdit) {
-            updateArticle(
-                $con,
-                $articleId,
-                $headline,
-                $articleText,
-                $tagNews,
-                $tagReviews,
-                $tagPlayer,
-                $tagSocial,
-                $_FILES["fileName"] ?? null,
-                $fileName,
-                $fileActExt,
-                $fileTempName,
-                $imgName,
-                $publish,
-                $imgPath
-            );
-        } else {
-            if (empty($headline) || empty($articleText)) {
-                header("Location: article-edit.php?error=emptyfields");
+            if (!move_uploaded_file($fileTempName, $fileDestination)) {
+                header("Location: article-edit.php?" . ($isEdit ? 'id='.$articleId.'&' : '') . "error=uploadFailed");
                 exit();
             }
 
+            // Neuer Bild-Dateiname für das Array & DB
+            $imgPath = $imgNewName;
+        }
+
+        $articleData = [
+            'article_id'  => $articleId ?? null,
+            'headline'    => $headline,
+            'copytext'    => $articleText,
+            'tagNews'     => $tagNews,
+            'tagReviews'  => $tagReviews,
+            'tagPlayer'   => $tagPlayer,
+            'tagSocial'   => $tagSocial,
+            'articleDate' => $articleDate,  
+            'publish'     => $publish,
+            'fileName'    => $fileName,
+            'fileActExt'  => $fileActExt,
+            'fileTempName'=> $fileTempName,
+            'imgName'     => $imgName,
+            'imgPath'     => $imgPath,
+            'fileRaw'     => $_FILES["fileName"] ?? null,
+            'smPlatforms' => $socialMediaPlatform ?? null,
+            'smURL'       => $socialMediaURL ?? null  
+        ];
+
+        
+
+        // 1. ZUERST HAUPTARTIKEL SPEICHERN ODER UPDATEN
+        if ($isEdit) {
+            updateArticle( $con, $articleData );
+        } else {
             $fileDestination = !empty($imgPath) ? "../img/article/" . $imgPath : "";
-            
-            $articleDate = $_POST['article_date'] ?? date('Y-m-d H:i:s');
-            $articleId = addArticle($con, $headline, $articleText, $fileName, $imgPath, $publish, $tagNews, $tagPlayer, $tagReviews, $tagSocial, $articleDate, $fileTempName, $fileDestination);
+            $articleId = addArticle($con, $articleData, $fileDestination);
         }
 
         // 2. SOCIAL MEDIA LINKS SPEICHERN (Nur wenn eine gültige $articleId existiert)
@@ -155,23 +167,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             // Neue Links einfügen
             if (isset($_POST['social_platform']) && isset($_POST['social_url']) && is_array($_POST['social_platform'])) {
+                var_dump("Neue LInks einfügen"."<br>");
                 $platforms = $_POST['social_platform'];
                 $urls      = $_POST['social_url'];
-
+                var_dump($platforms . "<br>" . $urls);
                 $sqlSocial  = "INSERT INTO article_social_media (article_id, platform, url) VALUES (?, ?, ?)";
                 $stmtSocial = $con->prepare($sqlSocial);
 
                 if ($stmtSocial) {
-                    $p = '';
-                    $u = '';
+                    $platform = '';
+                    $url = '';
                     // Bind-Param einmalig definieren
-                    $stmtSocial->bind_param("iss", $articleId, $p, $u);
+                    $stmtSocial->bind_param("iss", $articleId, $platform, $url);
 
                     for ($i = 0; $i < count($platforms); $i++) {
-                        $p = trim($platforms[$i]);
-                        $u = trim($urls[$i]);
+                        $platform = trim($platforms[$i]);
+                        $url = trim($urls[$i]);
 
-                        if (!empty($p) && !empty($u)) {
+                        if (!empty($platform) && !empty($url)) {
                             $stmtSocial->execute();
                         }
                     }
@@ -181,7 +194,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
         
 
-        // 3. WEITERLEITUNG NACH ERFOLG
+        // WEITERLEITUNG NACH ERFOLG
         if ($isEdit) {
             header("Location: article.php?update=success");
         } else {
@@ -238,7 +251,7 @@ if (isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION[
                 <!-- Überschrift -->
                 <div class="col-12 mb-3">
                     <label for="headline" class="form-label fw-bold">Überschrift</label>
-                    <input class="form-control" type="text" id="headline" name="headline" placeholder="Überschrift" value="<?= htmlspecialchars($article["headline"]); ?>" required>
+                    <input class="form-control" type="text" id="headline" name="headline" placeholder="Überschrift" value="<?= htmlspecialchars($article["headline"]) ; ?>" required>
                 </div>
 
                 <!-- Text -->
@@ -268,12 +281,11 @@ if (isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION[
                     </div>
                 </div>
 
-                <div class="social-media-container mb-4">
+               <div class="social-media-container mb-4" id="social-wrapper" data-social="<?= htmlspecialchars(json_encode($article['social'] ?? [], JSON_UNESCAPED_SLASHES), ENT_QUOTES, 'UTF-8'); ?>">
                     <label class="form-label fw-bold">Social Media Links</label>
                     
                     <!-- Die Eingabe-Zeile mit Dropdown, Input & dynamic Button -->
                     <div class="d-flex align-items-center gap-2">
-                        <!-- Dropdown für Netzwerke (ENUM: FB, INS, TT, YT) -->
                         <select id="social-platform" class="form-select style-select">
                             <option value="FB">Facebook</option>
                             <option value="INS">Instagram</option>
@@ -289,15 +301,25 @@ if (isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION[
                             autocomplete="off"
                         />
                         
-                        <button type="button" id="social-action-btn" class="btn d-none" aria-label="Aktion ausführen">
+                        <button type="button" id="social-action-btn" class="btn btn-success d-none" aria-label="Aktion ausführen">
                             <span id="btn-icon">+</span>
                         </button>
                     </div>
 
                     <div id="social-tags-container" class="d-flex flex-wrap gap-2 mt-2"></div>
 
-                    <!-- 5. Versteckte Inputs für das Formular-Posting an PHP -->
-                    <div id="social-hidden-inputs"></div>
+                    <!-- Versteckte Inputs mit Null-Coalescing Operator (?? '') abgesichert -->
+                    <input type="hidden" name="social_platform[]" value="FB">
+                    <input type="hidden" name="social_url[]" id="hidden-FB" value="<?= htmlspecialchars($article['social']['FB'] ?? ''); ?>">
+
+                    <input type="hidden" name="social_platform[]" value="INS">
+                    <input type="hidden" name="social_url[]" id="hidden-INS" value="<?= htmlspecialchars($article['social']['INS'] ?? ''); ?>">
+
+                    <input type="hidden" name="social_platform[]" value="TT">
+                    <input type="hidden" name="social_url[]" id="hidden-TT" value="<?= htmlspecialchars($article['social']['TT'] ?? ''); ?>">
+
+                    <input type="hidden" name="social_platform[]" value="YT">
+                    <input type="hidden" name="social_url[]" id="hidden-YT" value="<?= htmlspecialchars($article['social']['YT'] ?? ''); ?>">
                 </div>
 
                 <!-- Status Switcher -->
@@ -332,11 +354,11 @@ if (isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION[
                         <?php endif; ?>
                     </div>
                 </div>
-
-            </form> 
+            </form>
         </div>
     </div>
 </div>
+
 
 <?php 
 endif;
