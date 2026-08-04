@@ -51,7 +51,7 @@ body {
         }
     }
 
-    .error {
+    .error, .success {
         padding: 7.5px 5px;
         color: $red;
     }
@@ -419,7 +419,7 @@ body {
     }
 
     /** Styles for login in section **/
-    &#login {
+    &.login {
         #header {
             .header-brand {
                 width: initial;
@@ -479,6 +479,7 @@ body {
 
     /** Styles for logged admin in section **/
     &#loggedin {
+        
         a {
             color: $black;
         }
@@ -514,7 +515,13 @@ body {
                 }
             }
         }
-       
+
+        &.body-wrapper {
+            .main-content {
+                min-height: 95vh;
+            }
+        }
+
         #content-wrapper { 
             min-height: calc(100vh - 220px);
             max-width: 1600px;
@@ -672,6 +679,7 @@ body {
         footer {
             background: $white;
             padding: 15px 30px;
+            min-height: 50px;
         }
 
         @media (max-width: 991px){

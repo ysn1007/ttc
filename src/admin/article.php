@@ -7,7 +7,41 @@ $allArticles = getArticle($con);
 if (isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION["author"])) :
 ?>
 
+
 <div class="accordion" id="accordionExample-3">
+    <?php if ($_GET['error'] === 'addArticleFailed'): ?>
+        <div class="alert alert-danger alert-dismissible fade show d-flex justify-content-between" role="alert">
+            Fehler beim Erstellen des Artikels. Bitte versuche es erneut.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php elseif ($_GET['error'] === 'updateArticleFailed'): ?>
+        <div class="alert alert-danger alert-dismissible fade show d-flex justify-content-between" role="alert">
+            Fehler beim Aktualisieren des Artikels.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['success'])): ?>
+        <?php if ($_GET['success'] === 'updateArticle'): ?>
+            <div class="alert alert-success alert-dismissible fade show d-flex justify-content-between" role="alert">
+                Artikel erfolgreich aktualisiert!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endif; ?>
+        <?php if ($_GET['success'] === 'addArticle'): ?>
+            <div class="alert alert-success alert-dismissible fade show d-flex justify-content-between" role="alert">
+                Artikel erfolgreich erstellt!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endif; ?>
+        <?php if ($_GET['success'] === 'deleteArticle'): ?>
+            <div class="alert alert-success alert-dismissible fade show d-flex justify-content-between" role="alert">
+                Artikel erfolgreich gelöscht!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endif; ?>
+    <?php endif; ?>
+
     <section class="img-group-header d-flex justify-content-between align-items-center mb-3 p-4">
         <div class="dekades">Anzahl Artikel gespeichert: <?= is_array($allArticles) || $allArticles instanceof Countable ? count($allArticles) : 0; ?></div>
         <div class="add-img add-item">

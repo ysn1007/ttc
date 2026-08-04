@@ -37,7 +37,7 @@ $pageTitle = $isEdit ? "Artikel bearbeiten" : "Artikel hinzufügen";
 // 2. Formular-Verarbeitung (POST)
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    // ARTIKEL LÖSCHEN
+    // Artikel löschen
     if (isset($_POST["deleteArticle"]) && $isEdit) {
         // Altes Bild löschen
         $oldImage = $_POST["imgPath"] ?? '';
@@ -50,9 +50,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit();
     }
 
-    // ARTIKEL SPEICHERN (ERSTELLEN / UPDATEN)
+    // Artikel erstellen (speichern / aktualisieren)
     if (isset($_POST["addArticle"]) || isset($_POST["updateArticle"])) {
-        //var_dump($_POST);exit;
+        
         $headline    = trim($_POST["headline"] ?? '');
         $articleText = trim($_POST["text"] ?? '');
         $publish     = isset($_POST["publish"]) ? 1 : 0;
@@ -83,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $fileActExt   = '';
         $articleDate = $_POST['article_date'] ?? date('Y-m-d H:i:s');
 
-        // BILD-UPLOAD LOGIK
+        // Bild hochladen
         if ($hasNewImage) {
             $fileError = $_FILES["fileName"]["error"];
             $fileSize  = $_FILES["fileName"]["size"];
@@ -144,7 +144,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         
 
-        // 1. ZUERST HAUPTARTIKEL SPEICHERN ODER UPDATEN
+        // Hauptartikel speichern oder aktualisieren
         if ($isEdit) {
             updateArticle( $con, $articleData );
         } else {
@@ -152,7 +152,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $articleId = addArticle($con, $articleData, $fileDestination);
         }
 
-        // 2. SOCIAL MEDIA LINKS SPEICHERN (Nur wenn eine gültige $articleId existiert)
+        // Social Media lInks speichern (Nur wenn eine gültige $articleId existiert)
         if (!empty($articleId) && $articleId > 0) {
 
             // Bei Bearbeiten (Edit): Alte Verknüpfungen vorher bereinigen
@@ -177,7 +177,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 if ($stmtSocial) {
                     $platform = '';
                     $url = '';
-                    // Bind-Param einmalig definieren
+
                     $stmtSocial->bind_param("iss", $articleId, $platform, $url);
 
                     for ($i = 0; $i < count($platforms); $i++) {
@@ -194,11 +194,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
         
 
-        // WEITERLEITUNG NACH ERFOLG
+        // WEiterleitug nach Erfolg
         if ($isEdit) {
-            header("Location: article.php?update=success");
+            header("Location: article.php?success=updateArticle");
         } else {
-            header("Location: article.php?addArticle=success");
+            header("Location: article.php?success=addArticle");
         }
         exit();
         
@@ -224,13 +224,23 @@ if (isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION[
         <div class="card-body">
             <?php if (isset($_GET['error'])): ?>
                 <?php if ($_GET['error'] === 'tooBig'): ?>
-                    <div class="alert alert-danger">Das Bild darf nicht größer als 2MB sein.</div>
+                    <div class="alert alert-danger d-flex justify-content-between">
+                        Das Bild darf nicht größer als 2MB sein.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
                 <?php elseif ($_GET['error'] === 'invalidFileType'): ?>
-                    <div class="alert alert-danger">Nur JPG, JPEG und PNG Dateien sind erlaubt.</div>
+                    <div class="alert alert-danger d-flex justify-content-between">
+                        Nur JPG, JPEG und PNG Dateien sind erlaubt.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
                 <?php elseif ($_GET['error'] === 'emptyfields'): ?>
-                    <div class="alert alert-danger">Bitte fülle Titel und Artikeltext aus.</div>
+                    <div class="alert alert-danger d-flex justify-content-between">
+                        Bitte fülle Titel und Artikeltext aus.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
                 <?php endif; ?>
-            <?php endif; ?>
+            <?php endif; ?>    
+            
 
             <form action="<?= htmlspecialchars(basename($_SERVER['PHP_SELF'])) . ($isEdit ? '?id='.$articleId : ''); ?>" method="post" enctype="multipart/form-data">
                 
@@ -284,7 +294,6 @@ if (isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION[
                <div class="social-media-container mb-4" id="social-wrapper" data-social="<?= htmlspecialchars(json_encode($article['social'] ?? [], JSON_UNESCAPED_SLASHES), ENT_QUOTES, 'UTF-8'); ?>">
                     <label class="form-label fw-bold">Social Media Links</label>
                     
-                    <!-- Die Eingabe-Zeile mit Dropdown, Input & dynamic Button -->
                     <div class="d-flex align-items-center gap-2">
                         <select id="social-platform" class="form-select style-select">
                             <option value="FB">Facebook</option>

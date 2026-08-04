@@ -12,4 +12,13 @@
  <!--   js sources    -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="../js/main.min.js?v=<?php echo time(); ?>"></script>
+<?php 
+    $editArticle = 'article-edit.php?id='.$articleId;
+    if($currentPage == 'article-edit') {
+        $currentPage = $currentPage.'.php?id='.$articleId;
+    }
+?>
+<?php if (in_array($currentPage, [$editArticle, 'article-add'])): ?>
+    <script src="../js/article-sm-handler.min.js"></script>
+<?php endif; ?>
 </html>

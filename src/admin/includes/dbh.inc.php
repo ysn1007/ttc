@@ -187,6 +187,7 @@ function getActiveArticle(mysqli $con) {
  * Get all article with id
  */
 function getArticleId(mysqli $con, $id) {
+
     if (!is_numeric($id)) {
         header("Location: article.php?error=invalidId");
         exit();
@@ -208,12 +209,6 @@ function getArticleId(mysqli $con, $id) {
     $result = $stmtArticle->get_result();
     $article = $result->fetch_assoc(); // Holt die Zeile direkt als assoziatives Array
     $stmtArticle->close();
-
-
-    // Falls kein Artikel gefunden wurde
-    /* if (!$article) {
-        return false;
-    } */
 
     // Standardstruktur für Social-Media-Links anlegen
     $article['social'] = [
@@ -249,20 +244,22 @@ function getArticleId(mysqli $con, $id) {
  */
 function addArticle( mysqli $con, array $articleData, string $fileDestination) {
 
-    
     // Spalten-Reihenfolge passend zu bind_param:
     // headline(s), copytext(s), tagNews(i), tagPlayer(i), tagReviews(i), tagSocial(i), imgName(s), imgPath(s), active(i), article_date(s)
     $sql = "INSERT INTO article (headline, copytext, tagNews, tagReviews, tagPlayer, tagSocial, imgName, imgPath, active, article_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     
     $stmt = $con->prepare($sql);
-    if (!$stmt) {
-        return false;
-    }
 
-    //var_dump($articleData);exit;
+    if (!$stmt) {
+        // Error handling
+        error_log($con->error); 
+        header("Location: article.php?error=addArticleFailed");
+    exit();
+}
+
     $article_id     = $articleData['aritcle_id'] ?? '';     
     $headline       = $articleData['headline'] ?? '';
-    $copyText    = $articleData['copytext'] ?? '';
+    $copyText       = $articleData['copytext'] ?? '';
     $tagNews        = (int)($articleData['tagNews'] ?? 0);
     $tagPlayer      = (int)($articleData['tagPlayer'] ?? 0);
     $tagReviews     = (int)($articleData['tagReviews'] ?? 0);
@@ -315,7 +312,6 @@ function addArticle( mysqli $con, array $articleData, string $fileDestination) {
 /**
  * Bearbeitet ausgewählte Artikel in der Datenbank 
  */
-//function updateArticle(mysqli $con, $articleId, $headline, $articleText, $tagNews, $tagReviews, $tagPlayer, $tagSocial, $file, $fileName, $fileActExt, $fileTempName, $imgName, $publish, $imgPath) {
 function updateArticle(mysqli $con, array $articleData) {
     $articleId      = $articleData['article_id'] ?? null;
     $headline       = $articleData['headline'] ?? '';
@@ -383,7 +379,7 @@ function updateArticle(mysqli $con, array $articleData) {
 
     if (is_array($smPlatforms) && is_array($smURLs)) {
 
-        // Step A: Bisherige Eintrags-Zeilen für diesen Artikel bereinigen
+        // Bisherige Eintrags-Zeilen für diesen Artikel bereinigen
         $deleteQuery = "DELETE FROM article_social_media WHERE article_id = ?";
         $stmtDelete  = $con->prepare($deleteQuery);
         if ($stmtDelete) {
@@ -392,7 +388,7 @@ function updateArticle(mysqli $con, array $articleData) {
             $stmtDelete->close();
         }
 
-        // Step B: Nur die Plattformen mit tatsächlich vorhandener URL neu einfügen
+        // Nur die Plattformen mit tatsächlich vorhandener URL neu einfügen
         $insertQuery = "INSERT INTO article_social_media (article_id, platform, url) VALUES (?, ?, ?)";
         $stmtInsert  = $con->prepare($insertQuery);
 
@@ -432,7 +428,7 @@ function deleteArticle(mysqli $con, $articleId) {
 
     $articleId = (int)$articleId;
 
-    // 1. Bildpfad auslesen
+    // Bildpfad auslesen
     $stmt = $con->prepare("SELECT imgPath FROM article WHERE id = ?");
     if (!$stmt) {
         header("Location: article.php?error=deleteArticleFailed");
@@ -451,7 +447,7 @@ function deleteArticle(mysqli $con, $articleId) {
     $row   = $result->fetch_assoc();
     $image = $row["imgPath"];
 
-    // 2. Artikel aus DB löschen
+    // Artikel aus DB löschen
     $stmtDelete = $con->prepare("DELETE FROM article WHERE id = ?");
     if (!$stmtDelete) {
         header("Location: article.php?error=deleteArticleFailed");
@@ -465,7 +461,7 @@ function deleteArticle(mysqli $con, $articleId) {
         exit();
     }
 
-    // 3. Bilddatei vom Server entfernen
+    // Bilddatei vom Server entfernen
     if (!empty($image)) {
         $imagePath = "../img/article/" . $image;
         if (file_exists($imagePath)) {
