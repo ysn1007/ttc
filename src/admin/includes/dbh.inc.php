@@ -1,4 +1,6 @@
 <?php
+
+use Vtiful\Kernel\Format;
 // Startet die Session nur dann, wenn noch keine aktive Session existiert (verhindert PHP-Warnungen)
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -185,88 +187,158 @@ function getActiveArticle(mysqli $con) {
  * Get all article with id
  */
 function getArticleId(mysqli $con, $id) {
+
     if (!is_numeric($id)) {
         header("Location: article.php?error=invalidId");
         exit();
     }
 
     $id = (int)$id;
-    $sql = "SELECT * FROM article WHERE id = ?";
-    $stmt = $con->prepare($sql);
 
-    if (!$stmt) {
+    // Hauptartikel abfragen
+    $sql = "SELECT * FROM article WHERE id = ?";
+    $stmtArticle = $con->prepare($sql);
+
+    if (!$stmtArticle) {
         header("Location: article.php?error=loadingArticleWithIdFailed");
         exit();
     }
 
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    
-    $result = $stmt->get_result();
+    $stmtArticle->bind_param("i", $id);
+    $stmtArticle->execute();
+    $result = $stmtArticle->get_result();
     $article = $result->fetch_assoc(); // Holt die Zeile direkt als assoziatives Array
-    $stmt->close();
+    $stmtArticle->close();
 
-    return $article; // Gibt das fertige Array $article zurück (oder null)
+    // Standardstruktur für Social-Media-Links anlegen
+    $article['social'] = [
+        'FB'  => '',
+        'INS' => '',
+        'TT'  => '',
+        'YT'  => ''
+    ];
+
+    // 2. Social-Media-Links aus der Datenbank laden
+    $sqlSocial = "SELECT platform, url FROM article_social_media WHERE article_id = ?";
+    $stmtSocial = $con->prepare($sqlSocial);
+
+    if ($stmtSocial) {
+        $stmtSocial->bind_param("i", $id);
+        $stmtSocial->execute();
+        $resultSocial = $stmtSocial->get_result();
+
+        while ($row = $resultSocial->fetch_assoc()) {
+            $platform = $row['platform'];
+            if (array_key_exists($platform, $article['social'])) {
+                $article['social'][$platform] = $row['url'];
+            }
+        }
+        $stmtSocial->close();
+    }
+
+    return $article; 
 }
 
 /**
  * Fügt Artikel zur Datenbank
  */
-function addArticle(mysqli $con, string $headline, string $articleText, string $fileName, string $imgNewName, int $active, int $tagNews, int $tagPlayer, int $tagReview, int $tagSocial, string $fileTempName = '',  string $fileDestination = '') {
-    $sql = "INSERT INTO article (headline, copytext, tagNews, tagPlayer, tagReviews, tagSocial, imgName, imgPath, active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+function addArticle( mysqli $con, array $articleData, string $fileDestination) {
+
+    // Spalten-Reihenfolge passend zu bind_param:
+    // headline(s), copytext(s), tagNews(i), tagPlayer(i), tagReviews(i), tagSocial(i), imgName(s), imgPath(s), active(i), article_date(s)
+    $sql = "INSERT INTO article (headline, copytext, tagNews, tagReviews, tagPlayer, tagSocial, imgName, imgPath, active, article_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     
     $stmt = $con->prepare($sql);
-    if (!$stmt) {
-        header("Location: article.php?error=addArticleFailed");
-        exit();
-    }
 
-    // Wenn kein Bild angegeben wurde, Fallback-Werte setzen
-    if (empty($fileName)) {
+    if (!$stmt) {
+        // Error handling
+        error_log($con->error); 
+        header("Location: article.php?error=addArticleFailed");
+    exit();
+}
+
+    $article_id     = $articleData['aritcle_id'] ?? '';     
+    $headline       = $articleData['headline'] ?? '';
+    $copyText       = $articleData['copytext'] ?? '';
+    $tagNews        = (int)($articleData['tagNews'] ?? 0);
+    $tagPlayer      = (int)($articleData['tagPlayer'] ?? 0);
+    $tagReviews     = (int)($articleData['tagReviews'] ?? 0);
+    $tagSocial      = (int)($articleData['tagSocial'] ?? 0);
+    $imgName        = $articleData['fileName'] ?? '';
+    $imgPath        = $articleData['imgPath'] ?? '';
+    $active         = (int)($articleData['publish'] ?? 0);
+    $article_date   = $articleData['articleDate'] ?? date('Y-m-d H:i:s');
+    $fileTempName   = $articleData['fileTempName'] ?? '';
+
+    //var_dump($imgPath);exit;
+    // Bild-Handling
+    if (empty($imgPath)) {
         $fileName = "Kein Bild";
         $imgNewName = "";
     } else {
-        // Datei auf den Server verschieben, falls vorhanden
         if (!empty($fileTempName) && !empty($fileDestination)) {
             move_uploaded_file($fileTempName, $fileDestination);
         }
     }
 
-    // Bind-Typen: "ssiiiissi" -> 2x String, 4x Int, 2x String, 1x Int
+    // Bind-Typen exakt synchron zum SQL-String:
+    // s (headline), s (articleText), i (tagNews), i (tagPlayer), i (tagReview), i (tagSocial), s (imgName), s (imgPath), i (active), s (article_date)
     $stmt->bind_param(
-        "ssiiiissi", 
+        "ssiiiissis", 
         $headline, 
-        $articleText, 
+        $copyText, 
         $tagNews, 
+        $tagReviews, 
         $tagPlayer, 
-        $tagReview, 
         $tagSocial, 
-        $fileName, 
-        $imgNewName, 
-        $active
+        $imgName, 
+        $imgPath, 
+        $active,
+        $article_date
     );
 
     $executed = $stmt->execute();
 
     if ($executed) {
-        header("Location: article.php?upload=success");
-        exit();
+        $newId = $stmt->insert_id; 
+        $stmt->close();
+        return $newId; 
     } else {
-        header("Location: article.php?error=addArticleFailed");
-        exit();
+        $stmt->close();
+        return false;
     }
 }
 
 /**
  * Bearbeitet ausgewählte Artikel in der Datenbank 
  */
-function updateArticle(mysqli $con, $articleId, string $headline, string $articleText, $tagNews, $tagReviews, $tagPlayer, $tagSocial, $file, string $fileName, string $fileActExt, string $fileTempName, string $imgName, $publish, string $imgPath) {
+function updateArticle(mysqli $con, array $articleData) {
+    $articleId      = $articleData['article_id'] ?? null;
+    $headline       = $articleData['headline'] ?? '';
+    $articleText    = $articleData['copytext'] ?? '';
+    $tagNews        = (int)($articleData['tagNews'] ?? 0);
+    $tagPlayer      = (int)($articleData['tagPlayer'] ?? 0);
+    $tagReviews     = (int)($articleData['tagReviews'] ?? 0);
+    $tagSocial      = (int)($articleData['tagSocial'] ?? 0);
+    $publish        = $articleData['publish'];
+    $fileName       = $articleData['imgName'] ?? '';
+    $imgPath        = $articleData['imgPath'] ?? '';
+    $fileActExt     = $articleData['fileActExt'] ?? ''; 
+
+    $article_date   = $articleData['articleDate'] ?? date('Y-m-d H:i:s');
+    
+
     // Sicherheitscheck: ID muss numerisch sein
     if (!is_numeric($articleId)) {
         header("Location: article.php?error=invalidId");
         exit();
     }
 
+    $articleId = (int)$articleId;
+
+    // ----------------------------------------------------
+    // Hauptartikel aktualisieren
+    // ----------------------------------------------------
     $tagNews   = (int)$tagNews;
     $tagReviews= (int)$tagReviews;
     $tagPlayer = (int)$tagPlayer;
@@ -298,6 +370,42 @@ function updateArticle(mysqli $con, $articleId, string $headline, string $articl
         $stmt->bind_param("ssiiiiii", $headline, $articleText, $tagNews, $tagReviews, $tagPlayer, $tagSocial, $publish, $articleId);
     }
 
+    // ----------------------------------------------------
+    // Social-Media aktualisieren
+    // ----------------------------------------------------
+
+    $smPlatforms = $articleData['smPlatforms'] ?? [];
+    $smURLs      = $articleData['smURL'] ?? [];
+
+    if (is_array($smPlatforms) && is_array($smURLs)) {
+
+        // Bisherige Eintrags-Zeilen für diesen Artikel bereinigen
+        $deleteQuery = "DELETE FROM article_social_media WHERE article_id = ?";
+        $stmtDelete  = $con->prepare($deleteQuery);
+        if ($stmtDelete) {
+            $stmtDelete->bind_param("i", $articleId);
+            $stmtDelete->execute();
+            $stmtDelete->close();
+        }
+
+        // Nur die Plattformen mit tatsächlich vorhandener URL neu einfügen
+        $insertQuery = "INSERT INTO article_social_media (article_id, platform, url) VALUES (?, ?, ?)";
+        $stmtInsert  = $con->prepare($insertQuery);
+
+        if ($stmtInsert) {
+            foreach ($smPlatforms as $index => $platform) {
+                $url = trim($smURLs[$index] ?? '');
+
+                // Leere Felder überspringen
+                if ($url !== '') {
+                    $stmtInsert->bind_param("iss", $articleId, $platform, $url);
+                    $stmtInsert->execute();
+                }
+            }
+            $stmtInsert->close();
+        }
+    }
+
     if (!$stmt->execute()) {
         header("Location: article.php?error=updateArticleFailed");
         exit();
@@ -320,7 +428,7 @@ function deleteArticle(mysqli $con, $articleId) {
 
     $articleId = (int)$articleId;
 
-    // 1. Bildpfad auslesen
+    // Bildpfad auslesen
     $stmt = $con->prepare("SELECT imgPath FROM article WHERE id = ?");
     if (!$stmt) {
         header("Location: article.php?error=deleteArticleFailed");
@@ -339,7 +447,7 @@ function deleteArticle(mysqli $con, $articleId) {
     $row   = $result->fetch_assoc();
     $image = $row["imgPath"];
 
-    // 2. Artikel aus DB löschen
+    // Artikel aus DB löschen
     $stmtDelete = $con->prepare("DELETE FROM article WHERE id = ?");
     if (!$stmtDelete) {
         header("Location: article.php?error=deleteArticleFailed");
@@ -353,7 +461,7 @@ function deleteArticle(mysqli $con, $articleId) {
         exit();
     }
 
-    // 3. Bilddatei vom Server entfernen
+    // Bilddatei vom Server entfernen
     if (!empty($image)) {
         $imagePath = "../img/article/" . $image;
         if (file_exists($imagePath)) {

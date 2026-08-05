@@ -1,123 +1,44 @@
-// important packages
+// Important packages
 const gulp = require('gulp');
 const plumber = require('gulp-plumber');
 const rename = require('gulp-rename');
-const browserSync = require('browser-sync');
-const gutil = require('gulp-util');
+const browserSync = require('browser-sync').create();
+
+// Sass => CSS
+const sass = require('gulp-sass'); // Kompatibel mit neuem gulp-sass
 const sourcemaps = require('gulp-sourcemaps');
-const connect = require('gulp-connect-php');
-let service = new connect();
 
-// For Sass => css
-const sass = require('gulp-sass');
-//const postcss = require('gulp-postcss');
-//const autoprefixer = require('autoprefixer');
-
-
-// javaScript
-const browserify = require('gulp-browserify');
-const uglify = require('gulp-uglify');
+// JavaScript
+//const browserify = require('gulp-browserify');
+//const uglify = require('gulp-uglify');
+const terser = require('gulp-terser');
 
 const src = './src';
 const dest = './dest';
 
-// refreshes browser after changes 
+// Refreshes browser after changes 
 const reload = (done) => {
     browserSync.reload();
     done();
 };
 
-// server streams on localhost
+// Server streams on localhost
 const serve = (done) => {
-        browserSync.init({
-           proxy: 'http://localhost/local/ttc/src/',
-           port: 3000,
-        });
-    
+    browserSync.init({
+        proxy: 'http://localhost/local/ttc/src/',
+        port: 3000,
+    });
     done();
-}
-
-//***************//
-//* build mode **//
-//***************//
-
-// PHP handling
-function buildPhp(){
-    return gulp.src("./src/*.php")
-        .pipe(gulp.dest("./dest"));
-}
-
-function buildAdmin() {
-    return gulp.src("./src/admin/*.php")
-        .pipe(gulp.dest("./dest/admin"));
-}
-
-
-// PHP Include handling
-function buildPhpIncludes(){
-    return gulp.src("./src/includes/*.php")
-        .pipe(gulp.dest("./dest/includes"));
-}
-
-// SASS => CSS Handling 
-const buildCss = () => {
-    return gulp.src(`${src}/styles/*.scss`)
-        .pipe( plumber() )
-        // Format SASS
-        //.pipe(sassLint.format())
-        // init source map
-        .pipe(sourcemaps.init())
-        // compile SASS to CSS
-        .pipe(sass.sync({ outputStyle: "compressed" })).on( 'error', sass.logError)
-        // add suffix 
-        .pipe(rename({ basename: 'style', suffix: ".min" }))
-        // add autoprefixer 
-        //.pipe(postcss([autoprefixer(), cssnano()]))
-        // writes sourcemap
-        .pipe(sourcemaps.write(``))
-        // export everything to destination folder
-        .pipe(gulp.dest(`${dest}/css`))
-        // update browser
-        .pipe(browserSync.stream());
 };
 
-const buildScript = () => {
-    return gulp.src(`${src}/js/*.js`)
-        // init plumber for js files
-        .pipe(plumber(((error) => {
-            gutil.log( error.message );
-        })))
-         // init source map
-        .pipe(sourcemaps.init())
-        // concat js flies
-        //.pipe(concat('concat.js'))
-        // js hint
-        //.pipe(jshint())
-        //.pipe(jshint.reporter('jshint-stylish'))
-        // add browser support
-        .pipe(browserify({
-            insertGlobals: true
-        }))
-        // minify js
-        .pipe(uglify())
-        // add suffix 
-        .pipe(rename({ basename: 'global', suffix: ".min" }))
-        // writes sourcemap
-        .pipe(sourcemaps.write(``))
-        // export everything to destination folder
-        .pipe(gulp.dest(`${dest}/js`))
-        // update Browser
-        .pipe(browserSync.stream());
-}
+//*****************//
+//* Dev Mode Tasks *//
+//*****************//
 
-//*************// 
-// dev mode    //
-//*************//
-function php(){
+function php() {
     return gulp.src(`${src}/*.php`);
 }
 
-// PHP Admin
 function phpAdminComponents() {
     return gulp.src(`${src}/admin/components/*.php`);
 }
@@ -126,52 +47,94 @@ function phpAdmin() {
     return gulp.src(`${src}/admin/*.php`);
 }
 
-// PHP Include handling
-function phpIncludes(){
+function phpIncludes() {
     return gulp.src(`${src}/includes/*.php`);
 }
 
-// SASS => CSS Handling 
+// SASS => CSS Handling (Dev)
 const css = () => {
     return gulp.src(`${src}/styles/*.scss`)
-    
-    // compile SASS to CSS
-    .pipe(sass.sync({ outputStyle: "compressed" })).on( 'error', sass.logError)
-    // add suffix 
-    .pipe(rename({ basename: 'style', suffix: ".min" }))
-     // export everything to destination folder
-    .pipe(gulp.dest(`./src/styles`))
-    // update browser
-    .pipe(browserSync.stream());
+        .pipe(plumber())
+        .pipe(sass({ outputStyle: "compressed" }).on('error', sass.logError))
+        .pipe(rename({ basename: 'style', suffix: ".min" }))
+        .pipe(gulp.dest(`${src}/styles`))
+        .pipe(browserSync.stream());
 };
 
+// JavaScript Handling (Dev) 
 const script = () => {
-    return gulp.src(`${src}/js/*.js`)
-        // init plumber for js files
-        .pipe(plumber(((error) => {
-            gutil.log( error.message );
-        })))
-
-        // concat js flies
-        //.pipe(concat('concat.js'))
-        // add browser support
-        .pipe(browserify({
-            insertGlobals: true
+    // Ignoriere *.min.js, damit sich Gulp nicht selbst im Kreis dreht!
+    return gulp.src([`${src}/js/*.js`, `!${src}/js/*.min.js`])
+        .pipe(plumber((error) => {
+            console.error('JS Error:', error.message);
         }))
-        // update Browser
+        .pipe(terser()) 
+        .pipe(rename({ suffix: ".min" })) 
+        .pipe(gulp.dest(`${src}/js`)) 
         .pipe(browserSync.stream());
+};
+
+//*******************//
+//* Build Mode Tasks *//
+//*******************//
+
+function buildPhp() {
+    return gulp.src(`${src}/*.php`)
+        .pipe(gulp.dest(`${dest}`));
 }
 
-// watch for changes and refreshes page
-const watch = () => gulp.watch([`${src}/styles/*scss`, `${src}/*php`, `${src}/includes/*php`, `${src}/admin/components/*php`, `${src}/admin/*php`, `${src}/js/*js`], gulp.series(php, css, script, phpIncludes,phpAdminComponents,phpAdmin, reload));
+function buildAdmin() {
+    return gulp.src(`${src}/admin/**/*.php`)
+        .pipe(gulp.dest(`${dest}/admin`));
+}
 
-// start all Tasks for this project
-const dev = gulp.series(serve, watch );
+function buildPhpIncludes() {
+    return gulp.src(`${src}/includes/*.php`)
+        .pipe(gulp.dest(`${dest}/includes`));
+}
 
-// just building project
+const buildCss = () => {
+    return gulp.src(`${src}/styles/*.scss`)
+        .pipe(plumber())
+        .pipe(sourcemaps.init())
+        .pipe(sass({ outputStyle: "compressed" }).on('error', sass.logError))
+        .pipe(rename({ basename: 'style', suffix: ".min" }))
+        .pipe(sourcemaps.write('.'))
+        .pipe(gulp.dest(`${dest}/css`));
+};
+
+const buildScript = () => {
+    return gulp.src([`${src}/js/*.js`, `!${src}/js/*.min.js`])
+        .pipe(plumber((error) => {
+            console.error('JS Build Error:', error.message);
+        }))
+        .pipe(sourcemaps.init())
+        .pipe(terser())
+        .pipe(rename({ suffix: ".min" }))
+        .pipe(sourcemaps.write('.'))
+        .pipe(gulp.dest(`${dest}/js`));
+};
+
+// Watcher
+const watch = () => {
+    // SCSS -> nur CSS neu kompilieren & streamen
+    gulp.watch(`${src}/styles/**/*.scss`, css);
+
+    // JS -> nur Script kompilieren & reloaden
+    gulp.watch([`${src}/js/*.js`, `!${src}/js/*.min.js`], script);
+
+    // PHP -> direkt Browser neu laden (keine Build-Tasks nötig)
+    gulp.watch([
+        `${src}/*.php`, 
+        `${src}/includes/*.php`, 
+        `${src}/admin/**/*.php`
+    ]).on('change', browserSync.reload);
+};
+
+// Start Tasks
+const dev = gulp.series(serve, watch);
 const build = gulp.series(buildScript, buildPhp, buildAdmin, buildPhpIncludes, buildCss);
 
-// default function
 exports.dev = dev;
 exports.build = build;
 exports.default = dev;

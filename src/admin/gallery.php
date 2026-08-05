@@ -43,7 +43,7 @@ $count = ($res && $res instanceof mysqli_result) ? $res->num_rows : 0;
                         <tbody>
                             <?php if ($count > 0): ?>
                                 <?php while ($row = $res->fetch_assoc()): ?>
-                                    <tr>
+                                    <tr id="<?php echo $row["id"] ?>">
                                         <th scope="row"><?= htmlspecialchars($row['id']); ?></th>
                                         <td class="fw-regular"><?= htmlspecialchars($row['title']); ?></td>
                                         <td class="text-truncate" style="max-width: 300px;" title="<?= htmlspecialchars($row['descript']); ?>">

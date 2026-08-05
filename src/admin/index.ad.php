@@ -62,7 +62,7 @@ include('./components/header.php');
                             <?php $articles = getArticle($con, 10); ?>
                             <?php if (!empty($articles)) : ?>
                                 <?php foreach ($articles as $article) : ?>
-                                    <a href="#" class="list-group-item">
+                                    <a href="article.php#<?php echo $article["id"] ?>" class="list-group-item">
                                         <span><?= htmlspecialchars($article["headline"]) ?></span> 
                                     </a>
                                 <?php endforeach; ?>
@@ -89,7 +89,7 @@ include('./components/header.php');
                             <?php $images = getImages($con, 10, true); ?>
                             <?php if (!empty($images)) : ?>
                                 <?php foreach ($images as $image) : ?>
-                                    <a href="#" class="list-group-item">
+                                    <a href="gallery.php?dekade=<?php echo $image["dekade"] ?>#<?php echo $image["id"] ?>" class="list-group-item">
                                         <img src="<?= htmlspecialchars($image['imagePath']) ?>" width="50px">
                                         <span><?= (strlen($image['title']) > 1) ? htmlspecialchars($image['title']) : "Ohne Titel" ?></span>
                                     </a>
