@@ -1,6 +1,7 @@
 
 <?php include('./includes/headContent.php');
-global $cfg;
+$cfg = require_once (__DIR__ . '/../config.php');
+
 ?>    
 
 <body class="body-wrapper" id="<?= pathinfo($_SERVER['PHP_SELF'])['filename'] ?>">

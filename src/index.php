@@ -5,7 +5,7 @@ include('./includes/header.php');
 
 <div class="site-wrap">
     <div class="content-wrap">
-        <?php if($cfg["index-section"]["reviews"]["active"] == "on" ) : ?>
+        <?php if($cfg["index-section"]["reviews"]["active"]) : ?>
         
             <section class="article-wrap container" id="article-wrap">
                 <div class="section-header">
@@ -14,37 +14,105 @@ include('./includes/header.php');
                 </div>
                 <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3">
                     <?php    
-                    $articles = getActiveArticle($con);
+                    $limit = $cfg["index-section"]["reviews"]["limit"];
+                    $articles = getActiveArticle($con, $limit);
                     foreach ($articles as $article) : ?>
+                        <!--?php
+                        var_dump($article);
+                        ?-->
                         <section class="article-item">
                             <div class="article">
                                 <div class="row">
                                     <div class="post-tag">
-                                    <?php if(!empty($article["tagNews"]) && $article["tagNews"] == 1) : ?>
-                                        <div class="tag-item">Neues</div>
-                                    <?php endif; ?>
-                                    <?php if(!empty($article["tagReviews"]) && $article["tagReviews"] == 1) : ?>
-                                        <div class="tag-item">Bericht</div>
-                                    <?php endif; ?>
-                                    <?php if(!empty($article["tagPlayer"]) && $article["tagPlayer"] == 1) : ?>
-                                       <div class="tag-item">Neuzugang</div>
-                                    <?php endif; ?>
-                                    <?php if(!empty($article["tagSocial"]) && $article["tagSocial"] == 1) : ?>
-                                        <div class="tag-item">Social</div>
-                                    <?php endif; ?>    
-                                    </div>
-                                    <div class="post-image article-bg-img">
-                                    <?php if($article["imgPath"] != "") : ?>
-                                        <div class="article-img mb-3" style="width: 100%; height: 240px; Background-image: url(./img/article/<?= $article["imgPath"] ?>); background-repeat: no-repeat; background-size: cover; background-position: top;"></div>
-                                    <?php else : ?>
-                                        <div class="article-img mb-3" style="width: 100%; height: 240px; Background-image: url(img/tt-icon.svg); background-size: contain; background-repeat: no-repeat; background-position: top; margin-bottom: 30px;"></div>
-                                    <?php endif ?>
+                                        <?php if(!empty($article["tagNews"]) && $article["tagNews"] == 1) : ?>
+                                            <div class="tag-item">Neues</div>
+                                        <?php endif; ?>
+                                        <?php if(!empty($article["tagReviews"]) && $article["tagReviews"] == 1) : ?>
+                                            <div class="tag-item">Bericht</div>
+                                        <?php endif; ?>
+                                        <?php if(!empty($article["tagPlayer"]) && $article["tagPlayer"] == 1) : ?>
+                                        <div class="tag-item">Neuzugang</div>
+                                        <?php endif; ?>
+                                        <?php if(!empty($article["tagSocial"]) && $article["tagSocial"] == 1) : ?>
+                                            <div class="tag-item">Social</div>
+                                        <?php endif; ?>    
+                                        </div>
+                                        <div class="post-image article-bg-img">
+                                        <?php if($article["imgPath"] != "") : ?>
+                                            <div class="article-img mb-3" style="width: 100%; height: 240px; Background-image: url(./img/article/<?= $article["imgPath"] ?>); background-repeat: no-repeat; background-size: cover; background-position: top;"></div>
+                                        <?php else : ?>
+                                            <div class="article-img mb-3" style="width: 100%; height: 240px; Background-image: url(img/tt-icon.svg); background-size: contain; background-repeat: no-repeat; background-position: top; margin-bottom: 30px;"></div>
+                                        <?php endif ?>
                                     </div>
                                     <div class="article-content col-md-12">
-                                        <h5><?= $article["headline"] ?></h5>
+                                        <h5 class="titel"><?= $article["headline"] ?></h5>
+                                        <span class="datum"><?= date('d.m.y', strtotime($article["article_date"])); ?></span>
                                     </div>
 
-                                    <button type="button" class="btn btn-default" data-bs-toggle="modal" data-bs-target="#article-<?= $article["id"] ?>">
+                                    <?php 
+                                    // 1. Sicheres Auslesen der Config-Einstellungen
+                                    $isSocialActive = $cfg["social-media"]["active"] ?? false;
+
+                                    // Falls du eine separate Channels-Config hast, nutzt er diese, sonst erlaubt er sie standardmäßig
+                                    $channels = $cfg["social-media"]["channels"] ?? [
+                                        "facebook"  => true,
+                                        "instagram" => true,
+                                        "youtube"   => true,
+                                        "tiktok"    => true
+                                    ];
+
+                                    // 2. Prüfen, ob für den Artikel mindestens ein gültiger Link vorhanden ist
+                                    $hasFb  = !empty($channels["facebook"])  && !empty($article['social']['FB']);
+                                    $hasIns = !empty($channels["instagram"]) && !empty($article['social']['INS']);
+                                    $hasYt  = !empty($channels["youtube"])   && !empty($article['social']['YT']);
+                                    $hasTt  = !empty($channels["tiktok"])    && !empty($article['social']['TT']);
+
+                                    $hasLinks = $isSocialActive && ($hasFb || $hasIns || $hasYt || $hasTt);
+                                    ?>                    
+                                    <?php if ($hasLinks) : ?>
+                                        <div class="col-12 line"></div>
+                                        <div class="col-12 article-social-section">
+                                            
+                                            <div class="col-12">Weitere Infos dazu auf</div>
+                                            <div class="col-12 chanel-line-up">
+                                                <ul class="bb">
+                                                    <?php if ($hasFb) : ?>
+                                                        <li>
+                                                            <a href="<?= htmlspecialchars($article['social']['FB']) ?>" class="social-icon-link" target="_blank">
+                                                                <img src="img/social/facebook.svg" width="20" height="20" alt="Facebook">
+                                                            </a>
+                                                        </li>
+                                                    <?php endif; ?>
+
+                                                    <?php if ($hasIns) : ?>
+                                                        <li>
+                                                            <a href="<?= htmlspecialchars($article['social']['INS']) ?>" class="social-icon-link" target="_blank">
+                                                                <img src="img/social/instagram.svg" width="20" height="20" alt="Instagram">
+                                                            </a>
+                                                        </li>
+                                                    <?php endif; ?>
+
+                                                    <?php if ($hasYt) : ?>
+                                                        <li>
+                                                            <a href="<?= htmlspecialchars($article['social']['YT']) ?>" class="social-icon-link" target="_blank">
+                                                                <img src="img/social/youtube.svg" width="20" height="20" alt="YouTube">
+                                                            </a>
+                                                        </li>
+                                                    <?php endif; ?>
+
+                                                    <?php if ($hasTt) : ?>
+                                                        <li>
+                                                            <a href="<?= htmlspecialchars($article['social']['TT']) ?>" class="social-icon-link" target="_blank">
+                                                                <img src="img/social/tiktok.svg" width="20" height="20" alt="TikTok">
+                                                            </a>
+                                                        </li>
+                                                    <?php endif; ?>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
+
+                                    <button type="button" class="btn btn-default ms-auto" data-bs-toggle="modal" data-bs-target="#article-<?= $article["id"] ?>">
                                         Artikel lesen <img src="./img/arrow.svg" width="15px">
                                     </button>
                                 </div>
@@ -57,7 +125,7 @@ include('./includes/header.php');
                             <div class="modal-dialog modal-dialog-scrollable">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="staticBackdropLabel"><?= $article["headline"] ?></h5>
+                                        <h5 class="modal-title" id="staticBackdropLabel"></h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
@@ -93,7 +161,8 @@ include('./includes/header.php');
                                         </div>
 
                                         <div  class="article-content">
-                                        <?= $article["copytext"] ?> 
+                                            <h3><?= $article["headline"] ?></h3><br>
+                                            <p><?= $article["copytext"] ?></p> 
                                         </div>
                                     </div>
                                 </div>

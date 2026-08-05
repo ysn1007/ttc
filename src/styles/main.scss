@@ -223,6 +223,10 @@ body {
                 border: solid #ddd 1px;
                 margin-bottom: 15px;
                 border-radius: 5px;
+
+                &:hover {
+                    box-shadow: 0 0 4px .25px #301120;
+                }
                 .post-tag {
                     position: absolute;
                     top: 0;
@@ -249,30 +253,48 @@ body {
                     }
                 }
                 
-                a {
-                    h4 {
-                        margin-top: 15px;
-                    }
-
-                    h4, p {
-                        color: $clr2;
-                    }
-    
-                    &:visited, &:active, &:link {
-                        h4 { color: $clr2; }
-                    }
-
-                    &.btn {
-                        margin-bottom: 15px;
-                        background-color: $clr9;
-                        border: solid $clr9 1px;
+                button {
+                    background: none;
+                    border: none;
+                    color: $black;
+                    width: 40%;
+                    &:hover {
+                        background: $clr1;
                         color: $white;
-
-                        img {
-                            margin-top: -1px;
-                        }
                     }
                 }
+
+                .line {
+                    border: solid $clr4 .5px;
+                    margin: 16px 0;
+                }
+
+                .article-social-section {
+                    padding: 0;
+                    margin-bottom: 8px;
+                   
+                    .chanel-line-up {
+                        margin: 12px 0;
+                        ul {
+                            padding: 0;
+                            display: flex;
+                            li {
+                                list-style: none;
+                                margin-right: 12px;
+                            }
+                        }
+                    }
+                    
+                }
+                &:hover {
+                    border: solid $clr1 1px;
+                    button {
+                        background: $clr1;
+                        color: $white;
+                    }
+
+                } 
+
             }
 
             .social-wrap {

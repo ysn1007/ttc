@@ -165,8 +165,13 @@ function getArticle(mysqli $con, ?int $limit = null ) :array {
 /**
  * Holt Artikelinhalt aus der Datenbank wenn diese Aktiv sind
  */
-function getActiveArticle(mysqli $con) {
-    $sql = "SELECT * FROM article WHERE active = 1";
+function getActiveArticle(mysqli $con, $limit = null) {
+    $sql = "SELECT * FROM article WHERE active = 1 ORDER BY article_date DESC";
+    
+    if($limit !== 0) {
+        $sql .= " LIMIT ". (int)$limit;
+    }
+
     $stmt = $con->prepare($sql);
     
     if(!$stmt) {
@@ -176,10 +181,43 @@ function getActiveArticle(mysqli $con) {
     $stmt -> execute();
     // Gibt das SQL-Resultat als assoziatives Array zurück und schließt das Statement
     $result = $stmt->get_result();
-    $articles = $result->fetch_all(MYSQLI_ASSOC);
+    $activeArticles = $result->fetch_all(MYSQLI_ASSOC);
     $stmt->close();
 
-    return $articles;
+    // Statement für Social Media einmalig vorbereiten (Performance!)
+    $sqlSocial = "SELECT platform, url FROM article_social_media WHERE article_id = ?";
+    $stmtSocial = $con->prepare($sqlSocial);
+
+    if ($stmtSocial) {
+        // Jeden Artikel durchgehen und seine Social-Media-Links anhängen
+        foreach ($activeArticles as &$article) {
+            
+            // Standardstruktur setzen
+            $article['social'] = [
+                'FB'  => '',
+                'INS' => '',
+                'TT'  => '',
+                'YT'  => ''
+            ];
+
+            // Links für die jeweilige Artikel-ID abfragen
+            $stmtSocial->bind_param("i", $article['id']);
+            $stmtSocial->execute();
+            $resultSocial = $stmtSocial->get_result();
+
+            while ($row = $resultSocial->fetch_assoc()) {
+                $platform = $row['platform'];
+                if (array_key_exists($platform, $article['social'])) {
+                    $article['social'][$platform] = $row['url'];
+                }
+            }
+        }
+        // Referenz aufheben und Statement schließen
+        unset($article);
+        $stmtSocial->close();
+    }
+
+    return $activeArticles;
 
 }
 
