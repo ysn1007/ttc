@@ -7,7 +7,41 @@ $allArticles = getArticle($con);
 if (isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION["author"])) :
 ?>
 
+
 <div class="accordion" id="accordionExample-3">
+    <?php if ($_GET['error'] === 'addArticleFailed'): ?>
+        <div class="alert alert-danger alert-dismissible fade show d-flex justify-content-between" role="alert">
+            Fehler beim Erstellen des Artikels. Bitte versuche es erneut.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php elseif ($_GET['error'] === 'updateArticleFailed'): ?>
+        <div class="alert alert-danger alert-dismissible fade show d-flex justify-content-between" role="alert">
+            Fehler beim Aktualisieren des Artikels.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['success'])): ?>
+        <?php if ($_GET['success'] === 'updateArticle'): ?>
+            <div class="alert alert-success alert-dismissible fade show d-flex justify-content-between" role="alert">
+                Artikel erfolgreich aktualisiert!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endif; ?>
+        <?php if ($_GET['success'] === 'addArticle'): ?>
+            <div class="alert alert-success alert-dismissible fade show d-flex justify-content-between" role="alert">
+                Artikel erfolgreich erstellt!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endif; ?>
+        <?php if ($_GET['success'] === 'deleteArticle'): ?>
+            <div class="alert alert-success alert-dismissible fade show d-flex justify-content-between" role="alert">
+                Artikel erfolgreich gelöscht!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endif; ?>
+    <?php endif; ?>
+
     <section class="img-group-header d-flex justify-content-between align-items-center mb-3 p-4">
         <div class="dekades">Anzahl Artikel gespeichert: <?= is_array($allArticles) || $allArticles instanceof Countable ? count($allArticles) : 0; ?></div>
         <div class="add-img add-item">
@@ -32,8 +66,9 @@ if (isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION[
                                 <th scope="col">Überschrift</th>
                                 <th scope="col">Text</th>
                                 <th scope="col">Artikelart</th>
+                                <th scope="col">Social Media</th>
                                 <th scope="col">Bild</th>
-                                <th scope="col">Erstellungsdatum</th>
+                                <th scope="col">Datum</th>
                                 <th scope="col">Status</th>
                                 <th scope="col" class="text-end">Aktion</th>
                             </tr>
@@ -46,10 +81,10 @@ if (isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION[
                                         $isOnline = ($article["active"] == 1);
                                         
                                         $tagMap = [
-                                            'tagNews'    => 'Neues',
-                                            'tagReviews' => 'Bericht',
-                                            'tagPlayer'  => 'Neuzugang',
-                                            'tagSocial'  => 'Soziale Medien'
+                                            'tagNews'    => 'Neu',
+                                            'tagReviews' => 'Be',
+                                            'tagPlayer'  => 'NeuSp',
+                                            'tagSocial'  => 'SoMe'
                                         ];
 
                                         $articleTypes = [];
@@ -68,6 +103,9 @@ if (isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION[
                                         </td>
                                         <td><?= htmlspecialchars($articleTypeString); ?></td>
                                         <td>
+                                            Social Media Tags
+                                        </td>
+                                        <td>
                                             <?php if (!empty($article["imgPath"]) && file_exists("../img/article/" . $article["imgPath"])): ?>
                                                 <img src="../img/article/<?= htmlspecialchars($article["imgPath"]); ?>" alt="Artikelbild" width="60" height="60" style="object-fit: cover; border-radius: 4px;" />
                                             <?php else: ?>
@@ -75,8 +113,9 @@ if (isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION[
                                             <?php endif; ?>
                                         </td>
                                         <td>
-                                            Datum
+                                            <?php echo (!$article['article_date'] ) ? "Kein Datum" : $article['article_date'] ?>
                                         </td>
+                                        
                                         <td style="width: 10%;">
                                             <span class="badge <?= $isOnline ? 'bg-success' : 'bg-secondary'; ?>">
                                                 <?= $isOnline ? 'Online' : 'Offline'; ?>

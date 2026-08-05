@@ -1,5 +1,7 @@
 <?php
 ob_start(); // Am Anfang deiner Datei
+$currentPage = pathinfo($_SERVER['PHP_SELF'])['filename'];
+
 ?>
 <!DOCTYPE html>
     <html lang="de">
@@ -18,7 +20,7 @@ ob_start(); // Am Anfang deiner Datei
             <title>TTC RAMSHARDE - ADMIN</title>
         </head>
         <body class="body-wrapper col" id="loggedin">
-            <div class="rwl">
+            <div class="main-content">
                 <header id="header">
                     <nav class="navbar navbar-expand-lg bg-body-tertiary">
                         <div class="container-fluid">
@@ -37,33 +39,33 @@ ob_start(); // Am Anfang deiner Datei
                                     <!--li class='nav-item'>Welcher admin ist online</li-->
                                 </ul> 
                                 
-                            <ul class="nav">
-                                <li class="nav-item ">
-                                    <a href="index.ad.php" class="nav-link">Start</a>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="gallery.php" role="button" aria-expanded="false">Galerie</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="gallery.php?dekade=2020-2029">2020 - 2029</a></li>
-                                        <li><a class="dropdown-item" href="gallery.php?dekade=2010-2019">2010 - 2019</a></li>
-                                        <li><a class="dropdown-item" href="gallery.php?dekade=2000-2009">2000 - 2009</a></li>
-                                        <li><a class="dropdown-item" href="gallery.php?dekade=1990-1999">1990 - 1999</a></li>
-                                        <li><a class="dropdown-item" href="gallery.php?dekade=1980-1989">1980 - 1989</a></li>
-                                        <li><a class="dropdown-item" href="gallery.php?dekade=1970-1979">1970 - 1979</a></li>
-                                        <li><a class="dropdown-item" href="gallery.php?dekade=1960-1969">1960 - 1969</a></li>
-                                        <li><a class="dropdown-item" href="gallery.php?dekade=1950-1959">1950 - 1959</a></li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item ">
-                                    <a href="player.php" class="nav-link">Spieler</a>
-                                </li>
-                                <li class="nav-item ">
-                                    <a href="article.php" class="nav-link">Artikel</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="./logout.php">logout</a>
-                                </li>
-                            </ul>
+                                <ul class="nav">
+                                    <li class="nav-item ">
+                                        <a href="index.ad.php" class="nav-link">Start</a>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="gallery.php" role="button" aria-expanded="false">Galerie</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="gallery.php?dekade=2020-2029">2020 - 2029</a></li>
+                                            <li><a class="dropdown-item" href="gallery.php?dekade=2010-2019">2010 - 2019</a></li>
+                                            <li><a class="dropdown-item" href="gallery.php?dekade=2000-2009">2000 - 2009</a></li>
+                                            <li><a class="dropdown-item" href="gallery.php?dekade=1990-1999">1990 - 1999</a></li>
+                                            <li><a class="dropdown-item" href="gallery.php?dekade=1980-1989">1980 - 1989</a></li>
+                                            <li><a class="dropdown-item" href="gallery.php?dekade=1970-1979">1970 - 1979</a></li>
+                                            <li><a class="dropdown-item" href="gallery.php?dekade=1960-1969">1960 - 1969</a></li>
+                                            <li><a class="dropdown-item" href="gallery.php?dekade=1950-1959">1950 - 1959</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item ">
+                                        <a href="player.php" class="nav-link">Spieler</a>
+                                    </li>
+                                    <li class="nav-item ">
+                                        <a href="article.php" class="nav-link">Artikel</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="./logout.php">logout</a>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </nav>
