@@ -95,7 +95,7 @@ if (isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION[
                                         }
                                         $articleTypeString = !empty($articleTypes) ? implode(', ', $articleTypes) : '-';
                                     ?>
-                                    <tr>
+                                    <tr id="<?php echo $article["id"] ?>">
                                         <th scope="row"><?= htmlspecialchars($article["id"]); ?></th>
                                         <td class="fw-regular"><?= htmlspecialchars($article["headline"]); ?></td>
                                         <td style="max-width: 250px;" class="text-truncate" title="<?= htmlspecialchars($article["copytext"]); ?>">

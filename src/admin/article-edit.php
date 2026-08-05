@@ -23,7 +23,7 @@ $article = [
 // Im EDIT-Modus: Daten aus DB laden
 if ($isEdit) {
     $dbArticle = getArticleId($con, $articleId);
-   
+    
     if ($dbArticle) {
         $article = $dbArticle; // Überschreibt die Standardwerte mit den DB-Daten
     } else {
