@@ -211,91 +211,7 @@ body {
                 
             }
 
-            // article
-            .article-wrap {
-                margin-bottom: 30px;
-            }
             
-            .article {
-                position: relative;
-                background: $white;
-                padding: 0 15px;
-                border: solid #ddd 1px;
-                margin-bottom: 15px;
-                border-radius: 5px;
-
-                &:hover {
-                    box-shadow: 0 0 4px .25px #301120;
-                }
-                .post-tag {
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                }
-                .article-bg-img {
-                    background: linear-gradient(180deg, $clr10, $clr11);
-                    margin-top: 4px;
-                    
-                    img { 
-                        width: 50%;
-                        margin: 50px 0 10px 25%; 
-                    }
-                }
-
-                .article-content {
-                    margin-top: 12px;
-                    min-height: 100px;
-                    max-height: 140px;
-                    text-transform: uppercase;
-
-                    h4 {
-                        font-family: "geist-medium";
-                    }
-                }
-                
-                button {
-                    background: none;
-                    border: none;
-                    color: $black;
-                    width: 40%;
-                    &:hover {
-                        background: $clr1;
-                        color: $white;
-                    }
-                }
-
-                .line {
-                    border: solid $clr4 .5px;
-                    margin: 16px 0;
-                }
-
-                .article-social-section {
-                    padding: 0;
-                    margin-bottom: 8px;
-                   
-                    .chanel-line-up {
-                        margin: 12px 0;
-                        ul {
-                            padding: 0;
-                            display: flex;
-                            li {
-                                list-style: none;
-                                margin-right: 12px;
-                            }
-                        }
-                    }
-                    
-                }
-                &:hover {
-                    border: solid $clr1 1px;
-                    button {
-                        background: $clr1;
-                        color: $white;
-                    }
-
-                } 
-
-            }
 
             .social-wrap {
                 background: $white;
@@ -1264,15 +1180,106 @@ body {
                     }
                 }
 
-                .article-item {
-                    .article {
-                        button {
-                            margin-bottom: 5px;
+                .article {
+                    position: relative;
+                    background: $white;
+                    padding: 0 15px;
+                    border: solid #ddd 1px;
+                    margin-bottom: 15px;
+                    border-radius: 5px;
+
+                    &:hover {
+                        box-shadow: 0 0 4px .25px #301120;
+                    }
+
+                    .post-tag {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                    }
+
+                    .article-bg-img {
+                        background: linear-gradient(180deg, $clr10, $clr11);
+                        margin-top: 4px;
+                        
+                        img { 
+                            width: 50%;
+                            margin: 50px 0 10px 25%; 
                         }
                     }
+
+                    .article-content {
+                        margin-top: 12px;
+                        min-height: 100px;
+                        max-height: 140px;
+                        text-transform: uppercase;
+
+                        h4 {
+                            font-family: "geist-medium";
+                        }
+                    }
+
+                    .container {
+                        margin-bottom: 12px;
+
+                        .article-social-section {
+                            padding: 0 12px;
+                            margin-bottom: 8px;
+                        
+                            .chanel-line-up {
+                                .more-infos-about {
+                                    margin-bottom: 12px;
+                                }
+
+                                ul {
+                                    padding: 0;
+                                    display: flex;
+                                    margin-bottom: 0;
+                                    li {
+                                        list-style: none;
+                                        margin-right: 12px;
+                                    }
+                                }
+                            }
+                            
+                            
+                        }
+                        .article-action {
+                                button {
+                                    width: 100%;
+                                }
+                            }
+
+                        button {
+                        background: none;
+                        border: none;
+                        color: $black;
+                        width: 40%;
+                        &:hover {
+                            background: $clr1;
+                            color: $white;
+                        }
+                    }
+                    }
+
+                    
+
+                   
+                    &:hover {
+                        border: solid $clr1 1px;
+                        button {
+                            background: $clr1;
+                            color: $white;
+                        }
+
+                    } 
+
                 }
 
             }
+           
+            
+            
         }
     }
 

@@ -69,52 +69,52 @@ include('./includes/header.php');
 
                                     $hasLinks = $isSocialActive && ($hasFb || $hasIns || $hasYt || $hasTt);
                                     ?>                    
-                                    <?php if ($hasLinks) : ?>
-                                        <div class="col-12 line"></div>
-                                        <div class="col-12 article-social-section">
-                                            
-                                            <div class="col-12">Weitere Infos dazu auf</div>
-                                            <div class="col-12 chanel-line-up">
-                                                <ul class="bb">
-                                                    <?php if ($hasFb) : ?>
-                                                        <li>
-                                                            <a href="<?= htmlspecialchars($article['social']['FB']) ?>" class="social-icon-link" target="_blank">
-                                                                <img src="img/social/facebook.svg" width="20" height="20" alt="Facebook">
-                                                            </a>
-                                                        </li>
-                                                    <?php endif; ?>
-
-                                                    <?php if ($hasIns) : ?>
-                                                        <li>
-                                                            <a href="<?= htmlspecialchars($article['social']['INS']) ?>" class="social-icon-link" target="_blank">
-                                                                <img src="img/social/instagram.svg" width="20" height="20" alt="Instagram">
-                                                            </a>
-                                                        </li>
-                                                    <?php endif; ?>
-
-                                                    <?php if ($hasYt) : ?>
-                                                        <li>
-                                                            <a href="<?= htmlspecialchars($article['social']['YT']) ?>" class="social-icon-link" target="_blank">
-                                                                <img src="img/social/youtube.svg" width="20" height="20" alt="YouTube">
-                                                            </a>
-                                                        </li>
-                                                    <?php endif; ?>
-
-                                                    <?php if ($hasTt) : ?>
-                                                        <li>
-                                                            <a href="<?= htmlspecialchars($article['social']['TT']) ?>" class="social-icon-link" target="_blank">
-                                                                <img src="img/social/tiktok.svg" width="20" height="20" alt="TikTok">
-                                                            </a>
-                                                        </li>
-                                                    <?php endif; ?>
-                                                </ul>
+                                    <div class="container">
+                                        <div class="row">
+                                            <?php if ($hasLinks) : ?>
+                                                <div class="col d-flex justify-content-between article-social-section">
+                                                    <div class="chanel-line-up">
+                                                        <div class="more-infos-about">Weitere Infos dazu auf</div>
+                                                        <ul class="social-media-item-group">
+                                                            <?php if ($hasFb) : ?>
+                                                                <li class="social-media-item">
+                                                                    <a href="<?= htmlspecialchars($article['social']['FB']) ?>" class="social-icon-link" target="_blank">
+                                                                        <img src="img/social/facebook.svg" width="20" height="20" alt="Facebook">
+                                                                    </a>
+                                                                </li>
+                                                            <?php endif; ?>
+                                                            <?php if ($hasIns) : ?>
+                                                                <li class="social-media-item">
+                                                                    <a href="<?= htmlspecialchars($article['social']['INS']) ?>" class="social-icon-link" target="_blank">
+                                                                        <img src="img/social/instagram.svg" width="20" height="20" alt="Instagram">
+                                                                    </a>
+                                                                </li>
+                                                            <?php endif; ?>
+                                                            <?php if ($hasYt) : ?>
+                                                                <li class="social-media-item">
+                                                                    <a href="<?= htmlspecialchars($article['social']['YT']) ?>" class="social-icon-link" target="_blank">
+                                                                        <img src="img/social/youtube.svg" width="20" height="20" alt="YouTube">
+                                                                    </a>
+                                                                </li>
+                                                            <?php endif; ?>
+                                                            <?php if ($hasTt) : ?>
+                                                                <li class="social-media-item">
+                                                                    <a href="<?= htmlspecialchars($article['social']['TT']) ?>" class="social-icon-link" target="_blank">
+                                                                        <img src="img/social/tiktok.svg" width="20" height="20" alt="TikTok">
+                                                                    </a>
+                                                                </li>
+                                                            <?php endif; ?>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            <?php endif; ?>
+                                            <div class="col align-self-end article-action">
+                                            <button type="button" class="btn btn-default ms-auto" data-bs-toggle="modal" data-bs-target="#article-<?= $article["id"] ?>">
+                                                Artikel lesen <img src="./img/arrow.svg" width="15px">
+                                            </button>
                                             </div>
                                         </div>
-                                    <?php endif; ?>
-
-                                    <button type="button" class="btn btn-default ms-auto" data-bs-toggle="modal" data-bs-target="#article-<?= $article["id"] ?>">
-                                        Artikel lesen <img src="./img/arrow.svg" width="15px">
-                                    </button>
+                                    </div>
                                 </div>
                             </div>
                         </section>
