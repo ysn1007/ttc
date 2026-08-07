@@ -986,12 +986,20 @@ body {
                     
                 } */
             }
+
+        }
+
+        #galleryModal {
+            .modal-content {
+                height: 900px;
+                max-width: 1900px;
+            }
         }
 
     }
 
     &#galerie {
-
+        
         // gallery
         .galery-group {
             background: $white;
@@ -1014,27 +1022,6 @@ body {
             .galery-item {
                 margin-bottom: 20px; 
                 
-                // .gal-img {
-                //     background: linear-gradient(180deg, $clr10, $clr11);
-                //     background-size: cover;
-                //     background-position: center;
-                //     width: 100%;
-                //     height: 160px;
-                //     min-height: 160px;
-                //     max-height: 320px;
-                //     position: relative;
-    
-                //     img { 
-                //         position: absolute;
-                //         width: 50%;
-                //         top: 15%;
-                //         left: 25%;
-                //         right: 25%;
-                //         bottom: 25%;
-                //         object-fit: cover; 
-                //     }
-                // }
-    
                 a {
                     display: block;
                     width: 100%;

@@ -1,169 +1,126 @@
 $(function() {
-    // Prüft Existiert das Element auf der Seite? && Ist die Funktion owlCarousel überhaupt geladen?
+    // Prüft: Existiert das Element auf der Seite? && Ist owlCarousel geladen?
     if ($('.owl-carousel').length && $.fn.owlCarousel) {
-        // start owl slider
         $("#index .owl-carousel").owlCarousel({
-            items:1,
-            loop:true,
-            center:true,
-            margin:10,
+            items: 1,
+            loop: true,
+            center: true,
+            margin: 10,
             autoplay: true,
         });
 
         $("#galerie .owl-carousel").owlCarousel({
-            items:3,
-            loop:true,
-            center:true,
-            margin:10,
+            items: 3,
+            loop: true,
+            center: true,
+            margin: 10,
             autoplay: true,
         });
 
         $("#ostercup .oc-img-carousel").owlCarousel({
-            items:1,
-            loop:true,
-            center:true,
-            margin:10,
+            items: 1,
+            loop: true,
+            center: true,
+            margin: 10,
             autoplay: true,
         });
+    }   
+});
+
+let galleryModal = null;
+let currentImageIndex = 0;
+let imageIdList = [];
+
+function getGalleryModalInstance() {
+    if (!galleryModal) {
+        const modalEl = document.getElementById("galleryModal");
+        if (modalEl && typeof bootstrap !== 'undefined') {
+            galleryModal = new bootstrap.Modal(modalEl);
+        }
+    }
+    return galleryModal;
+}
+
+function renderModalContent(id) {
+    if (typeof galleryImages === 'undefined' || !galleryImages || !galleryImages[id]) {
+        console.error(`Keine Bilddaten für ID ${id} in galleryImages gefunden:`, typeof galleryImages !== 'undefined' ? galleryImages : 'galleryImages ist undefined');
+        return false;
     }
 
-    /***
-     * Admin: Social Media Manager (Create & Edit Mode)
-     * Verwendung bei der Erstellung/Bearbeitung von Artikel mit Social Media Beiträgen
-     *  
-    */
+    const imageData = galleryImages[id];
+
+    const titleEl = document.getElementById('galleryModalLabel');
+    const imgEl = document.getElementById('modal-main-img');
+    const descEl = document.getElementById('modal-desc');
+    const downloadBtn = document.getElementById('modal-download-btn');
+
+    if (titleEl) titleEl.innerText = imageData.title || '';
+    if (imgEl) imgEl.src = imageData.src || '';
+    if (descEl) descEl.innerText = imageData.description || '';
+    if (downloadBtn) downloadBtn.href = imageData.src || '#';
+
+    return true;
+}
+
+function navigateGallery(direction) {
+    if (imageIdList.length === 0) return;
+
+    currentImageIndex = (currentImageIndex + direction + imageIdList.length) % imageIdList.length;
+    const nextId = imageIdList[currentImageIndex];
     
-    /* function initSocialMediaLogic() {
-        const wrapper       = document.getElementById('social-wrapper');
-        const select        = document.getElementById('social-platform');
-        const input         = document.getElementById('social-url');
-        const actionBtn     = document.getElementById('social-action-btn');
-        const btnIcon       = document.getElementById('btn-icon');
-        const tagsContainer = document.getElementById('social-tags-container');
-        
-        // initialisiert savedLinks
-        let savedLinks = { FB: '', INS: '', TT: '', YT: '' };
+    renderModalContent(nextId);
+}
 
-        if(wrapper) {
-            // 1. Daten initial auslesen (Data-Attribute oder Hidden-Inputs)
-            try {
-                const parsed = JSON.parse(wrapper.dataset.social || '{}');
-
-                const getVal = (id) => {
-                    const el = document.getElementById(id);
-                    return el ? el.value : '';
-                };
-
-                savedLinks = {
-                    FB:  parsed.FB  || getVal('hidden-FB'),
-                    INS: parsed.INS || getVal('hidden-INS'),
-                    TT:  parsed.TT  || getVal('hidden-TT'),
-                    YT:  parsed.YT  || getVal('hidden-YT')
-                };
-            
-            } catch(e) {
-                console.error("Fehler beim Laden der Social-Media-Daten:", e);
-            }
-        }
-        
-        // Entwurfs-Puffer für flüssiges Hin- und Herschalten im Select
-        const draftInputs = { ...savedLinks };
-
-        // 2. UI Status des Buttons aktualisieren (Zustände: Neu/Geändert -> '+', Gespeichert -> '✕', Leer -> ausblenden)
-        function updateButtonState() {
-            const currentPlatform = select.value;
-            const typedValue = input.value.trim();
-            const storedValue = (savedLinks[currentPlatform] || '').trim();
-
-            if (storedValue !== '' && typedValue === storedValue) {
-                // Zustand: Exakt so gespeichert -> Rotes X (Löschen anbieten)
-                actionBtn.className = 'btn btn-danger';
-                if (btnIcon) btnIcon.textContent = '✕';
-            } else if (typedValue !== '') {
-                // Zustand: Neu eingegeben oder verändert -> Blauer Plus-Button (Speichern anbieten)
-                actionBtn.className = 'btn btn-primary';
-                if (btnIcon) btnIcon.textContent = '+';
-            } else {
-                // Zustand: Feld leer und nix gespeichert -> Ausblenden
-                actionBtn.className = 'btn d-none';
-            }
-        }
-
-        // 3. Feldinhalt beim Plattformwechsel rendern
-        function renderField() {
-            const currentPlatform = select.value;
-            input.value = draftInputs[currentPlatform] || '';
-            updateButtonState();
-        }
-
-        // 4. Badges rendern & Hidden-Inputs synchronisieren
-        function renderBadgesAndHiddenInputs() {
-            if (tagsContainer) tagsContainer.innerHTML = '';
-
-            Object.keys(savedLinks).forEach(p => {
-                const val = savedLinks[p] ? savedLinks[p].trim() : '';
-
-                // Hidden Input für PHP POST synchronisieren
-                const hiddenInput = document.getElementById('hidden-' + p);
-                if (hiddenInput) {
-                    hiddenInput.value = val;
-                }
-
-                // Badge zeichnen, wenn ein Link vorhanden ist
-                if (val !== '' && tagsContainer) {
-                    const tag = document.createElement('span');
-                    tag.className = 'badge social-tag-item p-2';
-                    tag.innerHTML = `<span>${p}</span>`;
-                    tagsContainer.appendChild(tag);
-                }
-            });
-        }
-
-        // --- EVENT LISTENERS ---
-
-        // Plattformwechsel im Dropdown
-        select?.addEventListener('change', () => {
-            renderField();
-        });
-
-        // Tippen im Input-Feld
-        input?.addEventListener('input', () => {
-            const currentPlatform = select.value;
-            draftInputs[currentPlatform] = input.value;
-            updateButtonState();
-        });
-
-        // Klick auf den Action-Button (+ / ✕)
-        actionBtn?.addEventListener('click', (e) => {
-            e.preventDefault(); // Verhindert ungewolltes Formular-Submit!
-
-            const currentPlatform = select.value;
-            const typedValue = input.value.trim();
-            const storedValue = (savedLinks[currentPlatform] || '').trim();
-
-            if (storedValue !== '' && typedValue === storedValue) {
-                // Löschen-Aktion (wenn rotes X geklickt wird)
-                savedLinks[currentPlatform] = '';
-                draftInputs[currentPlatform] = '';
-                input.value = '';
-            } else if (typedValue !== '') {
-                // Speichern/Update-Aktion (wenn Plus geklickt wird)
-                savedLinks[currentPlatform] = typedValue;
-                draftInputs[currentPlatform] = typedValue;
-            }
-
-            renderBadgesAndHiddenInputs();
-            updateButtonState();
-        });
-
-        // Initiales Setzen beim Aufruf der Seite
-        renderBadgesAndHiddenInputs();
-        renderField();
+// Globale Aufruffunktion
+window.openGallerySlider = function(id) {
+    if (typeof galleryImages === 'undefined' || !galleryImages) {
+        console.error("Fehler: 'galleryImages' ist auf der Seite nicht definiert.");
+        return;
     }
 
-    // Ausführen mit 100ms Delay (schützt vor Überschreiben durch main.min.js)
-   
-      setTimeout(initSocialMediaLogic, 100);
-    */
-   
+    imageIdList = Object.keys(galleryImages);
+    currentImageIndex = imageIdList.indexOf(String(id));
+
+    if (currentImageIndex === -1) currentImageIndex = 0;
+
+    if (renderModalContent(id)) {
+        const modal = getGalleryModalInstance();
+        if (modal) {
+            modal.show();
+        } else {
+            console.error("Fehler: #galleryModal Element wurde nicht im HTML gefunden.");
+        }
+    }
+};
+
+// Event-Listener nach DOM-Laden
+document.addEventListener("DOMContentLoaded", () => {
+    getGalleryModalInstance();
+
+    // 1. Klick auf Auslöser-Buttons (falls mit class="js-gallery-trigger" data-img-id="..." gearbeitet wird)
+    $(document).on('click', '.js-gallery-trigger', function(e) {
+        e.preventDefault();
+        const imgId = $(this).data('img-id');
+        window.openGallerySlider(imgId);
+    });
+
+    // 2. Klick auf Vor/Zurück Buttons
+    $(document).on('click', '#modal-prev-btn', function(e) {
+        e.preventDefault();
+        navigateGallery(-1);
+    });
+
+    $(document).on('click', '#modal-next-btn', function(e) {
+        e.preventDefault();
+        navigateGallery(1);
+    });
+
+    // 3. Tastatur-Navigation (Pfeiltasten)
+    document.addEventListener('keydown', (e) => {
+        const modalEl = document.getElementById("galleryModal");
+        if (modalEl && modalEl.classList.contains('show')) {
+            if (e.key === 'ArrowLeft') navigateGallery(-1);
+            if (e.key === 'ArrowRight') navigateGallery(1);
+        }
+    });
 });

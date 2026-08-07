@@ -59,6 +59,6 @@
     <!--owl slider js-->
     <script src="./owlcarousel/owl.carousel.min.js"></script>
     <!--   js sources    -->
-    <script src="./js/global.min.js"></script>
+    <script src="./js/main.min.js"></script>
 
  </html>

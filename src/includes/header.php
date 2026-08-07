@@ -40,7 +40,7 @@ $cfg = require_once (__DIR__ . '/../config.php');
         </nav>
         
     </header>
-    <?PHP ((basename($_SERVER['PHP_SELF']) == "index.php") ? require_once('hero.img.slider.php') : "") ?>
+    <?PHP ((basename($_SERVER['PHP_SELF']) == "index.php") ? require_once('hero-slider.php') : "") ?>
     <div id="content-wrapper">
         
                 
