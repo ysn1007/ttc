@@ -31,6 +31,7 @@ let galleryModal = null;
 let currentImageIndex = 0;
 let imageIdList = [];
 
+// Prüfung und Aufruf einer Modalinstanz
 function getGalleryModalInstance() {
     if (!galleryModal) {
         const modalEl = document.getElementById("galleryModal");
@@ -41,6 +42,7 @@ function getGalleryModalInstance() {
     return galleryModal;
 }
 
+// Übergibt Daten zur Darstellung an das Modal weiter
 function renderModalContent(id) {
     if (typeof galleryImages === 'undefined' || !galleryImages || !galleryImages[id]) {
         console.error(`Keine Bilddaten für ID ${id} in galleryImages gefunden:`, typeof galleryImages !== 'undefined' ? galleryImages : 'galleryImages ist undefined');
@@ -62,6 +64,7 @@ function renderModalContent(id) {
     return true;
 }
 
+// Navogationskontroller
 function navigateGallery(direction) {
     if (imageIdList.length === 0) return;
 
@@ -71,7 +74,7 @@ function navigateGallery(direction) {
     renderModalContent(nextId);
 }
 
-// Globale Aufruffunktion
+// Globale js Aufruffunktion
 window.openGallerySlider = function(id) {
     if (typeof galleryImages === 'undefined' || !galleryImages) {
         console.error("Fehler: 'galleryImages' ist auf der Seite nicht definiert.");
@@ -97,14 +100,14 @@ window.openGallerySlider = function(id) {
 document.addEventListener("DOMContentLoaded", () => {
     getGalleryModalInstance();
 
-    // 1. Klick auf Auslöser-Buttons (falls mit class="js-gallery-trigger" data-img-id="..." gearbeitet wird)
+    // Klick auf über js-gallery-trigger Auslöser
     $(document).on('click', '.js-gallery-trigger', function(e) {
         e.preventDefault();
         const imgId = $(this).data('img-id');
         window.openGallerySlider(imgId);
     });
 
-    // 2. Klick auf Vor/Zurück Buttons
+    // Klick auf Vor/Zurück Buttons
     $(document).on('click', '#modal-prev-btn', function(e) {
         e.preventDefault();
         navigateGallery(-1);
@@ -115,7 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
         navigateGallery(1);
     });
 
-    // 3. Tastatur-Navigation (Pfeiltasten)
+    // Tastatur-Navigation (Pfeiltasten)
     document.addEventListener('keydown', (e) => {
         const modalEl = document.getElementById("galleryModal");
         if (modalEl && modalEl.classList.contains('show')) {
