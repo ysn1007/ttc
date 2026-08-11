@@ -9,12 +9,12 @@ if (isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION[
 
 
 <div class="accordion" id="accordionExample-3">
-    <?php if ($_GET['error'] === 'addArticleFailed'): ?>
+    <?php if ($_GET['error'] ?? '' === 'addArticleFailed'): ?>
         <div class="alert alert-danger alert-dismissible fade show d-flex justify-content-between" role="alert">
             Fehler beim Erstellen des Artikels. Bitte versuche es erneut.
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    <?php elseif ($_GET['error'] === 'updateArticleFailed'): ?>
+    <?php elseif ($_GET['error'] ?? '' === 'updateArticleFailed'): ?>
         <div class="alert alert-danger alert-dismissible fade show d-flex justify-content-between" role="alert">
             Fehler beim Aktualisieren des Artikels.
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -113,7 +113,7 @@ if (isset($_SESSION["admin"]) || isset($_SESSION["manager"]) || isset($_SESSION[
                                             <?php endif; ?>
                                         </td>
                                         <td>
-                                            <?php echo (!$article['article_date'] ) ? "Kein Datum" : $article['article_date'] ?>
+                                            <?php echo (!$article['article_date'] ) ? "Kein Datum" : date('d.m.Y', strtotime($article['article_date'])); ?>
                                         </td>
                                         
                                         <td style="width: 10%;">

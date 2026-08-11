@@ -1,6 +1,7 @@
 <?php
-define('__ROOT__', dirname(dirname(__FILE__)));
-
+if (!defined('__ROOT__')) {
+    define('__ROOT__', dirname(dirname(__FILE__)));
+}
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }

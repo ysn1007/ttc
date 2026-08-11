@@ -11,7 +11,6 @@
                         <div> <img src="img/slider/slide4.jpg" alt="slider Bild"> </div>
                         <div> <img src="img/slider/slide5.jpg" alt="slider Bild"> </div>
                         <div> <img src="img/slider/slide6.jpg" alt="slider Bild"> </div>
-                        <div> <img src="img/slider/slide7.jpg" alt="slider Bild"> </div>
                         <div> <img src="img/slider/slide8.jpg" alt="slider Bild"> </div>
                         <div> <img src="img/slider/slide9.jpg" alt="slider Bild"> </div>
                         <div> <img src="img/slider/slide10.jpg" alt="slider Bild"> </div>

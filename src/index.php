@@ -17,9 +17,7 @@ include('./includes/header.php');
                     $limit = $cfg["index-section"]["reviews"]["limit"];
                     $articles = getActiveArticle($con, $limit);
                     foreach ($articles as $article) : ?>
-                        <!--?php
-                        var_dump($article);
-                        ?-->
+                    
                         <section class="article-item">
                             <div class="article">
                                 <div class="row">
@@ -173,22 +171,6 @@ include('./includes/header.php');
                 </div>
             </section>
             
-        <?php endif; ?>
-
-        <?php if($cfg["index-section"]["social"]["active"] == "on" ) : ?>
-            
-            <section class="social-wrap col-xs-12 col-md-12 col-lg-12" id="social-wrap">
-                <div class="row">
-                    <div class="section-header">
-                        <img src="img/tt-icon.svg" alt="">
-                        <h2>Social Media</h2>
-                    </div>
-
-                    <div class="social-group">
-                            Social Media
-                    </div>
-                </div>
-            </section>
         <?php endif; ?>
         
     </div>
