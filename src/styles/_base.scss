@@ -1,0 +1,47 @@
+$clr1: #6a0c4e;
+$clr2: #350627;
+$clr3: #ececec;
+$clr4: #ccc;
+$clr5: #18738B;
+$clr6: #0E5061;
+$clr7: #849ea5;
+$clr8: #778899;
+$clr9: #627282;
+$clr10: #bec1c6;
+$clr11: #a1a5ad;
+
+//$item-box-hover: #301120;
+$item-box-hover: darken($clr1, 5%);
+
+
+$black: #000;
+$white: #fff;
+$red: #f00;
+$light-gray: #eee;
+$grey: #808080;
+
+// adding font to project
+
+@font-face {
+    font-family: "geist-regular";
+    src: url("../font/geist/Geist-Regular.woff2") format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "geist-medium";
+    src: url("../font/geist/Geist-Medium.woff2") format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "geist-Bold";
+    src: url("../font/geist/Geist-Bold.woff2") format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}

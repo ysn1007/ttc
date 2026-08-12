@@ -21,7 +21,7 @@ include('./includes/header.php');
                                     <img src="img/sponsoren/sw-logo.png" width="40%" alt="sponsor logo" loading="lazy">
                                 </div>
                                 <div class="sponsor-info">
-                                    <h4>Stadtwerke GmbH</h4>
+                                    <h4>Stadtwerke Flensburg GmbH</h4>
                                     <p>Die Flensburger Stadtwerke steht uns seit Jahrzeiten zur Seite und wir sind froh darüber so einen großartigen Partner aus unserer Region zu haben. Wir freuen uns weiterhin auf eine enge Zusammenarbeit.</p>
                                 </div>
                             </div>

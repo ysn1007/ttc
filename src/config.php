@@ -13,7 +13,7 @@ $cfg = [
     "index-section" => [
         "reviews" => [
             "active"    => true,
-            "limit"     => 6,
+            "limit"     => 9,
         ],
         
     ],

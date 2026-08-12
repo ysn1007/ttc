@@ -1,0 +1,73 @@
+@media only screen and (min-width: 768px) and (max-width: 991px){
+    body {
+        border: solid blue 1px;
+
+        // mobile header styles for mobile menu
+        #header .navbar {
+
+            .header-brand {
+                min-width: 100px;
+            }
+
+            .navbar-collapse .navbar-nav {
+                margin-top: 44px;
+                .nav-item {
+                    margin: 8px 0;
+                    width: 100%;
+                    a {
+                        padding: 8px;
+                    }
+
+                    .dropdown-menu {
+                        background-color: transparent;
+                        border: none;
+                        li {
+                            margin-left: 16px;
+                        }
+                    }
+                }
+            }
+        }
+
+        .footer {
+            .footer-section {
+                .footer-section-item {
+                    margin-bottom: 32px;
+                }
+            }
+
+            .footer-links {
+                .link-wrap {
+                    margin-bottom: 64px;
+                }
+            }
+        }
+
+        #galerie .galery-group .galery-item .gal-img {
+            min-height: 320px;
+        }
+        
+        
+        /*
+        *   Styles for sites
+        */
+
+        &#kontakt {
+           .hc-form-content { 
+                width: 95%;
+            }   
+        }
+
+        &#mannschaften {
+            .team-wrap {
+                .team-section {
+                    .team-data {
+                        width: 90%;
+                    }
+                }
+            }
+        }
+
+        
+    }
+}

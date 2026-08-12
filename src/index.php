@@ -119,7 +119,7 @@ include('./includes/header.php');
                         
                         
                         <!-- Modal -->
-                        <div class="modal fade" id="article-<?= $article["id"] ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal fade" id="article-<?= $article["id"] ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" inert>
                             <div class="modal-dialog modal-dialog-scrollable">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -175,6 +175,34 @@ include('./includes/header.php');
         
     </div>
 </div>
+<script>
+
+    /*
+     * Verhindert Barrierefreiheits-Warnungen (Accessibility Warnings) von Bootstrap:
+     * Durch die dynamische Verwendung des 'inert'-Attributs anstelle von 'aria-hidden="true"'
+     * werden Tastatur-Fokus, Klicks und Screenreader für inaktive Modals vollständig blockiert.
+     * Beim Schließen wird zusätzlich der Fokus vom Schließen-Button entfernt,
+     * um Fokus-Konflikte während der Schließ-Animation zu vermeiden.
+     */
+
+    // Entfernt inert direkt beim Öffnen
+    document.addEventListener('show.bs.modal', (event) => {
+        event.target.removeAttribute('inert');
+    });
+
+    // Beim START des Schließens: Fokus sofort vom Button abziehen
+    document.addEventListener('hide.bs.modal', () => {
+        if (document.activeElement) {
+            document.activeElement.blur();
+        }
+    });
+
+    // Setzt inert wieder, sobald das Modal komplett zu ist
+    document.addEventListener('hidden.bs.modal', (event) => {
+        event.target.setAttribute('inert', '');
+    });
+    
+</script>
 <?php
 include('./includes/footer.php');
 ?>

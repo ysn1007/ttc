@@ -1,0 +1,96 @@
+@media only screen and ( max-width: 600px ) {
+    body {
+
+        #galerie .galery-group .galery-item .gal-img {
+            min-height: 250px;
+        }
+
+        // mobile header styles for mobile menu
+        #header .navbar {
+
+            .header-brand {
+                min-width: 100px;
+            }
+
+            .navbar-collapse .navbar-nav {
+                margin-top: 44px;
+                .nav-item {
+                    margin: 8px 0;
+                    width: 100%;
+                    a {
+                        padding: 8px;
+                    }
+
+                    .dropdown-menu {
+                        background-color: transparent;
+                        border: none;
+                        li {
+                            margin-left: 16px;
+                        }
+                    }
+                }
+            }
+        }
+        
+        .footer {
+            .footer-section {
+                .footer-section-item {
+                    margin-bottom: 32px;
+                }
+            }
+
+            .footer-links {
+                .link-wrap {
+                    flex-direction: column;
+                    align-items: flex-start !important;
+                    margin-bottom: 64px;
+                    .link-item {
+                        padding: 16px;
+                    }
+                }
+            }
+        }
+
+        /*
+        *   Styles for sites
+        */
+
+        &#kontakt {
+           .hc-form-content { 
+                width: 95%;
+            }   
+        }
+    }
+}
+
+@media (min-width: 200px ) and (max-width: 992px ) {
+    body {
+        //border: solid yellow 1px;
+        // mobile header styles for mobile menu
+        /* #header .navbar .navbar-collapse .navbar-nav {
+            margin-top: 44px;
+            .nav-item {
+                margin: 8px 0;
+                width: 100%;
+                a {
+                    padding: 8px;
+                }
+
+                .dropdown-menu {
+                    background-color: transparent;
+                    border: none;
+                    li {
+                        margin-left: 16px;
+                    }
+                }
+            }
+        } */
+    }
+}
+
+@media ( min-width: 601px ) {
+    body {
+        // white mobile menu bg 
+        .navbar .navbar-collapse[aria-expanded='true'] { background-color: $white; }
+    }
+}
