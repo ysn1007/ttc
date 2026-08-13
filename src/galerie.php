@@ -8,7 +8,7 @@ include('./includes/header.php');
         <section class="container galery-group" id="galery">
             <div class="row">
                 <div class="galery-header">
-                    <img src="img/tt-icon.svg" alt="">
+                    <img src="img/tt-icon.svg" alt="TT Icon">
                     <h1>Bildergallarie</h1>
                 </div>
                 
@@ -84,6 +84,6 @@ include('./includes/header.php');
     </div>
 </div>
 
-<?=
+<?php
 include('./includes/footer.php');
 ?>

@@ -4,18 +4,15 @@
 
 // Viewports
 @import './_base';
-@import './desktop';
-@import './tablet';
-@import './mobile';
+
 
 body {
     background-color: $clr3 !important;
     font-size: 16px;
-    font-family: "geist-regular";   
+    font-family: "geist-regular"; 
 
     // header styles
     #header {
-        //min-height: 90px;
         background: $white !important;
 
         .header-brand {
@@ -175,8 +172,6 @@ body {
         }
     }
 
-    
-
     // style for tags 
     .post-tag {
         display: flex;
@@ -210,7 +205,6 @@ body {
             }
         }
     }
-
 
     // alert styles
     .error, .success {
@@ -340,6 +334,7 @@ body {
     */
 
     &#index {
+        
         // hero slider for index
         .hero-img-slider {
             background: #141414;
@@ -362,14 +357,14 @@ body {
             }
 
             .hero {
-                //max-height: 950px;
                 width: 100%;
                 margin-bottom: 30px;
+                padding: 1px 0px;
 
                 //.owl-stage-outer { height: 92vh; }
                 .carousel-section {
                     display: block;
-                    margin-top: 30px;
+                    padding-top: 30px;
                 }
 
                 @media (max-width: 430px) {
@@ -1346,4 +1341,8 @@ body {
     }
 
 }
+
+@import './desktop';
+@import './tablet';
+@import './mobile';
 

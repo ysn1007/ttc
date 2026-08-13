@@ -1,17 +1,17 @@
-@media only screen and ( max-width: 600px ) {
+@media only screen and ( max-width: 768px ) {
     body {
-
-        #galerie .galery-group .galery-item .gal-img {
-            min-height: 250px;
-        }
 
         // mobile header styles for mobile menu
         #header .navbar {
-
-            .header-brand {
+            .container-fluid .header-brand {
                 min-width: 100px;
-            }
+                padding: 0 10px;
 
+                .navbar-brand img {
+                    margin-top: -5px;
+                }
+            }
+            
             .navbar-collapse .navbar-nav {
                 margin-top: 44px;
                 .nav-item {
@@ -54,11 +54,19 @@
         /*
         *   Styles for sites
         */
-
+        &#index {
+            
+        }
         &#kontakt {
            .hc-form-content { 
                 width: 95%;
             }   
+        }
+
+        &#galerie {
+            .galery-group .galery-item .gal-img {
+                min-height: 250px;
+            }
         }
     }
 }

@@ -2,7 +2,15 @@
     
     body {
         
-        
+        @media (max-width: 1040px) {
+            #header .navbar .navbar-collapse {
+                .navbar-nav .nav-item {
+                    a {
+                        padding: 8px !important;
+                    }
+                }
+            }
+        }
 
         
 
