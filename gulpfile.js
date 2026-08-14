@@ -53,7 +53,7 @@ function phpIncludes() {
 
 // SASS => CSS Handling (Dev)
 const css = () => {
-    return gulp.src(`${src}/styles/*.scss`)
+    return gulp.src(`${src}/styles/main.scss`)
         .pipe(plumber())
         .pipe(sass({ outputStyle: "compressed" }).on('error', sass.logError))
         .pipe(rename({ basename: 'style', suffix: ".min" }))
