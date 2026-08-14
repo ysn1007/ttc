@@ -85,7 +85,7 @@ $liga = match($teamNr) {
                     </div>
                 </div>
                 <div class="go-to-liveTT">
-                    <a href="https://bezirk1.tischtennislive.de/?L1=Ergebnisse&amp;L2=TTStaffeln&amp;L2P=21685" class="liveTT-link">zur Tabelle</a>
+                    <a href="https://bezirk1.tischtennislive.de/?L1=Ergebnisse&amp;L2=TTStaffeln&amp;L2P=21685" target="_blank" rel="noopener norefferer" class="liveTT-link">Tischtennislive Tabelle ansehen</a>
                 </div>
                 <div class="row team-table-data justify-content-center">
                     <div class="team-data col-8 col-sm-10 col-md-8">
