@@ -57,7 +57,7 @@ $item-box-hover: darken($clr1, 5%);
 // header styles
 #header {
     background: $white !important;
-
+    min-height: 80px;
     .header-brand {
         width: 350px;
         height: 50px;

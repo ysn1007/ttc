@@ -29,18 +29,14 @@ include('./includes/header.php');
                                             <div class="tag-item">Bericht</div>
                                         <?php endif; ?>
                                         <?php if(!empty($article["tagPlayer"]) && $article["tagPlayer"] == 1) : ?>
-                                        <div class="tag-item">Neuzugang</div>
+                                            <div class="tag-item">Neuzugang</div>
                                         <?php endif; ?>
                                         <?php if(!empty($article["tagSocial"]) && $article["tagSocial"] == 1) : ?>
                                             <div class="tag-item">Social</div>
                                         <?php endif; ?>    
-                                        </div>
-                                        <div class="post-image article-bg-img">
-                                        <?php if($article["imgPath"] != "") : ?>
-                                            <div class="article-img mb-3" style="width: 100%; height: 240px; Background-image: url(./img/article/<?= $article["imgPath"] ?>); background-repeat: no-repeat; background-size: cover; background-position: top;"></div>
-                                        <?php else : ?>
-                                            <div class="article-img mb-3" style="width: 100%; height: 240px; Background-image: url(img/tt-icon.svg); background-size: contain; background-repeat: no-repeat; background-position: top; margin-bottom: 30px;"></div>
-                                        <?php endif ?>
+                                    </div>
+                                    <div class="post-image article-bg-img">
+                                        <img src="img/article/<?= $article['imgPath'] ?>" class="aticle-img-item" width="100%" height="250px" alt="Artikelbild">
                                     </div>
                                     <div class="article-content col-md-12">
                                         <h5 class="titel"><?= $article["headline"] ?></h5>
@@ -107,9 +103,9 @@ include('./includes/header.php');
                                                 </div>
                                             <?php endif; ?>
                                             <div class="col align-self-end article-action">
-                                            <button type="button" class="btn btn-default ms-auto" data-bs-toggle="modal" data-bs-target="#article-<?= $article["id"] ?>">
-                                                Artikel lesen <img src="./img/arrow.svg" width="15px">
-                                            </button>
+                                                <button type="button" class="btn btn-default ms-auto" data-bs-toggle="modal" data-bs-target="#article-<?= $article["id"] ?>">
+                                                    Artikel lesen <img src="./img/arrow.svg" width="15px">
+                                                </button>
                                             </div>
                                         </div>
                                     </div>

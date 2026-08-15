@@ -68,7 +68,7 @@ function renderModalContent(id) {
 function navigateGallery(direction) {
     if (imageIdList.length === 0) return;
 
-    currentImageIndex = (currentImageIndex + direction + imageIdList.length) % imageIdList.length;
+    currentImageIndex = (currentImageIndex - direction + imageIdList.length) % imageIdList.length;
     const nextId = imageIdList[currentImageIndex];
     
     renderModalContent(nextId);
