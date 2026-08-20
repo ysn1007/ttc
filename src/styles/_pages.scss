@@ -216,7 +216,11 @@ body {
             padding: 0;
             
             .team-img-carousel {
-                
+                margin-bottom: 44px;
+            }
+            
+            .team-background-img {
+                margin-bottom: 44px;
             }
 
             .go-to-liveTT {
@@ -339,8 +343,7 @@ body {
                             .player-attributes-group {
                                 position: absolute;
                                 right: 30px;
-                                display: flex;
-                                gap: 40px;
+                                padding: 10px 0;
                                 
                                 .player-attributes-item {
                                     align-self: center;

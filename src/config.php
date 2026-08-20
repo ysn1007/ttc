@@ -31,6 +31,10 @@ $cfg = [
           "limit" => 8,  
         ],
         
+    ],
+
+    "team" => [
+        "slider" => false,
     ]
 ];
 

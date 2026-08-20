@@ -36,6 +36,7 @@ $liga = match($teamNr) {
             </div>
 
             <div class="team-section">
+                <?php if($cfg["team"]["slider"]) : ?>
                 <div class="team-img-carousel">
                     <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-indicators">
@@ -84,9 +85,11 @@ $liga = match($teamNr) {
                         </button>
                     </div>
                 </div>
-                <div class="go-to-liveTT">
-                    <a href="https://bezirk1.tischtennislive.de/?L1=Ergebnisse&amp;L2=TTStaffeln&amp;L2P=21685" target="_blank" rel="noopener norefferer" class="liveTT-link">Tischtennislive Tabelle ansehen</a>
+                <?php else : ?>
+                <div class="team-background-img">
+                    <img src="img/team1BG.jpg" width="100%" alt="team1BG">
                 </div>
+                <?php endif; ?>
                 <div class="row team-table-data justify-content-center">
                     <div class="team-data col-8 col-sm-10 col-md-8">
                         <div class="team-line-up">
@@ -150,6 +153,9 @@ $liga = match($teamNr) {
                                 <?php endif; ?>
                             </ul>
 
+                            <div class="go-to-liveTT">
+                                <a href="https://bezirk1.tischtennislive.de/?L1=Ergebnisse&amp;L2=TTStaffeln&amp;L2P=21685" target="_blank" rel="noopener norefferer" class="liveTT-link">Tischtennislive Tabelle ansehen</a>
+                            </div>                        
                         </div>
                     </div>
                 </div>
