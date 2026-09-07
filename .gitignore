@@ -1,7 +1,3 @@
-# Dynamische Uploads / Live-Bilder ignorieren
-**/img/article/
-**/img/gallery/
-**/img/slider/
 
 # Datenbank-Backups & Dumps ignorieren
 /backups/
