@@ -85,7 +85,8 @@ $liga = match($teamNr) {
                         </button>
                     </div>
                 </div>
-                <?php else : ?>
+                <?php endif; ?>
+                <?php if($cfg["team"]["teamBgImage"]) : ?>
                 <div class="team-background-img">
                     <img src="img/team1BG.jpg" width="100%" alt="team1BG">
                 </div>

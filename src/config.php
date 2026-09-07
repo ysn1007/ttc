@@ -35,6 +35,7 @@ $cfg = [
 
     "team" => [
         "slider" => false,
+        "teamBgImage" => false
     ]
 ];
 
