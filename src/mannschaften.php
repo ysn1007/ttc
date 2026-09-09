@@ -35,7 +35,7 @@ $liga = match($teamNr) {
                 <h1><?= htmlspecialchars($teamNr) ?>. <?= htmlspecialchars(ucfirst($men)) ?> - <?= $liga ?> </h1>
             </div>
 
-            <div class="team-section">
+            <div class="inner-content">
                 <?php if($cfg["team"]["slider"]) : ?>
                 <div class="team-img-carousel">
                     <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">

@@ -11,7 +11,7 @@ include('./includes/header.php');
                 <img src="img/tt-icon.svg" alt="">
                 <h1>Sponsoren</h1>
             </div>
-            <div class="spon-group">
+            <div class="inner-content">
                 <div class="row">
                     <div class="col-4 sponsor-item">
                         <div class="row ">

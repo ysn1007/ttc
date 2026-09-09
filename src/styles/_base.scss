@@ -176,8 +176,11 @@ $item-box-hover: darken($clr1, 5%);
             background: $white;
             padding: 7.5px 0;
             align-items: center;
+        }
 
-            
+        .inner-content {
+            background: $white;
+            padding: 32px;
         }
 
         .social-wrap {

@@ -12,7 +12,7 @@ include('./includes/header.php');
                     <h1>Bildergallarie</h1>
                 </div>
                 
-                <div class="gal-content">
+                <div class="inner-content">
                     <div class="row row-cols-sm-1 row-cols-md-3 g-2">
                         <div class="galery-item item20 col-xs-12 col-sm-6 col-md-4 col-lg-3">
                             <a href="bildergalerie.php?dekade=2020-2029">

@@ -77,7 +77,7 @@ if(isset($_POST['submit'])) {
                 </div>
 
                 <?php echo $mail ?>
-                <div class="col-8 g-2 align-self-center hc-form-content">
+                <div class="col-8 g-2 align-self-center inner-content">
                     <div class="form-user" id="form-user">
                         <form id="kontaktFormular" class="kontakt-formular" method="post" action="<?php echo $_SERVER["PHP_SELF"]; ?>">
                             <div class="form-box" id="form-box-name">
