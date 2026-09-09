@@ -47,7 +47,7 @@ include('./includes/header.php');
                                     // 1. Sicheres Auslesen der Config-Einstellungen
                                     $isSocialActive = $cfg["social-media"]["active"] ?? false;
 
-                                    // Channels-Config
+                                    // Channels-Config übergabe + fallback
                                     $channels = $cfg["social-media"]["channels"] ?? [
                                         "facebook"  => true,
                                         "instagram" => true,
@@ -55,7 +55,7 @@ include('./includes/header.php');
                                         "tiktok"    => true
                                     ];
 
-                                    // 2. Prüfen, ob für den Artikel mindestens ein gültiger Link vorhanden ist
+                                    // 2. Prüfen, ob für den Artikel mindestens ein gültiger Link vorhanden ist oder config einträge vorhanden sind
                                     $hasFb  = !empty($channels["facebook"])  && !empty($article['social']['FB']);
                                     $hasIns = !empty($channels["instagram"]) && !empty($article['social']['INS']);
                                     $hasYt  = !empty($channels["youtube"])   && !empty($article['social']['YT']);
