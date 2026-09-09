@@ -67,7 +67,6 @@ body {
                 margin-bottom: 30px;
                 padding: 1px 0px;
 
-                //.owl-stage-outer { height: 92vh; }
                 .carousel-section {
                     display: block;
                     padding-top: 30px;
@@ -422,7 +421,6 @@ body {
                         .img {
                             width: 80px;
                             height: 80px;
-                            //border: solid $grey 1px;
                             margin: 16px 8px;
                         }
 
@@ -432,8 +430,6 @@ body {
                     .his-text {
                         display: flex;
                         gap: 10px;
-                        //width: 32%;
-                        //margin-right: 1%;
                         margin-bottom: 1%;
                         border-radius: 4px;
                         padding: 8px;
@@ -471,7 +467,6 @@ body {
                         }
 
                         @media ( max-width: 768px ) {
-                            //width: inherit !important;
 
                             .img {
                                 width: 100px !important;
@@ -619,7 +614,6 @@ body {
                     text-decoration: none;
     
                     .galery-time {
-                        //background: #d2d2d2;
                         background: #fff;
                         padding: 10px;
     
@@ -669,7 +663,6 @@ body {
                 
                 .spon-bg-img {
                     background: #bec1c6;
-                    //min-height: 200px;
                     
                     img { 
                         width: 50%;
@@ -914,7 +907,6 @@ body {
                                 input {
                                 border: none;
                                 background: none;
-                                //width: 50px;
                                 width: 100%;
 
                                 &#dekade {

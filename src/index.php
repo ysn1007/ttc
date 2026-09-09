@@ -47,7 +47,7 @@ include('./includes/header.php');
                                     // 1. Sicheres Auslesen der Config-Einstellungen
                                     $isSocialActive = $cfg["social-media"]["active"] ?? false;
 
-                                    // Falls du eine separate Channels-Config hast, nutzt er diese, sonst erlaubt er sie standardmäßig
+                                    // Channels-Config
                                     $channels = $cfg["social-media"]["channels"] ?? [
                                         "facebook"  => true,
                                         "instagram" => true,
