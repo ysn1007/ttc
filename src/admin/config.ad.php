@@ -10,7 +10,7 @@
             "user" =>        "root",
             "psw" =>         "root",
             "host" =>        "localhost",
-            "dbName" =>      "ttcr_db",
+            "dbName" =>      "k252515_ttcr",
         ),
 
         "contactMail"=> array(

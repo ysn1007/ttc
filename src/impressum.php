@@ -1,17 +1,14 @@
-
 <?php 
 include('./includes/header.php');
+?>
 
-$content = '';
-
-$content .= '
-<div class="site-wrap col-xs-12 col-sm-12 col-md-12">
-    <div class="content-wrap col-xs-12 col-md-12">
-        <section class="article-wrap col-xs-12 col-md-12 col-lg-12" id="impress">
+<div class="site-wrap">
+    <div class="content-wrap">
+        <section class="article-wrap container" id="impress">
             <div class="row">
                 <div class="section-header">
                     <img src="img/tt-icon.svg" alt="">
-                    <h2>Impressum</h2>
+                    <h1>Impressum</h1>
                 </div>
 
                 <div class="content">
@@ -72,9 +69,8 @@ $content .= '
             </div>
         </section>
     </div>
-</div>';
+</div>
 
-
-echo $content;
-
+<?php
 include('./includes/footer.php');
+?> 

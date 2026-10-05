@@ -1,18 +1,18 @@
 <?php 
-require_once 'admin/dbh.inc.php';
+require_once 'admin/includes/dbh.inc.php';
 include('./includes/header.php');
+?>
 
-$content .='
 <div class="site-wrap" id="galerie">
     <div class="content-wrap">
         <section class="container galery-group" id="galery">
             <div class="row">
                 <div class="galery-header">
-                    <img src="img/tt-icon.svg" alt="">
-                    <h2>Bildergallarie</h2>
+                    <img src="img/tt-icon.svg" alt="TT Icon">
+                    <h1>Bildergallarie</h1>
                 </div>
                 
-                <div class="gal-content">
+                <div class="inner-content">
                     <div class="row row-cols-sm-1 row-cols-md-3 g-2">
                         <div class="galery-item item20 col-xs-12 col-sm-6 col-md-4 col-lg-3">
                             <a href="bildergalerie.php?dekade=2020-2029">
@@ -82,8 +82,8 @@ $content .='
             </div>
         </section>
     </div>
-</div>';
+</div>
 
-echo $content;
-
+<?php
 include('./includes/footer.php');
+?>

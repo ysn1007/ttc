@@ -1,6 +1,7 @@
 <?php 
-require_once 'admin/dbh.inc.php';
-include('./includes/header.php');?>
+require_once 'admin/includes/dbh.inc.php';
+include('./includes/header.php');
+?>
 
 <div class="site-wrap">
     <div class="content-wrap">
@@ -13,7 +14,7 @@ include('./includes/header.php');?>
                             <h2>Gründung 1955</h2>
                         </div>
                         
-                        <div class="his-content">
+                        <div class="inner-content">
                             <div class="row">
                                 <div class="his-text publish">
                                     <div class="pub-img">
@@ -33,7 +34,7 @@ include('./includes/header.php');?>
                             <h2>Vorsitzende</h2>
                         </div>
                         
-                        <div class="his-content">
+                        <div class="inner-content">
                             <div class="row row-cols-sm-1 row-cols-md-3 g-2">
                                 <div class="his-text tab col">
                                     <div class="img">

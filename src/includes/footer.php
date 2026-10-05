@@ -6,8 +6,6 @@
                     <div class="col col-sm-12 col-md-6 col-lg-3 footer-section-item mb-3 club">
                         <h4>TTC RAMSHARDE</h4>
                         <p>Vorstand: Andreas Müller</p>
-                        <!--p>Telefon: 0152/53917291</p>
-                        <p>E-Mail: amueller123@web.de</p-->
                         <a href="kontakt.php">Andreas kontaktieren</a>
                     </div>
 
@@ -27,11 +25,11 @@
                         <p>24939 Flensburg</p>
                     </div>
                     
-                    <div class="col col-sm-12 col-md-6 col-lg-3 footer-section-item mb-3 social">
+                    <!--div class="col col-sm-12 col-md-6 col-lg-3 footer-section-item mb-3 social">
                         <h4>Social Media</h4>
                         <p>Facebook</p>
                         <p><a href="https://www.instagram.com/ttc_ramsharde/?igsh=cWg3dmxzM3U5bTNt" target="blank">Instagramm</a></p>
-                    </div>
+                    </div-->
                 </div>
             </div>
 
@@ -43,7 +41,7 @@
                     </div>
                     <div class="col col-sm-12 col-md-3 copyright">
                         <div class="link-item">
-                            <span>TTC RAMSHARDE © 2025</span>
+                            <span>TTC RAMSHARDE © 2026</span>
                         </div>          
                     </div>
                 </div>
@@ -59,6 +57,6 @@
     <!--owl slider js-->
     <script src="./owlcarousel/owl.carousel.min.js"></script>
     <!--   js sources    -->
-    <script src="./js/global.min.js"></script>
+    <script src="./js/main.min.js"></script>
 
  </html>

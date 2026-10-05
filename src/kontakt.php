@@ -1,5 +1,5 @@
 <?php 
-require_once 'admin/dbh.inc.php';
+require_once 'admin/includes/dbh.inc.php';
 $errMsg = '';
 if(isset($_POST['submit'])) {
     // email data
@@ -73,11 +73,11 @@ if(isset($_POST['submit'])) {
             <div class="row">
                 <div class="galery-header">
                     <img src="img/tt-icon.svg" alt="">
-                    <h2>Kontaktformular</h2>
+                    <h1>Kontaktformular</h1>
                 </div>
 
                 <?php echo $mail ?>
-                <div class="col-8 g-2 align-self-center hc-form-content">
+                <div class="col-8 g-2 align-self-center inner-content">
                     <div class="form-user" id="form-user">
                         <form id="kontaktFormular" class="kontakt-formular" method="post" action="<?php echo $_SERVER["PHP_SELF"]; ?>">
                             <div class="form-box" id="form-box-name">

@@ -46,9 +46,12 @@
                     <div class="hero col-xs-12 col-md-12 col-lg-12 ">
                         
                         <section class="login-form">
-                            <form action="login.inc.php" method="post">
-                                <input type="text" name="name" placeholder="Dein Name">
-                                <input type="password" name="pwd" placeholder="Passwort">
+                            <form action="includes/login.inc.php" method="post">
+                                <h4 style="margin-bottom: 30px;">Anmelden</h4>
+                                <div class="login-data-panel">
+                                    <input type="text" name="name" placeholder="Dein Name">
+                                    <input type="password" name="pwd" placeholder="Passwort">
+                                </div>
                                 <button type="submit" name="submit">Login</button>
                             </form>
 
@@ -67,10 +70,10 @@
             </div>
         </row>
         <footer class="col-xs-12 col-md-12 footer">
-            <div class="col-xs-12 col-md-12 footer-links">
+            <div class="col-xs-12 col-md-12">
                 <div class="row">
-                    <div class="pull-right copyright">
-                        <span>TTC RAMSHARDE © 2021</span>
+                    <div class="copyright">
+                        <span>TTC RAMSHARDE © 2026</span>
                     </div>
                 </div>
             </div>
